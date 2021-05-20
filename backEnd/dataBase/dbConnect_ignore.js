@@ -2,8 +2,8 @@ const Sequelize = require("sequelize");
 const mysql = require("mysql2");
 const {DIALECT_DB, USER_DB, PASS_DB, HOST_DB, PORT_DB, NAME_DB} = require("../config")
 // Importe de Modelos de Base de Datos:
-const categoriaProductosModel = require("./../models/categoriasProductosModel")
-const productosModel = require("./../models/productosModel");
+const categoriaProductosModel = require("../models/categoriasProductosModel")
+const productosModel = require("../models/productosModel");
 const usuariosModel = require("../models/usuariosModel");
 
 
