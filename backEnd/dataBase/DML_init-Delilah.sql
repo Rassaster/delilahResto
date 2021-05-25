@@ -69,16 +69,16 @@ INSERT INTO Productos (nombre_producto, id_categoria_de_producto, precio_product
   VALUES ("Malteada de fresa", 4, 14000);
 
 -- Datos iniciales en tabla: Usuarios
-INSERT INTO Usuarios (usuario, nombre_apellido, email, numero_celular, direccion, clave, es_admin)
-  VALUES ("juan93", "Juan Rassa", "jr93@gmail.com", "3112889834", "Calle 122 # 23 - 32", "1234", 1);
-INSERT INTO Usuarios (usuario, nombre_apellido, email, numero_celular, direccion, clave, es_admin)
-  VALUES ("andreaLo", "Andrea Lorta", "andreaL@gmail.com", "3142345565", "Carrera 10 # 2 - 4", "1234", 0);
-INSERT INTO Usuarios (usuario, nombre_apellido, email, numero_celular, direccion, clave, es_admin)
-  VALUES ("sof88", "Sofia Ricaurte", "sofiaR@gmail.com", "3117667877", "Calle 45 # 11 -23", "1234", 1);
-INSERT INTO Usuarios (usuario, nombre_apellido, email, numero_celular, direccion, clave, es_admin)
-  VALUES ("jjSala", "Jaime Salazar", "jjs@gmailcom", "3208665456", "Calle 88 # 55 - 29", "1234", 0);
-INSERT INTO Usuarios (usuario, nombre_apellido, email, numero_celular, direccion, clave, es_admin)
-  VALUES ("mariDuch", "Mariana Vargas", "duch@gmail.com", "3224995644", "Carrera 102 # 20 - 12", "1234", 0);
+INSERT INTO Usuarios (usuario, nombre_apellido, email, numero_celular, direccion, clave, salt, es_admin)
+  VALUES ("juan93", "Juan Rassa", "jr93@gmail.com", "3112889834", "Calle 122 # 23 - 32", "claveBase", "salt1234", "verdadero");
+INSERT INTO Usuarios (usuario, nombre_apellido, email, numero_celular, direccion, clave, salt, es_admin)
+  VALUES ("andreaLo", "Andrea Lorta", "andreaL@gmail.com", "3142345565", "Carrera 10 # 2 - 4", "claveBase", "salt1234", "falso");
+INSERT INTO Usuarios (usuario, nombre_apellido, email, numero_celular, direccion, clave, salt, es_admin)
+  VALUES ("sof88", "Sofia Ricaurte", "sofiaR@gmail.com", "3117667877", "Calle 45 # 11 -23", "claveBase", "salt1234", "verdadero");
+INSERT INTO Usuarios (usuario, nombre_apellido, email, numero_celular, direccion, clave, salt, es_admin)
+  VALUES ("jjSala", "Jaime Salazar", "jjs@gmailcom", "3208665456", "Calle 88 # 55 - 29", "claveBase", "salt1234", "falso");
+INSERT INTO Usuarios (usuario, nombre_apellido, email, numero_celular, direccion, clave, salt, es_admin)
+  VALUES ("mariDuch", "Mariana Vargas", "duch@gmail.com", "3224995644", "Carrera 102 # 20 - 12", "claveBase", "salt1234", "falso");
 -- Datos iniciales en tabla: Pedidos
 INSERT INTO Pedidos (id_usuario, id_estado_pedido, id_formas_de_pago) VALUES (2, 3, 1);
 INSERT INTO Pedidos (id_usuario, id_estado_pedido, id_formas_de_pago) VALUES (3, 1, 1);

@@ -5,8 +5,8 @@ const { newRegister } = require("../../sql/queries");
 // ******************** ENDPOINTS ******************** //
 // -> /delilahResto/register/newUser (either as User or Admin):
 router.post("/newUser", (req, res) => {
-  const {usuario, nombre_apellido, email, numero_celular, direccion, clave, es_admin} = req.body;
-  newRegister(usuario, nombre_apellido, email, numero_celular, direccion, clave, es_admin)
+  const {usuario, nombre_apellido, email, numero_celular, direccion, clave, salt, es_admin} = req.body;
+  newRegister(usuario, nombre_apellido, email, numero_celular, direccion, clave, salt, es_admin)
     .then(result => {
       let successResponse = {
         SuccessDescription: "El usuario se ha creado con éxito",

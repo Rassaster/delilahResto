@@ -41,7 +41,9 @@ CREATE TABLE Usuarios (
     NOT NULL,
   clave varchar(100)
     NOT NULL,
-  es_admin boolean
+  salt varchar(100)
+    NOT NULL,
+  es_admin enum("verdadero", "falso")
     NOT NULL,
   PRIMARY KEY (id_usuario)
 );
