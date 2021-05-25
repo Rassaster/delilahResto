@@ -13,7 +13,7 @@ router.post("/newUser", (req, res) => {
         UsuarioCreado: req.body,
         idUsuarioCreado: result[0]
       };
-      res.status(200).json(successResponse);
+      res.status(201).json(successResponse);
     })
     .catch(err => {
       let errorResponse = {
