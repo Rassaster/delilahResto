@@ -1,3 +1,4 @@
+// Requiring Data Base connection's module from dbConnect.js:
 const sequelize = require("../dataBase/dbConnect");
 // SQL INSERT Queries:
 const newRegister =  (usuario, nombre_apellido, email, numero_celular, direccion, clave, es_admin) => {
