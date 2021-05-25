@@ -4,7 +4,7 @@ const router = require("express").Router();
 const { newRegister } = require("../../sql/queries");
 // ******************** ENDPOINTS ******************** //
 // -> /delilahResto/register/newUser (either as User or Admin):
-router.post("/newUser", async (req, res) => {
+router.post("/newUser", (req, res) => {
   const {usuario, nombre_apellido, email, numero_celular, direccion, clave, es_admin} = req.body;
   newRegister(usuario, nombre_apellido, email, numero_celular, direccion, clave, es_admin)
     .then(result => {
