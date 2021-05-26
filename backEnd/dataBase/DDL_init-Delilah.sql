@@ -45,7 +45,7 @@ CREATE TABLE Users (
     NOT NULL,
   is_admin enum("T", "F")
     NOT NULL,
-  PRIMARY KEY (id_users)
+  PRIMARY KEY (id_user)
 );
 -- *********************************************************
 -- PRODUCTS RELATIONS
