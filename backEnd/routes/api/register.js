@@ -9,7 +9,7 @@ router.post("/register", (req, res) => {
   newUser(username, fullname, email, cellphone_number, delivery_address, user_password, salt, is_admin)
     .then(result => {
       let successResponse = {
-        SuccessDescription: "User created successfully:",
+        SuccessMessage: "User created successfully.",
         CreatedUser: req.body,
         id_CreatedUser: result[0]
       };
