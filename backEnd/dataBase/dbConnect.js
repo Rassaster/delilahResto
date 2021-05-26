@@ -8,10 +8,10 @@ const sequelize = new Sequelize(`${DIALECT_DB}://${USER_DB}:${PASS_DB}@${HOST_DB
 // Connecting to the Data Base and logging in console the success/failure of the process:
 sequelize.authenticate()
   .then(()=>{
-    console.log(`Te has conectado con la Base de Datos: ${NAME_DB}.`);
+    console.log(`You have connected to the Data Base: ${NAME_DB}.`);
   })
   .catch(err => {
-    console.log("Ha habido un error de conexión con la Base de Datos:", err);
+    console.log("An error has occurred in the attemp to connect to the Data Base:", err);
   })
 // Exports:
 module.exports = sequelize;
