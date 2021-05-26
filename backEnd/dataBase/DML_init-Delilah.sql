@@ -13,10 +13,10 @@ INSERT INTO Paying_Methods (descripcion) VALUES ("PayPal");
 INSERT INTO Paying_Methods (descripcion) VALUES ("Debit/Credit");
 INSERT INTO Paying_Methods (descripcion) VALUES ("Dataphone");
 -- Initial data in table: Products_Categories
-INSERT INTO Products_Categories (nombre_categoria) VALUES ("Entry");
-INSERT INTO Products_Categories (nombre_categoria) VALUES ("Main");
-INSERT INTO Products_Categories (nombre_categoria) VALUES ("Dessert");
-INSERT INTO Products_Categories (nombre_categoria) VALUES ("Drink");
+INSERT INTO Products_Categories (category_name) VALUES ("Entry");
+INSERT INTO Products_Categories (category_name) VALUES ("Main");
+INSERT INTO Products_Categories (category_name) VALUES ("Dessert");
+INSERT INTO Products_Categories (category_name) VALUES ("Drink");
 -- Initial data in table: Products
 INSERT INTO Products (product_name, id_product_category, product_price)
   VALUES ("Nachos con queso", 1, 15000);
@@ -70,20 +70,20 @@ INSERT INTO Products (product_name, id_product_category, product_price)
 
 -- Initial data in table: Users
 INSERT INTO Users (username, fullname, email, cellphone_number, delivery_address, user_password, salt, is_admin)
-  VALUES ("juan93", "Juan Rassa", "jr93@gmail.com", "3112889834", "Calle 122 # 23 - 32", "321", "salt1234", "verdadero");
+  VALUES ("juan93", "Juan Rassa", "jr93@gmail.com", "3112889834", "Calle 122 # 23 - 32", "321", "salt1234", "T");
 INSERT INTO Users (username, fullname, email, cellphone_number, delivery_address, user_password, salt, is_admin)
-  VALUES ("andreaLo", "Andrea Lorta", "andreaL@gmail.com", "3142345565", "Carrera 10 # 2 - 4", "321", "salt1234", "falso");
+  VALUES ("andreaLo", "Andrea Lorta", "andreaL@gmail.com", "3142345565", "Carrera 10 # 2 - 4", "321", "salt1234", "F");
 INSERT INTO Users (username, fullname, email, cellphone_number, delivery_address, user_password, salt, is_admin)
-  VALUES ("sof88", "Sofia Ricaurte", "sofiaR@gmail.com", "3117667877", "Calle 45 # 11 -23", "321", "salt1234", "verdadero");
+  VALUES ("sof88", "Sofia Ricaurte", "sofiaR@gmail.com", "3117667877", "Calle 45 # 11 -23", "321", "salt1234", "T");
 INSERT INTO Users (username, fullname, email, cellphone_number, delivery_address, user_password, salt, is_admin)
-  VALUES ("jjSala", "Jaime Salazar", "jjs@gmailcom", "3208665456", "Calle 88 # 55 - 29", "321", "salt1234", "falso");
+  VALUES ("jjSala", "Jaime Salazar", "jjs@gmailcom", "3208665456", "Calle 88 # 55 - 29", "321", "salt1234", "F");
 INSERT INTO Users (username, fullname, email, cellphone_number, delivery_address, user_password, salt, is_admin)
-  VALUES ("mariDuch", "Mariana Vargas", "duch@gmail.com", "3224995644", "Carrera 102 # 20 - 12", "321", "salt1234", "falso");
+  VALUES ("mariDuch", "Mariana Vargas", "duch@gmail.com", "3224995644", "Carrera 102 # 20 - 12", "321", "salt1234", "F");
 -- Initial data in table: Orders
-INSERT INTO Orders (id_username, id_Order_Status, id_Paying_Methods) VALUES (2, 3, 1);
-INSERT INTO Orders (id_username, id_Order_Status, id_Paying_Methods) VALUES (3, 1, 1);
-INSERT INTO Orders (id_username, id_Order_Status, id_Paying_Methods) VALUES (4, 2, 4);
-INSERT INTO Orders (id_username, id_Order_Status, id_Paying_Methods) VALUES (1, 4, 4);
+INSERT INTO Orders (id_user, id_Order_Status, id_Paying_Methods) VALUES (2, 3, 1);
+INSERT INTO Orders (id_user, id_Order_Status, id_Paying_Methods) VALUES (3, 1, 1);
+INSERT INTO Orders (id_user, id_Order_Status, id_Paying_Methods) VALUES (4, 2, 4);
+INSERT INTO Orders (id_user, id_Order_Status, id_Paying_Methods) VALUES (1, 4, 4);
 -- Initial data in table: Desired Products
 INSERT INTO Desired_Products (id_order, id_product, product_quantity)
   VALUES (1, 2, 1);
@@ -117,23 +117,23 @@ INSERT INTO Desired_Products (id_order, id_product, product_quantity)
 INSERT INTO Desired_Products (id_order, id_product, product_quantity)
   VALUES (4, 18, 3);
 -- Initial data in table:  Favorite Products
-INSERT INTO Favorite_Products (id_username, id_product)
+INSERT INTO Favorite_Products (id_user, id_product)
   VALUES (1, 11);
-INSERT INTO Favorite_Products (id_username, id_product)
+INSERT INTO Favorite_Products (id_user, id_product)
   VALUES (1, 8);
 
-INSERT INTO Favorite_Products (id_username, id_product)
+INSERT INTO Favorite_Products (id_user, id_product)
   VALUES (2, 12);
-INSERT INTO Favorite_Products (id_username, id_product)
+INSERT INTO Favorite_Products (id_user, id_product)
   VALUES (2, 4);
-INSERT INTO Favorite_Products (id_username, id_product)
+INSERT INTO Favorite_Products (id_user, id_product)
   VALUES (2, 20);
 
-INSERT INTO Favorite_Products (id_username, id_product)
+INSERT INTO Favorite_Products (id_user, id_product)
   VALUES (4, 1);
-INSERT INTO Favorite_Products (id_username, id_product)
+INSERT INTO Favorite_Products (id_user, id_product)
   VALUES (4, 10);
-INSERT INTO Favorite_Products (id_username, id_product)
+INSERT INTO Favorite_Products (id_user, id_product)
   VALUES (4, 14);
-INSERT INTO Favorite_Products (id_username, id_product)
+INSERT INTO Favorite_Products (id_user, id_product)
   VALUES (4, 22);
