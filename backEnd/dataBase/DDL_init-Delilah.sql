@@ -1,122 +1,122 @@
 /*Data Definition Language*/
--- Creación de la DB: 
+-- Creating DB:
 CREATE DATABASE DelilahResto;
 USE DelilahResto;
--- Creación de tablas:
+-- Creating tables:
 -- *********************************************************
--- Estado pedido (hija de pedidos)
-CREATE TABLE Estado_Pedido (
-  id_estado_pedido integer  
+-- Order Status (child of Orders)
+CREATE TABLE Order_Status (
+  id_order_status integer  
     NOT NULL
     AUTO_INCREMENT,
   descripcion varchar(20)
     NOT NULL,
-  PRIMARY KEY (id_estado_pedido)
+  PRIMARY KEY (id_order_status)
 );
--- Formas de pago (hija de pedidos)
-CREATE TABLE Formas_de_Pago (
-  id_formas_de_pago integer
+-- Paying Methods (child of Orders)
+CREATE TABLE Paying_Methods (
+  id_paying_methods integer
     NOT NULL
     AUTO_INCREMENT,
   descripcion varchar(20)
     NOT NULL,
-  PRIMARY KEY (id_formas_de_pago)
+  PRIMARY KEY (id_paying_methods)
 );
 -- *********************************************************
--- RELACIONES USUARIOS
--- usuarios
-CREATE TABLE Usuarios (
-  id_usuario integer
+-- USERS RELATIONS
+-- UserS
+CREATE TABLE Users (
+  id_user integer
     NOT NULL
     AUTO_INCREMENT,
-  usuario varchar(30)
+  username varchar(30)
     NOT NULL,
-  nombre_apellido varchar(60)
+  fullname varchar(60)
     NOT NULL,
   email varchar(60)
     NOT NULL,
-  numero_celular varchar(15)
+  cellphone_number varchar(15)
     NOT NULL,
-  direccion varchar(150)
+  delivery_address varchar(150)
     NOT NULL,
-  clave varchar(100)
+  user_password varchar(100)
     NOT NULL,
   salt varchar(100)
     NOT NULL,
-  es_admin enum("verdadero", "falso")
+  is_admin enum("T", "F")
     NOT NULL,
-  PRIMARY KEY (id_usuario)
+  PRIMARY KEY (id_users)
 );
 -- *********************************************************
--- RELACIONES PRODUCTOS
--- Categorías Productos (hija de productos)
-CREATE TABLE Categorias_Productos (
-  id_categoria_de_producto integer
+-- PRODUCTS RELATIONS
+-- Products Categories (child of Products)
+CREATE TABLE Products_Categories (
+  id_product_category integer
     NOT NULL
     AUTO_INCREMENT,
-  nombre_categoria varchar(30)
+  category_name varchar(30)
     NOT NULL,
-  PRIMARY KEY (id_categoria_de_producto)
+  PRIMARY KEY (id_product_category)
 );
--- Productos
-CREATE TABLE Productos (
-  id_producto integer
+-- Products
+CREATE TABLE Products (
+  id_product integer
     NOT NULL
     AUTO_INCREMENT,
-  nombre_producto varchar(100)
+  product_name varchar(100)
     NOT NULL,
-  id_categoria_de_producto integer
+  id_product_category integer
     NOT NULL,
-  precio_producto integer
+  product_price integer
     NOT NULL,
-  PRIMARY KEY (id_producto),
-  FOREIGN KEY (id_categoria_de_producto) 
-    REFERENCES Categorias_Productos (id_categoria_de_producto)
+  PRIMARY KEY (id_product),
+  FOREIGN KEY (id_product_category) 
+    REFERENCES Products_Categories (id_product_category)
 );
 -- *********************************************************
--- Pedidos
-CREATE TABLE Pedidos (
-  id_pedido integer
+-- Orders
+CREATE TABLE Orders (
+  id_order integer
     NOT NULL 
     AUTO_INCREMENT,
-  id_usuario integer
+  id_user integer
     NOT NULL,
-  fecha_pedido timestamp default current_timestamp
+  date_of_order timestamp default current_timestamp
     NOT NULL,
-  id_estado_pedido integer
+  id_order_status integer
     NOT NULL,
-  id_formas_de_pago integer
+  id_paying_methods integer
     NOT NULL,
-  PRIMARY KEY (id_pedido),
-  FOREIGN KEY (id_usuario) 
-    REFERENCES Usuarios (id_usuario),
-  FOREIGN KEY (id_estado_pedido) 
-    REFERENCES Estado_Pedido (id_estado_pedido),
-  FOREIGN key (id_formas_de_pago) 
-    REFERENCES Formas_de_Pago (id_formas_de_pago)
+  PRIMARY KEY (id_order),
+  FOREIGN KEY (id_user) 
+    REFERENCES Users (id_user),
+  FOREIGN KEY (id_order_status) 
+    REFERENCES Order_Status (id_order_status),
+  FOREIGN key (id_paying_methods) 
+    REFERENCES Paying_Methods (id_paying_methods)
 );
 -- *********************************************************
--- Productos Deseados (hija de pedidos y productos)
-CREATE TABLE Productos_Deseados (
-  id_pedido integer
+-- Desired Products (child of Orders and Products)
+CREATE TABLE Desired_Products (
+  id_order integer
     NOT NULL,
-  id_producto integer
+  id_product integer
     NOT NULL,
-  cantidad_producto integer
+  product_quantity integer
     NOT NULL,
-  FOREIGN KEY (id_pedido) REFERENCES Pedidos (id_pedido),
-  FOREIGN KEY (id_producto) REFERENCES Productos (id_producto)
+  FOREIGN KEY (id_order) REFERENCES Orders (id_order),
+  FOREIGN KEY (id_product) REFERENCES Products (id_product)
 );
 -- *********************************************************
--- Productos Favoritos (hija de usuarios y productos)
-CREATE TABLE Productos_Favoritos (
-  id_usuario integer
+-- Favorite Products(child of Users and Products)
+CREATE TABLE Favorite_Products (
+  id_user integer
     NOT NULL,
-  id_producto integer
+  id_product integer
     NOT NULL,
-  FOREIGN KEY (id_usuario)
-    REFERENCES Usuarios (id_usuario),
-  FOREIGN KEY (id_producto)
-    REFERENCES Productos (id_producto)
+  FOREIGN KEY (id_user)
+    REFERENCES Users (id_user),
+  FOREIGN KEY (id_product)
+    REFERENCES Products (id_product)
 );
 -- *********************************************************
