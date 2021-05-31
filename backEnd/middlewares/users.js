@@ -1,9 +1,8 @@
 // Import uuid.v4() from uuid package to create a random UUUI(Universally Unique ID):
 const { v4: uuidv4 } = require('uuid');
-// Import pbkdf2Sync from crypto to create Derived Key
+// Import pbkdf2Sync from crypto to create Derived Key:
 const { pbkdf2Sync } = require('crypto');
 
-// Validate JSON Schema
 // Check if the user exists with the email:
 // Chech if the username is available:
 // Generate Hashed Password:
@@ -24,6 +23,8 @@ const hashPassword = (req, res, next) => {
   }
 };
 // Verify Password
+
+// Exports:
 module.exports = {
   hashPassword
 }
