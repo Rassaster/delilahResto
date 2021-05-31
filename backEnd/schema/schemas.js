@@ -11,7 +11,6 @@ const registerSchema = {
     is_admin: { type: "string"},
   }
 }
-
 // Exports:
 module.exports = {
   registerSchema
