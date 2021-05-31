@@ -1,14 +1,14 @@
 const registerSchema = {
   type: "object",
-  required: ["usuario", "nombre_apellido", "email", "numero_celular", "direccion", "clave", "es_admin"],
+  required: ["username", "fullname", "email", "cellphone_number", "delivery_address", "user_password", "is_admin"],
   properties: {
-    usuario: { type: "string"},
-    nombre_apellido: { type: "string"},
+    username: { type: "string"},
+    fullname: { type: "string"},
     email: { type: "string"},
-    numero_celular: { type: "string"},
-    direccion: { type: "string"},
-    clave: { type: "string"},
-    es_admin: { type: "number"},
+    cellphone_number: { type: "string"},
+    delivery_address: { type: "string"},
+    user_password: { type: "string"},
+    is_admin: { type: "string"},
   }
 }
 
