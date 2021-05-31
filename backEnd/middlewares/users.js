@@ -2,9 +2,21 @@
 const { v4: uuidv4 } = require('uuid');
 // Import pbkdf2Sync from crypto to create Derived Key:
 const { pbkdf2Sync } = require('crypto');
-
+const { findUserByEmail } = require("../sql/queries"); 
 // Check if the user exists with the email:
-// Chech if the username is available:
+// +++ +++ +++ TO DO: Include username in the existance check. +++ +++ +++
+const userExistanceCheck =  async (req, res, next) => {
+  const { email } = req.body;
+  const user = await findUserByEmail(email);
+  if (user.length === 0) {
+    let message = `The email "${username}" has not been registered yet.`
+    res.status(404).send(message);
+  } else {
+    req.userInfo = user;
+    next();
+  }
+}
+// Check if the username is available:
 // Generate Hashed Password:
 const hashPassword = (req, res, next) => {
   try {
@@ -26,5 +38,6 @@ const hashPassword = (req, res, next) => {
 
 // Exports:
 module.exports = {
+  userExistanceCheck,
   hashPassword
 }
