@@ -10,14 +10,21 @@ const newUser =  (username, fullname, email, cellphone_number, delivery_address,
 };
 // ***** SQL INSERT QUERIES *****
 // SELECT * FROM usuarios WHERE usuario = ?
-const findUser = (searchedUser) => {
+const findUserByEmail = (searchedUserEmail) => {
+  return sequelize.query("SELECT * FROM users WHERE email = ?", {
+    replacements: [searchedUserEmail],
+    type: sequelize.QueryTypes.SELECT
+  });
+};
+const findUserByUsername = (searchedUserUsername) => {
   return sequelize.query("SELECT * FROM users WHERE username = ?", {
-    replacements: [searchedUser],
+    replacements: [searchedUserUsername],
     type: sequelize.QueryTypes.SELECT
   });
 };
 // Exports:
 module.exports = {
   newUser,
-  findUser
+  findUserByEmail,
+  findUserByUsername
 }
