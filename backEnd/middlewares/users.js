@@ -4,12 +4,11 @@ const { v4: uuidv4 } = require('uuid');
 const { pbkdf2Sync } = require('crypto');
 const { findUserByEmail } = require("../sql/queries"); 
 // Check if the user exists with the email:
-// +++ +++ +++ TO DO: Include username in the existance check. +++ +++ +++
 const userExistanceCheck =  async (req, res, next) => {
   const { email } = req.body;
   const user = await findUserByEmail(email);
   if (user.length === 0) {
-    let message = `The email "${username}" has not been registered yet.`
+    let message = `The email "${email}" has not been registered yet.`
     res.status(404).send(message);
   } else {
     req.userInfo = user;
@@ -35,9 +34,32 @@ const hashPassword = (req, res, next) => {
   }
 };
 // Verify Password
+const verifyPassword = (req, res, next) => {
+  try {
+    const submittedPassword = req.body.user_password;
+    const storedSalt = req.userInfo[0].salt;
+    let hashedSubmittedPasswordBuffer = pbkdf2Sync(submittedPassword, storedSalt, 100000, 32, 'sha512');
+    let hashedSubmittedPasswordHex = hashedSubmittedPasswordBuffer.toString('hex'); 
+    const storedHashedPassword = req.userInfo[0].user_password;
+    if (hashedSubmittedPasswordHex !== storedHashedPassword) {
+      const message = "Incorrect password or email."
+      res.status(401).send(message)
+    } else {
+      next()
+    }
+  } catch {
+    const error = new Error();
+    error.name = "Authentication error."
+    error.message = "An error has occurred in the authentication process.";
+    error.status = 500;
+    res.send(error);
+  }
+
+}
 
 // Exports:
 module.exports = {
   userExistanceCheck,
-  hashPassword
+  hashPassword,
+  verifyPassword
 }
