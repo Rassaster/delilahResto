@@ -5,14 +5,22 @@ const { pbkdf2Sync } = require('crypto');
 const { findUserByEmail } = require("../sql/queries"); 
 // Check if the user exists with the email:
 const userExistanceCheck =  async (req, res, next) => {
-  const { email } = req.body;
-  const user = await findUserByEmail(email);
-  if (user.length === 0) {
-    let message = `The email "${email}" has not been registered yet.`
-    res.status(404).send(message);
-  } else {
-    req.userInfo = user;
-    next();
+  try {
+    const { email } = req.body;
+    const user = await findUserByEmail(email);
+    if (user.length === 0) {
+      let message = `The email "${email}" has not been registered yet.`
+      res.status(404).send(message);
+    } else {
+      req.userInfo = user;
+      next();
+    }
+  } catch {
+    const error = new Error();
+    error.name = "Checking user existance error."
+    error.message = "An error has occurred while checking the existante of the user.";
+    error.status = 500;
+    res.send(error);
   }
 }
 // Check if the username is available:
@@ -25,7 +33,7 @@ const hashPassword = (req, res, next) => {
     let hashedPasswordHex = hashedPasswordBuffer.toString('hex');
     req.derivedKey = {hashedPasswordHex, uuidSalt}
     next();
-  } catch  {
+  } catch {
     const error = new Error();
     error.name = "Hash Process Error."
     error.message = "An error has occurred while hashing the user's password.";
@@ -54,7 +62,6 @@ const verifyPassword = (req, res, next) => {
     error.status = 500;
     res.send(error);
   }
-
 }
 
 // Exports:
