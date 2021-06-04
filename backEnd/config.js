@@ -1,7 +1,7 @@
 // Requiring the base Environment Variables from .env file:
 const dotenv = require("dotenv").config();
 // Assigning the base Environment Variables to JS constants:
-const CLAVE_JWT = process.env.CLAVE_JWT;
+const JWT_SECRET = process.env.JWT_SECRET;
 const PORT_SERVER = process.env.PORT_SERVER;
 const DB_PATH = process.env.DB_PATH;
 const PUERTO_DB = process.env.PUERTO;
@@ -13,7 +13,7 @@ const PORT_DB = process.env.PORT_DB;
 const NAME_DB = process.env.NAME_DB;
 // Exports:
 module.exports = {
-  CLAVE_JWT,
+  JWT_SECRET,
   PORT_SERVER,
   DB_PATH,
   PUERTO_DB,
