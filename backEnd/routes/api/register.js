@@ -1,13 +1,14 @@
-// Requiring "Router" object from "Express":
 const router = require("express").Router();
-const { hashPassword } = require("../../middlewares/users");
-const { validateSchema } = require("../../middlewares/JSONvalidation");
+// Requiring middlewares:
+const { checkEmailRegistration, usernameAvailability, hashPassword } = require("../../middlewares/users");
+const { validateJSONSchema } = require("../../middlewares/JSONvalidation");
 // Requiring SQL-Sequelize queries commands:
 const { newUser } = require("../../sql/queries");
+// Requirin JSON schemas:
 const {registerSchema} = require("../../schema/schemas");
 // ******************** ENDPOINTS ******************** //
 // -> /delilahResto/register/register (either as User or Admin):
-router.post("/register", validateSchema(registerSchema), hashPassword, async (req, res) => {
+router.post("/register", validateJSONSchema(registerSchema), checkEmailRegistration, usernameAvailability, hashPassword, async (req, res) => {
   try {
     const {hashedPasswordHex, uuidSalt} = req.derivedKey;
     const {username, fullname, email, cellphone_number, delivery_address, is_admin} = req.body;
