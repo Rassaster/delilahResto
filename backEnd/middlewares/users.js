@@ -3,6 +3,44 @@ const { v4: uuidv4 } = require('uuid');
 // Import pbkdf2Sync from crypto to create Derived Key:
 const { pbkdf2Sync } = require('crypto');
 const { findUserByEmail, findUserByUsername } = require("../sql/queries"); 
+// Check if the username is available:
+const usernameAvailability = async (req, res, next) => {
+  try {
+    const { username } = req.body;
+    const user = await findUserByUsername(username);
+    if (user.length === 0) {
+      next();
+    } else {
+      let message = `The desired username (${username}) is not available. Please choose another one.`;
+      res.status(409).send(message);
+    }
+  } catch {
+    const error = new Error();
+    error.name = "Checking username availability error."
+    error.message = "An error has occurred while checking the availability of the desired username.";
+    error.status = 500;
+    res.send(error);
+  }
+}
+// Check if the email is already register:
+const checkEmailRegistration =  async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const user = await findUserByEmail(email);
+    if (user.length === 0) {
+      next();
+    } else {
+      let message = `The email ${email} is already registered. Please enter a new email.`;
+      res.status(409).send(message);
+    }
+  } catch {
+    const error = new Error();
+    error.name = "Checking email existance error."
+    error.message = "An error has occurred while checking if the email is already registered.";
+    error.status = 500;
+    res.send(error);
+  }
+}
 // Check if the user exists with the email:
 const userExistanceCheck =  async (req, res, next) => {
   try {
@@ -18,26 +56,7 @@ const userExistanceCheck =  async (req, res, next) => {
   } catch {
     const error = new Error();
     error.name = "Checking user existance error."
-    error.message = "An error has occurred while checking the existante of the user.";
-    error.status = 500;
-    res.send(error);
-  }
-}
-// Check if the username is available:
-const usernameAvailability = async (req, res, next) => {
-  try {
-    const { username } = req.body;
-    const user = await findUserByUsername(username);
-    if (user.length === 0) {
-      let message = `The desired username (${username})is not available. Please choose another one.`;
-      req.status(409).send(message)
-    } else {
-      next()
-    }
-  } catch {
-    const error = new Error();
-    error.name = "Checking username availability error."
-    error.message = "An error has occurred while checking the availability of the desired username.";
+    error.message = "An error has occurred while checking the existance of the user.";
     error.status = 500;
     res.send(error);
   }
@@ -84,6 +103,7 @@ const verifyPassword = (req, res, next) => {
 
 // Exports:
 module.exports = {
+  checkEmailRegistration,
   usernameAvailability,
   userExistanceCheck,
   hashPassword,
