@@ -8,23 +8,31 @@ const newUser =  (username, fullname, email, cellphone_number, delivery_address,
     type: sequelize.QueryTypes.INSERT
   });
 };
-// ***** SQL INSERT QUERIES *****
+// ***** SQL SELECT QUERIES *****
 // SELECT * FROM usuarios WHERE usuario = ?
-const findUserByEmail = (searchedUserEmail) => {
+const getUserByEmail = (searchedUserEmail) => {
   return sequelize.query("SELECT * FROM users WHERE email = ?", {
     replacements: [searchedUserEmail],
     type: sequelize.QueryTypes.SELECT
   });
 };
-const findUserByUsername = (searchedUserUsername) => {
+const getUserByUsername = (searchedUserUsername) => {
   return sequelize.query("SELECT * FROM users WHERE username = ?", {
     replacements: [searchedUserUsername],
     type: sequelize.QueryTypes.SELECT
   });
 };
+
+const getAllUsers = () => {};
+const getUserById = () => {};
+const getAllProducts = () => {};
+const getAllOrders = () => {};
+const getOrderById = () => {};
+
+
 // Exports:
 module.exports = {
   newUser,
-  findUserByEmail,
-  findUserByUsername
+  getUserByEmail,
+  getUserByUsername
 }

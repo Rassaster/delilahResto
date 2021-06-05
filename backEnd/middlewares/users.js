@@ -2,12 +2,12 @@
 const { v4: uuidv4 } = require('uuid');
 // Import pbkdf2Sync from crypto to create Derived Key:
 const { pbkdf2Sync } = require('crypto');
-const { findUserByEmail, findUserByUsername } = require("../sql/queries"); 
+const { getUserByEmail, getUserByUsername } = require("../sql/queries"); 
 // Check if the username is available:
 const usernameAvailability = async (req, res, next) => {
   try {
     const { username } = req.body;
-    const user = await findUserByUsername(username);
+    const user = await getUserByUsername(username);
     if (user.length === 0) {
       next();
     } else {
@@ -26,7 +26,7 @@ const usernameAvailability = async (req, res, next) => {
 const checkEmailRegistration =  async (req, res, next) => {
   try {
     const { email } = req.body;
-    const user = await findUserByEmail(email);
+    const user = await getUserByEmail(email);
     if (user.length === 0) {
       next();
     } else {
@@ -45,7 +45,7 @@ const checkEmailRegistration =  async (req, res, next) => {
 const userExistanceCheck =  async (req, res, next) => {
   try {
     const { email } = req.body;
-    const user = await findUserByEmail(email);
+    const user = await getUserByEmail(email);
     if (user.length === 0) {
       let message = `The email "${email}" has not been registered yet.`
       res.status(404).send(message);
