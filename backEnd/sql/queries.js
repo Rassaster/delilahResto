@@ -23,8 +23,15 @@ const getUserByUsername = (searchedUserUsername) => {
   });
 };
 
-const getAllUsers = () => {};
-const getUserById = () => {};
+const getAllUsers = () => {
+  return sequelize.query("SELECT * FROM users", {type: sequelize.QueryTypes.SELECT}
+  )};
+const getUserById = (userId) => {
+  return sequelize.query("SELECT * FROM users WHERE id = ?", {
+    replacements: [userId],
+    type: sequelize.QueryTypes.SELECT
+  })
+};
 const getAllProducts = () => {};
 const getAllOrders = () => {};
 const getOrderById = () => {};
