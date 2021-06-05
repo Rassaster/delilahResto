@@ -22,33 +22,39 @@ const getUserByUsername = (searchedUserUsername) => {
     type: sequelize.QueryTypes.SELECT
   });
 };
-
 const getAllUsers = () => {
-  return sequelize.query("SELECT * FROM users", {type: sequelize.QueryTypes.SELECT})
+  return sequelize.query("SELECT * FROM users", {type: sequelize.QueryTypes.SELECT});
 };
 const getUserById = (userId) => {
   return sequelize.query("SELECT * FROM users WHERE id_user = ?", {
     replacements: [userId],
     type: sequelize.QueryTypes.SELECT
-  })
+  });
 };
 const getAllProducts = () => {
-  return sequelize.query("SELECT * FROM products", {type: sequelize.QueryTypes.SELECT})
+  return sequelize.query("SELECT * FROM products", {type: sequelize.QueryTypes.SELECT});
 };
 const getProductByName = (productName) => {
   return sequelize.query("SELECT * FROM products WHERE product_name = ?", {
     replacements: [productName],
     type: sequelize.QueryTypes.SELECT
-  })
+  });
 };
 const getProductById = (productId) => {
   return sequelize.query("SELECT * FROM products WHERE id_product = ?", {
     replacements: [productId],
     type: sequelize.QueryTypes.SELECT
-  })
+  });
 };
-const getAllOrders = () => {};
-const getOrderById = () => {};
+const getAllOrders = () => {
+  return sequelize.query("SELECT * FROM orders", {type: sequelize.QueryTypes.SELECT});
+};
+const getOrderById = (orderId) => {
+  return sequelize.query("SELECT * FROM orders WHERE id_order = ?", {
+    replacements: [orderId],
+    type: sequelize.QueryTypes.SELECT
+  });
+};
 
 
 // Exports:
