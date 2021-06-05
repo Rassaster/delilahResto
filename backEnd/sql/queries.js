@@ -27,7 +27,7 @@ const getAllUsers = () => {
   return sequelize.query("SELECT * FROM users", {type: sequelize.QueryTypes.SELECT})
 };
 const getUserById = (userId) => {
-  return sequelize.query("SELECT * FROM users WHERE id = ?", {
+  return sequelize.query("SELECT * FROM users WHERE id_user = ?", {
     replacements: [userId],
     type: sequelize.QueryTypes.SELECT
   })
