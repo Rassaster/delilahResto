@@ -35,6 +35,18 @@ const getUserById = (userId) => {
 const getAllProducts = () => {
   return sequelize.query("SELECT * FROM products", {type: sequelize.QueryTypes.SELECT})
 };
+const getProductByName = (productName) => {
+  return sequelize.query("SELECT * FROM products WHERE product_name = ?", {
+    replacements: [productName],
+    type: sequelize.QueryTypes.SELECT
+  })
+};
+const getProductById = (productId) => {
+  return sequelize.query("SELECT * FROM products WHERE id_product = ?", {
+    replacements: [productId],
+    type: sequelize.QueryTypes.SELECT
+  })
+};
 const getAllOrders = () => {};
 const getOrderById = () => {};
 
