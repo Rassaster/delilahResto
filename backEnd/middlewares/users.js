@@ -2,12 +2,12 @@
 const { v4: uuidv4 } = require('uuid');
 // Import pbkdf2Sync from crypto to create Derived Key:
 const { pbkdf2Sync } = require('crypto');
-const { getUserByEmail, getUserByUsername , newUser } = require("../sql/queries"); 
+const { newUser, selectFromTableWhereFieldIsValue } = require("../sql/queries"); 
 // Check if the username is available:
 const usernameAvailability = async (req, res, next) => {
   try {
     const { username } = req.body;
-    const user = await getUserByUsername(username);
+    const user = await selectFromTableWhereFieldIsValue("users", "username", username);
     if (user.length === 0) {
       next();
     } else {
@@ -26,7 +26,7 @@ const usernameAvailability = async (req, res, next) => {
 const checkEmailRegistration =  async (req, res, next) => {
   try {
     const { email } = req.body;
-    const user = await getUserByEmail(email);
+    const user = await selectFromTableWhereFieldIsValue("users", "email", email);
     if (user.length === 0) {
       next();
     } else {
@@ -45,7 +45,7 @@ const checkEmailRegistration =  async (req, res, next) => {
 const userExistanceCheck =  async (req, res, next) => {
   try {
     const { email } = req.body;
-    const user = await getUserByEmail(email);
+    const user = await selectFromTableWhereFieldIsValue("users", "email", email);
     if (user.length === 0) {
       let message = `The email "${email}" has not been registered yet.`
       res.status(404).send(message);
@@ -124,6 +124,11 @@ const verifyPassword = (req, res, next) => {
     res.send(error);
   }
 }
+const getUserById = async (req, res, next) => {
+  const user = await selectFromTableWhereFieldIsValue("users", "id_user", req.params.userId);
+  req.user = user;
+  next();
+} 
 // Exports:
 module.exports = {
   checkEmailRegistration,
@@ -131,5 +136,6 @@ module.exports = {
   userExistanceCheck,
   hashPassword,
   createNewUser,
+  getUserById,
   verifyPassword
 }
