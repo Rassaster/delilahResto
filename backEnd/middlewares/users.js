@@ -2,7 +2,7 @@
 const { v4: uuidv4 } = require('uuid');
 // Import pbkdf2Sync from crypto to create Derived Key:
 const { pbkdf2Sync } = require('crypto');
-const { newUser, selectFromTableWhereFieldIsValue } = require("../sql/queries"); 
+const { newUser, selectFromTableWhereFieldIsValue, selectAllFromTable } = require("../sql/queries"); 
 // Check if the username is available:
 const usernameAvailability = async (req, res, next) => {
   try {
