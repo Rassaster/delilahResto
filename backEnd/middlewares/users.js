@@ -78,6 +78,7 @@ const hashPassword = (req, res, next) => {
     res.send(error);
   }
 };
+// Register a new user:
 const createNewUser = async (req,res, next) => {
   try {
     const {hashedPasswordHex, uuidSalt} = req.derivedKey;
