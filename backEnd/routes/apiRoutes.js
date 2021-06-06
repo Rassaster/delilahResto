@@ -1,9 +1,7 @@
 // Requiring "Router" object from "Express":
 const router = require("express").Router();
-const apiRegister = require("./api/register");
-const apiLogin = require("./api/login");
+const apiUser = require("./api/user");
 
-router.use("/user", apiRegister)
-router.use("/user", apiLogin)
+router.use("/user", apiUser);
 // Exports:
 module.exports = router;
