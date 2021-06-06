@@ -61,5 +61,12 @@ const getOrderById = (orderId) => {
 module.exports = {
   newUser,
   getUserByEmail,
-  getUserByUsername
+  getUserByUsername,
+  getAllUsers,
+  getUserById,
+  getAllProducts,
+  getProductByName,
+  getProductById,
+  getAllOrders,
+  getOrderById
 }
