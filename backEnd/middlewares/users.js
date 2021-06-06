@@ -2,7 +2,7 @@
 const { v4: uuidv4 } = require('uuid');
 // Import pbkdf2Sync from crypto to create Derived Key:
 const { pbkdf2Sync } = require('crypto');
-const { getUserByEmail, getUserByUsername } = require("../sql/queries"); 
+const { getUserByEmail, getUserByUsername , newUser } = require("../sql/queries"); 
 // Check if the username is available:
 const usernameAvailability = async (req, res, next) => {
   try {
@@ -78,6 +78,29 @@ const hashPassword = (req, res, next) => {
     res.send(error);
   }
 };
+const createNewUser = async (req,res, next) => {
+  try {
+    const {hashedPasswordHex, uuidSalt} = req.derivedKey;
+    const {username, fullname, email, cellphone_number, delivery_address, is_admin} = req.body;
+    const newRegister = await newUser(username, fullname, email, cellphone_number, delivery_address, hashedPasswordHex, uuidSalt, is_admin);
+    const createdUser = {
+      username: req.body.username,
+      email: req.body.email,
+      cellphone_number: req.body.cellphone_number,
+      is_admin: req.body.is_admin,
+      user_id: newRegister[0]
+    }
+    req.createdUser = createdUser;
+    next()
+  } catch (error) {
+    const errorResponse = {
+      ErrorMessage: error.parent.sqlMessage,
+      ErrorDescription: "Please review the API Documentation in relation to the JSON format expected",
+      ReceivedQueryJSON: req.body
+    };
+    res.status(400).send(errorResponse);
+  }
+}
 // Verify Password
 const verifyPassword = (req, res, next) => {
   try {
@@ -100,12 +123,12 @@ const verifyPassword = (req, res, next) => {
     res.send(error);
   }
 }
-
 // Exports:
 module.exports = {
   checkEmailRegistration,
   usernameAvailability,
   userExistanceCheck,
   hashPassword,
+  createNewUser,
   verifyPassword
 }
