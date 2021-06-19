@@ -2,8 +2,8 @@ const router = require("express").Router();
 // Requiring middlewares:
 const { validateJSONSchema } = require("../../middlewares/JSONvalidation");
 const { checkEmailRegistration, usernameAvailability, hashPassword, createNewUser } = require("../../middlewares/users");
-const { userExistanceCheck, verifyPassword } = require("../../middlewares/users");
-const { jwtokenGenerator } = require("../../middlewares/jwtoken");
+const { userExistanceCheck, verifyPassword, getUserById } = require("../../middlewares/users");
+const { jwtokenGenerator, jwtokenExtraction, jwtokenVerification } = require("../../middlewares/jwtoken");
 // Requiring JSON schemas:
 const {registerSchema} = require("../../schema/schemas");
 // ******************** ENDPOINTS ******************** //
@@ -22,5 +22,9 @@ router.post("/login", userExistanceCheck, verifyPassword, jwtokenGenerator, (req
     Token : req.jwtoken
   }
   res.status(201).json(succesResponse)
+});
+router.get("/:userId", jwtokenExtraction, jwtokenVerification, getUserById, (req, res) => {
+  console.log("Success temporal string.")
+  res.json(req.user);
 })
 module.exports = router;
