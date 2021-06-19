@@ -1,13 +1,8 @@
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config");
-
+// Middlewares:
 const jwtokenGenerator = (req, res, next) => {
   try {
-    delete req.userInfo[0].id_user;
-    delete req.userInfo[0].user_password;
-    delete req.userInfo[0].salt;
-    delete req.userInfo[0].cellphone_number;
-    delete req.userInfo[0].delivery_address;
     const payload = req.userInfo[0];
     const token = jwt.sign(payload, JWT_SECRET, {expiresIn : "20min"})
     req.jwtoken = token;
@@ -36,7 +31,7 @@ const jwtokenExtraction = (req, res, next) => {
 }
 const jwtokenVerification = (req, res, next) => {
   const jwTokenAccess = req.extractJWT;
-  const verification = jwt.verify(jwTokenAccess, JWT_SECRET, (err, decoded) => {
+  jwt.verify(jwTokenAccess, JWT_SECRET, (err, decoded) => {
     if (err) {
       res.json(err);
     }
@@ -46,7 +41,7 @@ const jwtokenVerification = (req, res, next) => {
     }
   })
 }
-
+// Exports:
 module.exports = {
   jwtokenGenerator,
   jwtokenExtraction,
