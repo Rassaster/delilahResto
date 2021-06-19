@@ -124,11 +124,25 @@ const verifyPassword = (req, res, next) => {
     res.send(error);
   }
 }
+// Admin: Get user by id | Client: Get self user by "i"
 const getUserById = async (req, res, next) => {
   const user = await selectFromTableWhereFieldIsValue("users", "id_user", req.params.userId);
   req.user = user;
+  delete req.user[0].id_user;
+  delete req.user[0].user_password;
+  delete req.user[0].salt;
+  delete req.user[0].cellphone_number;
+  delete req.user[0].delivery_address;
   next();
 } 
+// -getUserByEmail
+// -getUserByUsername
+// -getProductByName
+// -getProductById
+// -getOrderById
+// -getAllUsers
+// -getAllProducts
+// -getAllOrders
 // Exports:
 module.exports = {
   checkEmailRegistration,
