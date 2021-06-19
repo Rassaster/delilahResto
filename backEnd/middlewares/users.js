@@ -131,8 +131,6 @@ const getUserById = async (req, res, next) => {
   delete req.user[0].id_user;
   delete req.user[0].user_password;
   delete req.user[0].salt;
-  delete req.user[0].cellphone_number;
-  delete req.user[0].delivery_address;
   next();
 } 
 // -getUserByEmail
