@@ -36,6 +36,8 @@ const jwtokenVerification = (req, res, next) => {
       res.json(err);
     }
     if (decoded) {
+      delete decoded.user_password;
+      delete decoded.salt;
       req.jwtokenDecoded = decoded;
       next();
     }
