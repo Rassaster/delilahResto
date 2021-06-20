@@ -142,16 +142,45 @@ const checkAdminCredentials = (req, res, next) => {
     error.status = 500;
     res.send(error);
   }
-  req.jwtokenDecoded
 }
-// Admin: Get user by id | Client: Get self user by "i"
+// Admin: Get user by id | Client: Get self user by "i":
 const getUserById = async (req, res, next) => {
-  const user = await selectFromTableWhereFieldIsValue("users", "id_user", req.params.userId);
-  req.user = user;
-  delete req.user[0].id_user;
-  delete req.user[0].user_password;
-  delete req.user[0].salt;
-  next();
+  try {
+    let user;
+    // Determine user's credentials to execute the search:
+    if ((!req.adminCredentials) && (req.params.userId === "i")) {
+      user = await selectFromTableWhereFieldIsValue("users", "id_user", req.jwtokenDecoded["id_user"]);
+    } else if ((req.adminCredentials) && (req.params.userId === "i")) { 
+      user = await selectFromTableWhereFieldIsValue("users", "id_user", req.jwtokenDecoded["id_user"]);
+    } else if (req.adminCredentials) {
+      user = await selectFromTableWhereFieldIsValue("users", "id_user", req.params.userId);
+    } else {
+      const notAuthorizedResponse = {
+        message: "The user is not authorized to complete this request. Only an Administrator has the authorization."
+      };
+      res.status(401).json(notAuthorizedResponse);
+    };
+    // Validate if the user and prepare the appropiate response:
+    if (user.length === 0) {
+      const userNotFoundResponse = {
+        result: "User not found.",
+        message: `The user with id ${req.params.userId} doesn't exist.`
+      };
+      req.userById = userNotFoundResponse;
+    } else {
+      req.userById = user;
+      delete req.userById[0].id_user;
+      delete req.userById[0].user_password;
+      delete req.userById[0].salt;
+    };
+    next();
+  } catch {
+    const error = new Error();
+    error.name = "Finding user by ID error."
+    error.message = "An error has occurred while searching for the user by ID.";
+    error.status = 500;
+    res.send(error);
+  }
 } 
 // -getUserByEmail
 // -getUserByUsername
