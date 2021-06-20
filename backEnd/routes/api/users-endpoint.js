@@ -2,7 +2,8 @@ const router = require("express").Router();
 // Requiring middlewares:
 const { validateJSONSchema } = require("../../middlewares/JSONvalidation");
 const { checkEmailRegistration, usernameAvailability, hashPassword, createNewUser } = require("../../middlewares/users-midwares");
-const { userExistanceCheck, verifyPassword, getUserById } = require("../../middlewares/users-midwares");
+const { userExistanceCheck, verifyPassword } = require("../../middlewares/users-midwares");
+const { getUserById } = require("../../middlewares/users-midwares");
 const { jwtokenGenerator, jwtokenExtraction, jwtokenVerification } = require("../../middlewares/jwtoken");
 // Requiring JSON schemas:
 const {registerSchema, loginSchema} = require("../../schema/schemas");

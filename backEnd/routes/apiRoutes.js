@@ -1,6 +1,6 @@
 // Requiring "Router" object from "Express":
 const router = require("express").Router();
-const apiUser = require("./api/user");
+const apiUser = require("./api/users-endpoint");
 
 router.use("/users", apiUser);
 // router.use("/products", apiUser);
