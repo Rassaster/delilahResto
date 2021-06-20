@@ -25,7 +25,10 @@ router.post("/login", validateJSONSchema(loginSchema), userExistanceCheck, verif
   res.status(201).json(succesResponse)
 });
 router.get("/:userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserById, (req, res) => {
-  console.log(req.adminCredentials)
-  res.json(req.user);
+  const successResponse = {
+    SuccessMessage: "User found.",
+    UserData: req.userById
+  }
+  res.status(201).json(successResponse);
 })
 module.exports = router;
