@@ -4,14 +4,23 @@ const registerSchema = {
   properties: {
     username: { type: "string"},
     fullname: { type: "string"},
-    email: { type: "string"},
+    email: { type: "string", pattern: "^[A-Za-z0-9._-]*@[a-z]*[.]com$"},
     cellphone_number: { type: "string"},
     delivery_address: { type: "string"},
-    user_password: { type: "string"},
+    user_password: { type: "string", pattern: "^[A-Za-z0-9.!#$%&‘*+=?^_`{|}~-]{6,}$"},
     is_admin: { type: "string"},
+  }
+}
+const loginSchema = {
+  type: "object",
+  required: ["email", "user_password"],
+  properties: {
+    email: { type: "string", pattern: "^[A-Za-z0-9._-]*@[a-z]*[.]com$"},
+    user_password: { type: "string", pattern: "^[A-Za-z0-9.!#$%&‘*+=?^_`{|}~-]{4,}$"}
   }
 }
 // Exports:
 module.exports = {
-  registerSchema
+  registerSchema,
+  loginSchema
 }

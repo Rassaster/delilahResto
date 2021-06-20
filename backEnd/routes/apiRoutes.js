@@ -3,5 +3,8 @@ const router = require("express").Router();
 const apiUser = require("./api/user");
 
 router.use("/user", apiUser);
+// router.use("/products", apiUser);
+// router.use("/orders", apiUser);
+// router.use("/favorites", apiUser);
 // Exports:
 module.exports = router;
