@@ -3,25 +3,6 @@ const { v4: uuidv4 } = require('uuid');
 // Import pbkdf2Sync from crypto to create Derived Key:
 const { pbkdf2Sync } = require('crypto');
 const { newUser, selectFromTableWhereFieldIsValue, selectAllFromTable } = require("../sql/queries"); 
-// Check if the username is available:
-const usernameAvailability = async (req, res, next) => {
-  try {
-    const { username } = req.body;
-    const user = await selectFromTableWhereFieldIsValue("users", "username", username);
-    if (user.length === 0) {
-      next();
-    } else {
-      let message = `The desired username (${username}) is not available. Please choose another one.`;
-      res.status(409).send(message);
-    }
-  } catch {
-    const error = new Error();
-    error.name = "Checking username availability error."
-    error.message = "An error has occurred while checking the availability of the desired username.";
-    error.status = 500;
-    res.send(error);
-  }
-}
 // Check if the email is already register:
 const checkEmailRegistration =  async (req, res, next) => {
   try {
@@ -37,6 +18,25 @@ const checkEmailRegistration =  async (req, res, next) => {
     const error = new Error();
     error.name = "Checking email existance error."
     error.message = "An error has occurred while checking if the email is already registered.";
+    error.status = 500;
+    res.send(error);
+  }
+}
+// Check if the username is available:
+const usernameAvailability = async (req, res, next) => {
+  try {
+    const { username } = req.body;
+    const user = await selectFromTableWhereFieldIsValue("users", "username", username);
+    if (user.length === 0) {
+      next();
+    } else {
+      let message = `The desired username (${username}) is not available. Please choose another one.`;
+      res.status(409).send(message);
+    }
+  } catch {
+    const error = new Error();
+    error.name = "Checking username availability error."
+    error.message = "An error has occurred while checking the availability of the desired username.";
     error.status = 500;
     res.send(error);
   }
@@ -182,22 +182,32 @@ const getUserById = async (req, res, next) => {
     res.send(error);
   }
 } 
+// -getAllUsers
 // -getUserByEmail
 // -getUserByUsername
+// -updateUserById
+// -deleteUserById
+
+// -createNewProduct
 // -getProductByName
 // -getProductById
-// -getOrderById
-// -getAllUsers
 // -getAllProducts
+// -updateProductById
+// -deleteProductById
+
+// -createNewOrder
+// -getOrderById
 // -getAllOrders
+// -updateOrderById
+// -deleteOrderById
 // Exports:
 module.exports = {
   checkEmailRegistration,
   usernameAvailability,
-  userExistanceCheck,
   hashPassword,
   createNewUser,
-  getUserById,
+  userExistanceCheck,
   verifyPassword,
-  checkAdminCredentials
+  checkAdminCredentials,
+  getUserById
 }
