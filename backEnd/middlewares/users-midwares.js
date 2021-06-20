@@ -3,6 +3,11 @@ const { v4: uuidv4 } = require('uuid');
 // Import pbkdf2Sync from crypto to create Derived Key:
 const { pbkdf2Sync } = require('crypto');
 const { newUser, selectFromTableWhereFieldIsValue, selectAllFromTable } = require("../sql/queries"); 
+// *************************************************************************************************
+// *************************************************************************************************
+// **************************************** MIDDLEWARES ********************************************
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Check if the email is already register:
 const checkEmailRegistration =  async (req, res, next) => {
   try {
@@ -61,6 +66,8 @@ const userExistanceCheck =  async (req, res, next) => {
     res.send(error);
   }
 }
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Generate Hashed Password:
 const hashPassword = (req, res, next) => {
   try {
@@ -102,6 +109,8 @@ const createNewUser = async (req,res, next) => {
     res.status(400).send(errorResponse);
   }
 }
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Verify Password
 const verifyPassword = (req, res, next) => {
   try {
@@ -143,6 +152,8 @@ const checkAdminCredentials = (req, res, next) => {
     res.send(error);
   }
 }
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Admin: Get user by id | Client: Get self user by "i":
 const getUserById = async (req, res, next) => {
   try {
