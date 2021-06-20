@@ -124,6 +124,26 @@ const verifyPassword = (req, res, next) => {
     res.send(error);
   }
 }
+// Check if the user has Admin credentials:
+const checkAdminCredentials = (req, res, next) => {
+  try {
+    if (req.jwtokenDecoded["is_admin"] === "T") {
+      req.adminCredentials = true;
+      next();
+    };
+    if (req.jwtokenDecoded["is_admin"] !== "T") {
+      req.adminCredentials = false;
+      next();
+    };
+  } catch {
+    const error = new Error();
+    error.name = "Credentials verification error."
+    error.message = "An error has occurred while verifying the user's credentials.";
+    error.status = 500;
+    res.send(error);
+  }
+  req.jwtokenDecoded
+}
 // Admin: Get user by id | Client: Get self user by "i"
 const getUserById = async (req, res, next) => {
   const user = await selectFromTableWhereFieldIsValue("users", "id_user", req.params.userId);
@@ -149,5 +169,6 @@ module.exports = {
   hashPassword,
   createNewUser,
   getUserById,
-  verifyPassword
+  verifyPassword,
+  checkAdminCredentials
 }

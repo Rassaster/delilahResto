@@ -3,7 +3,7 @@ const router = require("express").Router();
 const { validateJSONSchema } = require("../../middlewares/JSONvalidation");
 const { checkEmailRegistration, usernameAvailability, hashPassword, createNewUser } = require("../../middlewares/users-midwares");
 const { userExistanceCheck, verifyPassword } = require("../../middlewares/users-midwares");
-const { getUserById } = require("../../middlewares/users-midwares");
+const { checkAdminCredentials, getUserById } = require("../../middlewares/users-midwares");
 const { jwtokenGenerator, jwtokenExtraction, jwtokenVerification } = require("../../middlewares/jwtoken");
 // Requiring JSON schemas:
 const {registerSchema, loginSchema} = require("../../schema/schemas");
@@ -24,8 +24,8 @@ router.post("/login", validateJSONSchema(loginSchema), userExistanceCheck, verif
   }
   res.status(201).json(succesResponse)
 });
-router.get("/:userId", jwtokenExtraction, jwtokenVerification, getUserById, (req, res) => {
-  console.log("Success temporal string.")
+router.get("/:userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserById, (req, res) => {
+  console.log(req.adminCredentials)
   res.json(req.user);
 })
 module.exports = router;
