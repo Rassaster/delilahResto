@@ -5,7 +5,7 @@ const { checkEmailRegistration, usernameAvailability, hashPassword, createNewUse
 const { userExistanceCheck, verifyPassword, getUserById } = require("../../middlewares/users");
 const { jwtokenGenerator, jwtokenExtraction, jwtokenVerification } = require("../../middlewares/jwtoken");
 // Requiring JSON schemas:
-const {registerSchema} = require("../../schema/schemas");
+const {registerSchema, loginSchema} = require("../../schema/schemas");
 // ******************** ENDPOINTS ******************** //
 // -> /delilahResto/user/register (either as User or Admin):
 router.post("/register", validateJSONSchema(registerSchema), checkEmailRegistration, usernameAvailability, hashPassword, createNewUser, (req, res) => {
@@ -16,7 +16,7 @@ router.post("/register", validateJSONSchema(registerSchema), checkEmailRegistrat
   res.status(201).json(successResponse)
 });
 // -> /delilahResto/user/login (either as User or Admin):
-router.post("/login", userExistanceCheck, verifyPassword, jwtokenGenerator, (req, res) => {
+router.post("/login", validateJSONSchema(loginSchema), userExistanceCheck, verifyPassword, jwtokenGenerator, (req, res) => {
   const succesResponse = {
     SucessMessage : "You have successfully logged in.",
     Token : req.jwtoken
