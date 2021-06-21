@@ -3,7 +3,7 @@ const router = require("express").Router();
 const { validateJSONSchema } = require("../../middlewares/JSONvalidation");
 const { checkEmailRegistration, usernameAvailability, hashPassword, createNewUser } = require("../../middlewares/users-midwares");
 const { userExistanceCheck, verifyPassword } = require("../../middlewares/users-midwares");
-const { checkAdminCredentials, getUserById } = require("../../middlewares/users-midwares");
+const { checkAdminCredentials, getUserById, getAllUsers } = require("../../middlewares/users-midwares");
 const { jwtokenGenerator, jwtokenExtraction, jwtokenVerification } = require("../../middlewares/jwtoken");
 // Requiring JSON schemas:
 const {registerSchema, loginSchema} = require("../../schema/schemas");
@@ -29,6 +29,14 @@ router.get("/:userId", jwtokenExtraction, jwtokenVerification, checkAdminCredent
     SuccessMessage: "User found.",
     UserData: req.userById
   }
-  res.status(201).json(successResponse);
+  res.status(200).json(successResponse);
 })
+router.get("/getAll/registered", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getAllUsers, (req, res) => {
+  console.log("ALLALLLALLLALL")
+  const successResponse = {
+    SuccessMessage: "List of all registered users found.",
+    UserData: req.usersRegister
+  }
+  res.status(200).json(successResponse);
+});
 module.exports = router;
