@@ -3,40 +3,56 @@ const router = require("express").Router();
 const { validateJSONSchema } = require("../../middlewares/JSONvalidation");
 const { checkEmailRegistration, usernameAvailability, hashPassword, createNewUser } = require("../../middlewares/users-midwares");
 const { userExistanceCheck, verifyPassword } = require("../../middlewares/users-midwares");
-const { checkAdminCredentials, getUserById, getAllUsers } = require("../../middlewares/users-midwares");
 const { jwtokenGenerator, jwtokenExtraction, jwtokenVerification } = require("../../middlewares/jwtoken");
+const { checkAdminCredentials, getUserById, getAllUsers, getUserByUsername, getUserByEmail } = require("../../middlewares/users-midwares");
 // Requiring JSON schemas:
 const {registerSchema, loginSchema} = require("../../schema/schemas");
 // ******************** ENDPOINTS ******************** //
-// -> /delilahResto/user/register (either as User or Admin):
+// -> /delilahResto/users/register (either as User or Admin):
 router.post("/register", validateJSONSchema(registerSchema), checkEmailRegistration, usernameAvailability, hashPassword, createNewUser, (req, res) => {
-  const successResponse = {
-    SuccessMessage: "User created successfully.",
-    CreatedUser : req.createdUser
+  if (req.userCreation["Status"] === 201) {
+    res.status(201).json(req.userCreation)
   }
-  res.status(201).json(successResponse)
 });
-// -> /delilahResto/user/login (either as User or Admin):
+// -> /delilahResto/users/login (either as User or Admin):
 router.post("/login", validateJSONSchema(loginSchema), userExistanceCheck, verifyPassword, jwtokenGenerator, (req, res) => {
-  const succesResponse = {
-    SucessMessage : "You have successfully logged in.",
-    Token : req.jwtoken
+  if (req.userAuthentication["Status"] === 200) {
+    req.userAuthentication["Token"] = req.jwtoken;
+    res.status(200).json(req.userAuthentication);
+    delete req.userAuthentication["Token"];
   }
-  res.status(201).json(succesResponse)
 });
-router.get("/:userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserById, (req, res) => {
-  const successResponse = {
-    SuccessMessage: "User found.",
-    UserData: req.userById
+// -> /delilahResto/users/:useriD -> Admin: Get user by id | Client: Get self user by "i":
+router.get("/get/:userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserById, (req, res) => {
+  if (req.userById["Status"] === 403) {
+    res.status(403).json(req.userById);
+  } else if (req.userById["Status"] === 200) {
+    res.status(200).json(req.userById);
   }
-  res.status(200).json(successResponse);
 })
-router.get("/getAll/registered", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getAllUsers, (req, res) => {
-  console.log("ALLALLLALLLALL")
-  const successResponse = {
-    SuccessMessage: "List of all registered users found.",
-    UserData: req.usersRegister
+// -> /delilahResto/users/get/allRegistered -> Just Admin: Get the list of all of the registered users:
+router.get("/allRegistered", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getAllUsers, (req, res) => {
+  if (req.getAllUsers["Status"] === 403) {
+    res.status(403).json(req.getAllUsers);
+  } else if (req.getAllUsers["Status"] === 200) {
+    res.status(200).json(req.getAllUsers);
   }
-  res.status(200).json(successResponse);
 });
+// -> /delilahResto/users/get/userByUsername -> Just Admin: Get user by username:
+router.get("/byUsername", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserByUsername, (req, res) => {
+  if (req.getUserByUsername["Status"] === 403) {
+    res.status(403).json(req.getUserByUsername);
+  } else if (req.getUserByUsername["Status"] === 200) {
+    res.status(200).json(req.getUserByUsername);
+  }
+});
+// -> /delilahResto/users/get/getUserByEmail -> Just Admin: Get user by email:
+router.get("/byEmail", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserByEmail, (req, res) => {
+  if (req.getUserByEmail["Status"] === 403) {
+    res.status(403).json(req.getUserByEmail);
+  } else if (req.getUserByEmail["Status"] === 200) {
+    res.status(200).json(req.getUserByEmail);
+  }
+});
+// Exports:
 module.exports = router;
