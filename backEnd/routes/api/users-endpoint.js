@@ -23,7 +23,7 @@ router.post("/login", validateJSONSchema(loginSchema), userExistanceCheck, verif
   }
 });
 // -> /delilahResto/users/:useriD -> Admin: Get user by id | Client: Get self user by "i":
-router.get("/get/:userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserById, (req, res) => {
+router.get("/byID:userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserById, (req, res) => {
   if (req.userById["Status"] === 403) {
     res.status(403).json(req.userById);
   } else if (req.userById["Status"] === 200) {
