@@ -173,8 +173,9 @@ const getUserById = async (req, res, next) => {
     };
     // Validate if the user exists and prepare the appropiate response:
     if (user.length === 0) {
-      okReponse200["Message"] = "User not found."
-      okReponse200["Result"] = `The user with id ${req.params.userId} doesn't exist.`
+      okReponse200["Message"] = "User not found.";
+      okReponse200["Result"] = `The user with id ${req.params.userId} doesn't exist.`;
+      okReponse200["UserFound"] = false;
       req.userById = okReponse200;
     } else {
       req.userFound = user;
@@ -183,6 +184,7 @@ const getUserById = async (req, res, next) => {
       delete req.userFound[0].salt;
       okReponse200["Message"] = "User found.";
       okReponse200["Result"] = req.userFound;
+      okReponse200["UserFound"] = true;
       req.userById = okReponse200;
     };
     next();
