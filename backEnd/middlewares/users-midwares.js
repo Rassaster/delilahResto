@@ -3,33 +3,7 @@ const { v4: uuidv4 } = require('uuid');
 // Import pbkdf2Sync from crypto to create Derived Key:
 const { pbkdf2Sync } = require('crypto');
 const { newUser, selectFromTableWhereFieldIsValue, selectAllFromTable } = require("../sql/queries"); 
-
-// *************************************** RESPONSE MESSAGES ******************************************
-const okReponse200 = {
-  Status: 200,
-  Message: "",
-  Result: []
-}
-const createdResponse201 = {
-  Status: 201,
-  Message: "User created successfully.",
-  Result : []
-}
-const forbiddenResponse401 = {
-  Status: 401,
-  Message: "",
-  Result: "Forbidden access"
-}
-const notAuthorizedResponse403 = {
-  Status: 403,
-  Message: "The user's cretendials doesn't allow them to complete this request. Only an Administrator has the authorization.",
-  Result: "Unaouthorized"
-};
-const conflictResponse409 = {
-  Status: 409,
-  Message: " ",
-  Result: "Conflict."
-}
+const {  okReponse200, createdResponse201, forbiddenResponse401, notAuthorizedResponse403, conflictResponse409 } = require("../serverResponses")
 // ***************************************** MIDDLEWARES *********************************************
 // Check if the email is already register:
 const checkEmailRegistration =  async (req, res, next) => {

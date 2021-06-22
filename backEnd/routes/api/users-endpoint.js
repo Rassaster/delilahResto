@@ -22,7 +22,7 @@ router.post("/login", validateJSONSchema(loginSchema), userExistanceCheck, verif
     delete req.userAuthentication["Token"];
   }
 });
-// -> /delilahResto/users/:useriD -> Admin: Get user by id | Client: Get self user by "i":
+// -> /delilahResto/users/byID:userId -> Admin: Get user by id | Client: Get self user by "i":
 router.get("/byID:userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserById, (req, res) => {
   if (req.userById["Status"] === 403) {
     res.status(403).json(req.userById);
@@ -30,7 +30,7 @@ router.get("/byID:userId", jwtokenExtraction, jwtokenVerification, checkAdminCre
     res.status(200).json(req.userById);
   }
 })
-// -> /delilahResto/users/get/allRegistered -> Just Admin: Get the list of all of the registered users:
+// -> /delilahResto/users/allRegistered -> Just Admin: Get the list of all of the registered users:
 router.get("/allRegistered", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getAllUsers, (req, res) => {
   if (req.getAllUsers["Status"] === 403) {
     res.status(403).json(req.getAllUsers);
@@ -38,7 +38,7 @@ router.get("/allRegistered", jwtokenExtraction, jwtokenVerification, checkAdminC
     res.status(200).json(req.getAllUsers);
   }
 });
-// -> /delilahResto/users/get/userByUsername -> Just Admin: Get user by username:
+// -> /delilahResto/users/byUsername -> Just Admin: Get user by username:
 router.get("/byUsername", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserByUsername, (req, res) => {
   if (req.getUserByUsername["Status"] === 403) {
     res.status(403).json(req.getUserByUsername);
@@ -46,7 +46,7 @@ router.get("/byUsername", jwtokenExtraction, jwtokenVerification, checkAdminCred
     res.status(200).json(req.getUserByUsername);
   }
 });
-// -> /delilahResto/users/get/getUserByEmail -> Just Admin: Get user by email:
+// -> /delilahResto/users/byEmail -> Just Admin: Get user by email:
 router.get("/byEmail", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserByEmail, (req, res) => {
   if (req.getUserByEmail["Status"] === 403) {
     res.status(403).json(req.getUserByEmail);
@@ -54,5 +54,7 @@ router.get("/byEmail", jwtokenExtraction, jwtokenVerification, checkAdminCredent
     res.status(200).json(req.getUserByEmail);
   }
 });
+// -> /delilahResto/users/byId:userid -> Just Admin: Delete user by id:
+
 // Exports:
 module.exports = router;
