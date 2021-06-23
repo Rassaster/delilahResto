@@ -22,10 +22,23 @@ const selectFromTableWhereFieldIsValue = (table, field, value) => {
     type: sequelize.QueryTypes.SELECT
   });
 };
-// 
+// ***** SQL SELECT QUERIES ***** 
+const updateTableRegisterWhereIdIsValue = (table, updatedJsonData, field, value) => {
+  let obj = updatedJsonData;
+  let tempArray = [];
+  for (let key in daobjta) {
+    tempArray.push(`${key} = '${obj[key]}'`);
+  } 
+  let sqlSetStatement =tempArray.join(", ")
+  return sequelize.query(`UPDATE ${table} SET ${sqlSetStatement} WHERE ${field} = ?`, {
+    replacements: [value],
+    type: sequelize.QueryTypes.UPDATE
+  })
+}
 // Exports:
 module.exports = {
   newUser,
   selectFromTableWhereFieldIsValue,
   selectAllFromTable,
+  updateTableRegisterWhereIdIsValue
 }
