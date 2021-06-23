@@ -9,6 +9,11 @@ const createdResponse201 = {
   Message: "User created successfully.",
   Result : []
 }
+const badRequesResponse400 = {
+  Status: 401,
+  Message: "",
+  Result: ""
+}
 const forbiddenResponse401 = {
   Status: 401,
   Message: "",
@@ -29,6 +34,7 @@ module.exports = {
   okReponse200,
   createdResponse201,
   forbiddenResponse401,
+  badRequesResponse400,
   notAuthorizedResponse403,
   conflictResponse409
 }
