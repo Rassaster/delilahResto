@@ -1,5 +1,6 @@
 const Ajv = require("ajv");
 const ajv = new Ajv({allErrors: true});
+const { badRequesResponse400 } = require("../serverResponses")
 // Check and validate the incoming JSON format:
 const validateJSONSchema = schema => {
   return function (req, res, next) {
@@ -18,3 +19,5 @@ const validateJSONSchema = schema => {
 module.exports = {
   validateJSONSchema
 }
+
+// TO DO: Check how errors are being handled, the error message send to the user. TryCatch is missing!
