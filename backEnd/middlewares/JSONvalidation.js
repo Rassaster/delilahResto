@@ -20,7 +20,7 @@ const validateJSONSchema = schema => {
 
       // Updating the Message and Result in the badRequesResponse400{}:
       badRequesResponse400["Message"] = "The request body information is not in the propper format. Please review the API Documentation in relation to the JSON format expected.";
-      badRequesResponse400["Result"] = "The registration could not be completed. ";
+      badRequesResponse400["Result"] = "The request could not be completed. No data was registered nor updated.";
 
       // validate.errors is the array of errors that Ajv manages.
       // With a For Loop, the length of the array is checked.
@@ -45,7 +45,7 @@ const validateJSONSchema = schema => {
         unmatchedPatternStr = unmatchedPatternArrForm.toString("");
         badRequesResponse400["UnmatchedPatterns"] = "The following properties must match the pattern of characters as shown: " + unmatchedPatternStr.slice(0, -6);
       }
-      res.send(badRequesResponse400);
+      res.status(400).send(badRequesResponse400);
       // The "MissingProperties" and "UnmatchedPatterns" properties are deleted from the badRequesResponse400{} before ending this command.
       delete badRequesResponse400["MissingProperties"];
       delete badRequesResponse400["UnmatchedPatterns"];
