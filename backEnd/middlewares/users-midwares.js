@@ -12,7 +12,10 @@ const checkEmailRegistration =  async (req, res, next) => {
     const user = await selectFromTableWhereFieldIsValue("users", "email", email);
     if (user.length === 0) {
       next();
+    } else if (user[0]["email"] === email) {
+      next();
     } else {
+      console.log(user[0]["email"])
       conflictResponse409["Message"] = `The email '${email}' is already registered. Please enter a new email.`;
       res.status(409).json(conflictResponse409);
     }
