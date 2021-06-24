@@ -4,7 +4,7 @@ const { validateJSONSchema } = require("../../middlewares/JSONvalidation");
 const { checkEmailRegistration, usernameAvailability, hashPassword, createNewUser } = require("../../middlewares/users-midwares");
 const { userExistanceCheckByEmailLogin, verifyPassword } = require("../../middlewares/users-midwares");
 const { jwtokenGenerator, jwtokenExtraction, jwtokenVerification } = require("../../middlewares/jwtoken");
-const { checkAdminCredentials, getUserById, getAllUsers, getUserByUsername, getUserByEmail, updateUserById } = require("../../middlewares/users-midwares");
+const { checkAdminCredentials, justAdminGate, getUserById, getAllUsers, getUserByUsername, getUserByEmail, updateUserById } = require("../../middlewares/users-midwares");
 // Requiring JSON schemas:
 const {registerSchema, loginSchema} = require("../../schema/schemas");
 // ******************** ENDPOINTS ******************** //
@@ -57,7 +57,7 @@ router.get("/byEmail", jwtokenExtraction, jwtokenVerification, checkAdminCredent
   }
 });
 // -> /delilahResto/users/byId:userid -> Just Admin: Delete user by id:
-router.put("/update:userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserById, validateJSONSchema(registerSchema), checkEmailRegistration, usernameAvailability, updateUserById, (req, res) => {
+router.put("/update:userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getUserById, validateJSONSchema(registerSchema), checkEmailRegistration, usernameAvailability, updateUserById, (req, res) => {
   if (req.updateUserById["Status"] === 403) {
     res.status(403).json(req.updateUserById);
   } else if (!req.updateUserById["UserUpdated"]) {

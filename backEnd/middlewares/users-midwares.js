@@ -157,6 +157,22 @@ const checkAdminCredentials = (req, res, next) => {
     res.status(500).send(error);
   }
 }
+// Just Admin Gate:
+const justAdminGate = (req, res, next) => {
+  try {
+    if (req.adminCredentials === true) {
+      next();
+    } else {
+      res.status(403).json(notAuthorizedResponse403)
+    }
+  } catch {
+    const error = new Error();
+    error.name = "Admin verification error."
+    error.message = "An error has occurred while verifying if the user has Admin credentials.";
+    error.status = 500;
+    res.status(500).send(error);
+  }
+}
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Admin: Get user by id | Client: Get self user by "i":
 const getUserById = async (req, res, next) => {
@@ -303,9 +319,14 @@ const updateUserById = async (req, res, next) => {
           req.updateUserById = okReponse200;
         }
       }
-    } else {
-      // Any user without Admin. credentials is not authorized.
+    } 
+    // else if (req.adminCredentials && req.params.userId === "i") {
+    //   const user = await updateTableRegisterWhereIdIsValue("users", req.body, "id_user", req.jwtokenDecoded["id_user"]);
+    // } 
+    else {
+      // Any user without Admin. credentials is not authorized to uptade other users information.
       req.updateUserById = notAuthorizedResponse403;
+
     }
   } catch {
     const error = new Error();
@@ -341,6 +362,7 @@ module.exports = {
   verifyPassword,
   // 
   checkAdminCredentials,
+  justAdminGate,
   getUserById,
   getAllUsers,
   getUserByUsername,
