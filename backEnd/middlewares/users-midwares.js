@@ -2,7 +2,7 @@
 const { v4: uuidv4 } = require('uuid');
 // Import pbkdf2Sync from crypto to create Derived Key:
 const { pbkdf2Sync } = require('crypto');
-const { newUser, selectFromTableWhereFieldIsValue, selectAllFromTable } = require("../sql/queries"); 
+const { newUser, selectFromTableWhereFieldIsValue, selectAllFromTable, updateTableRegisterWhereIdIsValue } = require("../sql/queries"); 
 const {  okReponse200, createdResponse201, forbiddenResponse401, notAuthorizedResponse403, conflictResponse409 } = require("../serverResponses")
 // ***************************************** MIDDLEWARES *********************************************
 // Check if the email is already register:
@@ -21,7 +21,7 @@ const checkEmailRegistration =  async (req, res, next) => {
     error.name = "Checking email existance error."
     error.message = "An error has occurred while checking if the email is already registered.";
     error.status = 500;
-    res.send(error);
+    ress.send(error);
   }
 }
 // Check if the username is available:
@@ -40,7 +40,7 @@ const usernameAvailability = async (req, res, next) => {
     error.name = "Checking username availability error."
     error.message = "An error has occurred while checking the availability of the desired username.";
     error.status = 500;
-    res.send(error);
+    res.status(500).send(error);
   }
 }
 // Generate Hashed Password:
@@ -57,7 +57,7 @@ const hashPassword = (req, res, next) => {
     error.name = "Hash Process Error."
     error.message = "An error has occurred while hashing the user's password.";
     error.status = 500;
-    res.send(error);
+    res.status(500).send(error);
   }
 };
 // Register a new user:
@@ -83,7 +83,7 @@ const createNewUser = async (req,res, next) => {
       ErrorDescription: "Please review the API Documentation in relation to the JSON format expected",
       ReceivedQueryJSON: req.body
     };
-    res.status(400).send(errorResponse);
+    res.status(500).send(errorResponse);
     return;
   }
 }
@@ -107,7 +107,7 @@ const userExistanceCheck =  async (req, res, next) => {
     error.name = "Checking user existance error."
     error.message = "An error has occurred while checking the existance of the user.";
     error.status = 500;
-    res.send(error);
+    res.status(500).send(error);
   }
 }
 // Verify Password
@@ -133,7 +133,7 @@ const verifyPassword = (req, res, next) => {
     error.name = "Authentication error."
     error.message = "An error has occurred in the authentication process.";
     error.status = 500;
-    res.send(error);
+    res.status(500).send(error);
   }
 }
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -153,7 +153,7 @@ const checkAdminCredentials = (req, res, next) => {
     error.name = "Credentials verification error."
     error.message = "An error has occurred while verifying the user's credentials.";
     error.status = 500;
-    res.send(error);
+    res.status(500).send(error);
   }
 }
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -193,7 +193,7 @@ const getUserById = async (req, res, next) => {
     error.name = "Finding user by ID error."
     error.message = "An error has occurred while searching for the user by ID.";
     error.status = 500;
-    res.send(error);
+    res.status(500).send(error);
   }
 } 
 // Just Admin: Get the list of all of the registered users:
@@ -214,7 +214,7 @@ const getAllUsers = async (req, res, next) => {
     error.name = "Getting all the registered users error."
     error.message = "An error has occurred while obtaining all the registered users.";
     error.status = 500;
-    res.send(error);
+    res.status(500).send(error);
   }
 }
 // Just Admin: Get user by username:
@@ -241,7 +241,7 @@ const getUserByUsername = async (req, res, next) => {
     error.name = "Getting user by username error."
     error.message = "An error has occurred while obtaining the register by username.";
     error.status = 500;
-    res.send(error);
+    res.status(500).send(error);
   }
 }
 // Just Admin: Get user by email:
@@ -268,10 +268,53 @@ const getUserByEmail = async (req, res, next) => {
     error.name = "Getting user by username error."
     error.message = "An error has occurred while obtaining the register by username.";
     error.status = 500;
-    res.send(error);
+    res.status(500).send(error);
   }
 }
 // -updateUserById ("i")
+// Just Admin: Update any user by Id.
+const updateUserById = async (req, res, next) => {
+  try {
+    // Only a user with Admin. credentials can do this operation:
+    if (req.adminCredentials) {
+      // If user is NOT found, doesn't exist, the operation is stoped:
+      if (!req.userById["UserFound"]) {
+        okReponse200["Message"] = "User not found.";
+        okReponse200["Result"] = `The user with id ${req.params.userId} doesn't exist, therefore, there   is no information to be updated. Please proceed to the register endopoint.`;
+        okReponse200["UserUpdated"] = false;
+        req.updateUserById = okReponse200;
+      }
+      // If the user IS found, the UPDATE query is executed:
+      if (req.userById["UserFound"]) {
+        // The UPDATE query returns an array. 
+        const user = await updateTableRegisterWhereIdIsValue("users", req.body, "id_user", req.params.userId);
+        // // If array[1] === 0 -> No information was updated.
+        if (user[1] === 0) {
+          conflictResponse409["Message"] = "No information was updated.";
+          conflictResponse409["Result"] = `The information of the user with id ${req.params.userId} did not suffer any changes. The data that was sent matches exactly with the one already registered.`;
+          conflictResponse409["UserUpdated"] = false;
+          req.updateUserById = conflictResponse409;
+          // // If array[1] === 1 -> Changes have been received and updated.
+        } else if (user[1] === 1) {
+          okReponse200["Message"] = "User information updated with success.";
+          okReponse200["Result"] = req.body;
+          okReponse200["UserUpdated"] = true;
+          req.updateUserById = okReponse200;
+        }
+      }
+    } else {
+      // Any user without Admin. credentials is not authorized.
+      req.updateUserById = notAuthorizedResponse403;
+    }
+  } catch {
+    const error = new Error();
+    error.name = "Updating user by id error."
+    error.message = "An error has occurred while updating the user information by id.";
+    error.status = 500;
+    res.status(500).send(error);
+  }
+  next()
+}
 // -deleteUserById
 
 // -createNewProduct
@@ -300,5 +343,6 @@ module.exports = {
   getUserById,
   getAllUsers,
   getUserByUsername,
-  getUserByEmail
+  getUserByEmail,
+  updateUserById,
 }

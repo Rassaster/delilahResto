@@ -4,7 +4,7 @@ const { validateJSONSchema } = require("../../middlewares/JSONvalidation");
 const { checkEmailRegistration, usernameAvailability, hashPassword, createNewUser } = require("../../middlewares/users-midwares");
 const { userExistanceCheck, verifyPassword } = require("../../middlewares/users-midwares");
 const { jwtokenGenerator, jwtokenExtraction, jwtokenVerification } = require("../../middlewares/jwtoken");
-const { checkAdminCredentials, getUserById, getAllUsers, getUserByUsername, getUserByEmail } = require("../../middlewares/users-midwares");
+const { checkAdminCredentials, getUserById, getAllUsers, getUserByUsername, getUserByEmail, updateUserById } = require("../../middlewares/users-midwares");
 // Requiring JSON schemas:
 const {registerSchema, loginSchema} = require("../../schema/schemas");
 // ******************** ENDPOINTS ******************** //
@@ -23,12 +23,14 @@ router.post("/login", validateJSONSchema(loginSchema), userExistanceCheck, verif
   }
 });
 // -> /delilahResto/users/byID:userId -> Admin: Get user by id | Client: Get self user by "i":
-router.get("/byID:userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserById, (req, res) => {
+router.get("/byId:userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserById, (req, res) => {
   if (req.userById["Status"] === 403) {
     res.status(403).json(req.userById);
   } else if (req.userById["Status"] === 200) {
     res.status(200).json(req.userById);
   }
+  delete req.userById["UserFound"];
+
 })
 // -> /delilahResto/users/allRegistered -> Just Admin: Get the list of all of the registered users:
 router.get("/allRegistered", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getAllUsers, (req, res) => {
@@ -55,6 +57,16 @@ router.get("/byEmail", jwtokenExtraction, jwtokenVerification, checkAdminCredent
   }
 });
 // -> /delilahResto/users/byId:userid -> Just Admin: Delete user by id:
-
+router.put("/update:userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserById, updateUserById, (req, res) => {
+  if (req.updateUserById["Status"] === 403) {
+    res.status(403).json(req.updateUserById);
+  } else if (!req.updateUserById["UserUpdated"]) {
+    res.status(409).json(req.updateUserById)
+  } else if (req.updateUserById["UserUpdated"]) {
+    res.status(204).json(req.updateUserById)
+  }
+  delete req.userById["UserFound"];
+  delete req.updateUserById["UserUpdated"];
+});
 // Exports:
 module.exports = router;
