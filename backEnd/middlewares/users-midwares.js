@@ -89,7 +89,7 @@ const createNewUser = async (req,res, next) => {
 }
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Check if the user exists with the email:
-const userExistanceCheck =  async (req, res, next) => {
+const userExistanceCheckByEmailLogin =  async (req, res, next) => {
   try {
     const { email } = req.body;
     const user = await selectFromTableWhereFieldIsValue("users", "email", email);
@@ -97,6 +97,7 @@ const userExistanceCheck =  async (req, res, next) => {
       okReponse200["Message"] = "No registered user."
       okReponse200["Result"] = `The email '${email}' has not been registered yet. Please proceed to register in our system as a new user.`;
       res.status(200).json(okReponse200);
+      console.log(user)
       return;
     } else {
       req.userInfo = user;
@@ -336,7 +337,7 @@ module.exports = {
   hashPassword,
   createNewUser,
   // 
-  userExistanceCheck,
+  userExistanceCheckByEmailLogin,
   verifyPassword,
   // 
   checkAdminCredentials,

@@ -2,7 +2,7 @@ const router = require("express").Router();
 // Requiring middlewares:
 const { validateJSONSchema } = require("../../middlewares/JSONvalidation");
 const { checkEmailRegistration, usernameAvailability, hashPassword, createNewUser } = require("../../middlewares/users-midwares");
-const { userExistanceCheck, verifyPassword } = require("../../middlewares/users-midwares");
+const { userExistanceCheckByEmailLogin, verifyPassword } = require("../../middlewares/users-midwares");
 const { jwtokenGenerator, jwtokenExtraction, jwtokenVerification } = require("../../middlewares/jwtoken");
 const { checkAdminCredentials, getUserById, getAllUsers, getUserByUsername, getUserByEmail, updateUserById } = require("../../middlewares/users-midwares");
 // Requiring JSON schemas:
@@ -15,7 +15,7 @@ router.post("/register", validateJSONSchema(registerSchema), checkEmailRegistrat
   }
 });
 // -> /delilahResto/users/login (either as User or Admin):
-router.post("/login", validateJSONSchema(loginSchema), userExistanceCheck, verifyPassword, jwtokenGenerator, (req, res) => {
+router.post("/login", validateJSONSchema(loginSchema), userExistanceCheckByEmailLogin, verifyPassword, jwtokenGenerator, (req, res) => {
   if (req.userAuthentication["Status"] === 200) {
     req.userAuthentication["Token"] = req.jwtoken;
     res.status(200).json(req.userAuthentication);
