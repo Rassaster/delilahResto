@@ -26,7 +26,7 @@ const selectFromTableWhereFieldIsValue = (table, field, value) => {
 const updateTableRegisterWhereIdIsValue = (table, updatedJsonData, field, value) => {
   let obj = updatedJsonData;
   let tempArray = [];
-  for (let key in daobjta) {
+  for (let key in obj) {
     tempArray.push(`${key} = '${obj[key]}'`);
   } 
   let sqlSetStatement =tempArray.join(", ")
