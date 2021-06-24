@@ -32,7 +32,9 @@ const usernameAvailability = async (req, res, next) => {
   try {
     const { username } = req.body;
     const user = await selectFromTableWhereFieldIsValue("users", "username", username);
-    if (user.length === 0) {
+    if ((user.length === 0) || user[0]["username"] === username) {
+      next();
+    } else if (user[0]["username"] === username) {
       next();
     } else {
       conflictResponse409["Message"] = `The desired username (${username}) is not available. Please choose another one.`;
