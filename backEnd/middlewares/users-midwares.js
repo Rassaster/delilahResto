@@ -10,9 +10,7 @@ const checkEmailRegistration =  async (req, res, next) => {
   try {
     const { email } = req.body;
     const user = await selectFromTableWhereFieldIsValue("users", "email", email);
-    if (user.length === 0) {
-      next();
-    } else if (user[0]["email"] === email) {
+    if ((user.length === 0) || (user[0]["email"] === email)) {
       next();
     } else {
       console.log(user[0]["email"])
