@@ -288,45 +288,33 @@ const getUserByEmail = async (req, res, next) => {
     res.status(500).send(error);
   }
 }
-// -updateUserById ("i")
 // Just Admin: Update any user by Id.
 const updateUserById = async (req, res, next) => {
   try {
-    // Only a user with Admin. credentials can do this operation:
-    if (req.adminCredentials) {
-      // If user is NOT found, doesn't exist, the operation is stoped:
-      if (!req.userById["UserFound"]) {
-        okReponse200["Message"] = "User not found.";
-        okReponse200["Result"] = `The user with id ${req.params.userId} doesn't exist, therefore, there   is no information to be updated. Please proceed to the register endopoint.`;
-        okReponse200["UserUpdated"] = false;
+    // If user is NOT found, doesn't exist, the operation is stoped:
+    if (!req.userById["UserFound"]) {
+      okReponse200["Message"] = "User not found.";
+      okReponse200["Result"] = `The user with id ${req.params.userId} doesn't exist, therefore,there   is no information to be updated. Please proceed to the register endopoint.`;
+      okReponse200["UserUpdated"] = false;
+      req.updateUserById = okReponse200;
+    }
+    // If the user IS found, the UPDATE query is executed:
+    if (req.userById["UserFound"]) {
+      // The UPDATE query returns an array. 
+      const user = await updateTableRegisterWhereIdIsValue("users", req.body, "id_user", req.params.userId);
+      // // If array[1] === 0 -> No information was updated.
+      if (user[1] === 0) {
+        conflictResponse409["Message"] = "No information was updated.";
+        conflictResponse409["Result"] = `The information of the user with id ${req.params.userId} did not suffer any changes. The data that was sent matches exactly with the one already registered.`;
+        conflictResponse409["UserUpdated"] = false;
+        req.updateUserById = conflictResponse409;
+        // // If array[1] === 1 -> Changes have been received and updated.
+      } else if (user[1] === 1) {
+        okReponse200["Message"] = "User information updated with success.";
+        okReponse200["Result"] = req.body;
+        okReponse200["UserUpdated"] = true;
         req.updateUserById = okReponse200;
       }
-      // If the user IS found, the UPDATE query is executed:
-      if (req.userById["UserFound"]) {
-        // The UPDATE query returns an array. 
-        const user = await updateTableRegisterWhereIdIsValue("users", req.body, "id_user", req.params.userId);
-        // // If array[1] === 0 -> No information was updated.
-        if (user[1] === 0) {
-          conflictResponse409["Message"] = "No information was updated.";
-          conflictResponse409["Result"] = `The information of the user with id ${req.params.userId} did not suffer any changes. The data that was sent matches exactly with the one already registered.`;
-          conflictResponse409["UserUpdated"] = false;
-          req.updateUserById = conflictResponse409;
-          // // If array[1] === 1 -> Changes have been received and updated.
-        } else if (user[1] === 1) {
-          okReponse200["Message"] = "User information updated with success.";
-          okReponse200["Result"] = req.body;
-          okReponse200["UserUpdated"] = true;
-          req.updateUserById = okReponse200;
-        }
-      }
-    } 
-    // else if (req.adminCredentials && req.params.userId === "i") {
-    //   const user = await updateTableRegisterWhereIdIsValue("users", req.body, "id_user", req.jwtokenDecoded["id_user"]);
-    // } 
-    else {
-      // Any user without Admin. credentials is not authorized to uptade other users information.
-      req.updateUserById = notAuthorizedResponse403;
-
     }
   } catch {
     const error = new Error();
