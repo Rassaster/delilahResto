@@ -57,7 +57,7 @@ router.get("/byEmail", jwtokenExtraction, jwtokenVerification, checkAdminCredent
   }
 });
 // -> /delilahResto/users/byId:userid -> Just Admin: Delete user by id:
-router.put("/update:userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserById, validateJSONSchema(registerSchema), updateUserById, (req, res) => {
+router.put("/update:userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserById, validateJSONSchema(registerSchema), checkEmailRegistration, updateUserById, (req, res) => {
   if (req.updateUserById["Status"] === 403) {
     res.status(403).json(req.updateUserById);
   } else if (!req.updateUserById["UserUpdated"]) {
