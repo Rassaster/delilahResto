@@ -22,7 +22,7 @@ const selectFromTableWhereFieldIsValue = (table, field, value) => {
     type: sequelize.QueryTypes.SELECT
   });
 };
-// ***** SQL SELECT QUERIES ***** 
+// ***** SQL UPDATE QUERIES ***** 
 const updateTableRegisterWhereIdIsValue = (table, updatedJsonData, field, value) => {
   let obj = updatedJsonData;
   let tempArray = [];
@@ -35,10 +35,18 @@ const updateTableRegisterWhereIdIsValue = (table, updatedJsonData, field, value)
     type: sequelize.QueryTypes.UPDATE
   })
 }
+// ***** SQL DELETE QUERIES ***** 
+const deleteTableRegisterWhereIdIsValue = (table, field, value) => {
+  return sequelize.query(`DELETE FROM ${table} WHERE ${field} = ?`, {
+    replacements : [value],
+    type: sequelize.QueryTypes.DELETE
+  })
+}
 // Exports:
 module.exports = {
   newUser,
   selectFromTableWhereFieldIsValue,
   selectAllFromTable,
-  updateTableRegisterWhereIdIsValue
+  updateTableRegisterWhereIdIsValue,
+  deleteTableRegisterWhereIdIsValue
 }
