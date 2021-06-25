@@ -329,10 +329,9 @@ const updateUserById = async (req, res, next) => {
   next()
 }
 // Just Admin: Delete any user by Id.
-const deleteUserById = async (req, res, next) => {
-  const deleteUser = await deleteTableRegisterWhereIdIsValue("users", "id_user", req.params.userId);
-  req.userDeletion = deleteUser;
-  next()
+const deleteUserById = (req, res, next) => {
+  const deleteUser = deleteTableRegisterWhereIdIsValue("users", "id_user", req.params.userId);
+  next();
 }
 // -deleteUserById
 
