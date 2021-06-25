@@ -2,7 +2,7 @@
 const { v4: uuidv4 } = require('uuid');
 // Import pbkdf2Sync from crypto to create Derived Key:
 const { pbkdf2Sync } = require('crypto');
-const { newUser, selectFromTableWhereFieldIsValue, selectAllFromTable, updateTableRegisterWhereIdIsValue } = require("../sql/queries"); 
+const { newUser, selectFromTableWhereFieldIsValue, selectAllFromTable, updateTableRegisterWhereIdIsValue, deleteTableRegisterWhereIdIsValue } = require("../sql/queries"); 
 const {  okReponse200, createdResponse201, forbiddenResponse401, notAuthorizedResponse403, conflictResponse409 } = require("../serverResponses")
 // ***************************************** MIDDLEWARES *********************************************
 // Check if the email is already register:
@@ -328,6 +328,12 @@ const updateUserById = async (req, res, next) => {
   }
   next()
 }
+// Just Admin: Delete any user by Id.
+const deleteUserById = async (req, res, next) => {
+  const deleteUser = await deleteTableRegisterWhereIdIsValue("users", "id_user", req.params.userId);
+  req.userDeletion = deleteUser;
+  next()
+}
 // -deleteUserById
 
 // -createNewProduct
@@ -359,4 +365,5 @@ module.exports = {
   getUserByUsername,
   getUserByEmail,
   updateUserById,
+  deleteUserById
 }
