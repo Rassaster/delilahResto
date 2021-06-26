@@ -29,6 +29,11 @@ const conflictResponse409 = {
   Message: " ",
   Result: "Conflict."
 }
+const internalServerError500 = {
+  Satus: 500,
+  Message: " ",
+  Restult: "Internal Server Error."
+}
 // Exports:
 module.exports = {
   okReponse200,
@@ -36,5 +41,6 @@ module.exports = {
   forbiddenResponse401,
   badRequesResponse400,
   notAuthorizedResponse403,
-  conflictResponse409
+  conflictResponse409,
+  internalServerError500
 }
