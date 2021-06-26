@@ -340,13 +340,6 @@ const deleteUserById = (req, res, next) => {
   next();
 }
 
-// -createNewProduct
-// -getProductByName
-// -getProductById
-// -getAllProducts
-// -updateProductById
-// -deleteProductById
-
 // -createNewOrder
 // -getOrderById
 // -getAllOrders
