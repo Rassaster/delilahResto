@@ -36,11 +36,8 @@ const usernameAvailability = async (req, res, next) => {
       res.status(409).json(conflictResponse409);
     }
   } catch {
-    const error = new Error();
-    error.name = "Checking username availability error."
-    error.message = "An error has occurred while checking the availability of the desired username.";
-    error.status = 500;
-    res.status(500).send(error);
+    internalServerError500["Message"] = "An error has occurred while checking the availability of the desired username.";
+    res.send(internalServerError500);
   }
 }
 // Generate Hashed Password:
@@ -53,11 +50,8 @@ const hashPassword = (req, res, next) => {
     req.derivedKey = {hashedPasswordHex, uuidSalt}
     next();
   } catch {
-    const error = new Error();
-    error.name = "Hash Process Error."
-    error.message = "An error has occurred while hashing the user's password.";
-    error.status = 500;
-    res.status(500).send(error);
+    internalServerError500["Message"] = "An error has occurred while hashing the user's password.";
+    res.send(internalServerError500);
   }
 };
 // Register a new user:
@@ -78,13 +72,12 @@ const createNewUser = async (req,res, next) => {
     req.userCreation = createdResponse201;
     next()
   } catch (error) {
-    const errorResponse = {
-      ErrorMessage: error.parent.sqlMessage,
-      ErrorDescription: "Please review the API Documentation in relation to the JSON format expected",
-      ReceivedQueryJSON: req.body
-    };
-    res.status(500).send(errorResponse);
-    return;
+    internalServerError500["Message"] = error.parent.sqlMessage;
+    internalServerError500["Description"] = "Please review the API Documentation in relation to the JSON format expected.";
+    internalServerError500["ReceivedQueryJSON"] = req.body;
+    res.send(internalServerError500);
+    delete internalServerError500["Description"];
+    delete internalServerError500["ReceivedQueryJSON"];
   }
 }
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -104,11 +97,8 @@ const userExistanceCheckByEmailLogin =  async (req, res, next) => {
       next();
     }
   } catch {
-    const error = new Error();
-    error.name = "Checking user existance error."
-    error.message = "An error has occurred while checking the existance of the user.";
-    error.status = 500;
-    res.status(500).send(error);
+    internalServerError500["Message"] = "An error has occurred while checking the existance of the user.";
+    res.send(internalServerError500);
   }
 }
 // Verify Password
@@ -130,11 +120,8 @@ const verifyPassword = (req, res, next) => {
       next()
     }
   } catch {
-    const error = new Error();
-    error.name = "Authentication error."
-    error.message = "An error has occurred in the authentication process.";
-    error.status = 500;
-    res.status(500).send(error);
+    internalServerError500["Message"] = "An error has occurred in the authentication process while verifying the password.";
+    res.send(internalServerError500);
   }
 }
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -150,11 +137,8 @@ const checkAdminCredentials = (req, res, next) => {
       next();
     };
   } catch {
-    const error = new Error();
-    error.name = "Credentials verification error."
-    error.message = "An error has occurred while verifying the user's credentials.";
-    error.status = 500;
-    res.status(500).send(error);
+    internalServerError500["Message"] = "An error has occurred while verifying the user's credentials.";
+    res.send(internalServerError500);
   }
 }
 // Just Admin Gate:
@@ -166,11 +150,8 @@ const justAdminGate = (req, res, next) => {
       res.status(403).json(notAuthorizedResponse403)
     }
   } catch {
-    const error = new Error();
-    error.name = "Admin verification error."
-    error.message = "An error has occurred while verifying if the user has Admin credentials.";
-    error.status = 500;
-    res.status(500).send(error);
+    internalServerError500["Message"] = "An error has occurred while verifying if the user has Admin credentials.";
+    res.send(internalServerError500);
   }
 }
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -206,11 +187,8 @@ const getUserById = async (req, res, next) => {
     };
     next();
   } catch {
-    const error = new Error();
-    error.name = "Finding user by ID error."
-    error.message = "An error has occurred while searching for the user by ID.";
-    error.status = 500;
-    res.status(500).send(error);
+    internalServerError500["Message"] = "An error has occurred while searching for the user by ID.";
+    res.send(internalServerError500);
   }
 } 
 // Just Admin: Get the list of all of the registered users:
@@ -227,11 +205,8 @@ const getAllUsers = async (req, res, next) => {
     }
     next()
   } catch {
-    const error = new Error();
-    error.name = "Getting all the registered users error."
-    error.message = "An error has occurred while obtaining all the registered users.";
-    error.status = 500;
-    res.status(500).send(error);
+    internalServerError500["Message"] = "An error has occurred while obtaining all the registered users.";
+    res.send(internalServerError500);
   }
 }
 // Just Admin: Get user by username:
@@ -254,11 +229,8 @@ const getUserByUsername = async (req, res, next) => {
     }
     next();
   } catch {
-    const error = new Error();
-    error.name = "Getting user by username error."
-    error.message = "An error has occurred while obtaining the register by username.";
-    error.status = 500;
-    res.status(500).send(error);
+    internalServerError500["Message"] = "An error has occurred while searching the user by username.";
+    res.send(internalServerError500);
   }
 }
 // Just Admin: Get user by email:
@@ -281,11 +253,8 @@ const getUserByEmail = async (req, res, next) => {
     }
     next();
   } catch {
-    const error = new Error();
-    error.name = "Getting user by username error."
-    error.message = "An error has occurred while obtaining the register by username.";
-    error.status = 500;
-    res.status(500).send(error);
+    internalServerError500["Message"] = "An error has occurred while searching the user by email.";
+    res.send(internalServerError500);
   }
 }
 // Just Admin: Update any user by Id.
@@ -317,27 +286,29 @@ const updateUserById = async (req, res, next) => {
       }
     }
   } catch {
-    const error = new Error();
-    error.name = "Updating user by id error."
-    error.message = "An error has occurred while updating the user information by id.";
-    error.status = 500;
-    res.status(500).send(error);
+    internalServerError500["Message"] = "An error has occurred while updating the user's information by id.";
+    res.send(internalServerError500);
   }
   next()
 }
 // Just Admin: Delete any user by Id.
 const deleteUserById = (req, res, next) => {
-  if (!req.userById["UserFound"]) {
-    okReponse200["Message"] = "User not found.";
-    okReponse200["Result"] = `The user with id ${req.params.userId} doesn't exist, therefore no deletion can be done.`;
-    okReponse200["UserDeleted"] = false;
-    req.userDeletion = okReponse200;
-  } else if (req.userById["UserFound"]) {
-    const deleteUser = deleteTableRegisterWhereIdIsValue("users", "id_user", req.params.userId);
-    okReponse200["UserDeleted"] = true;
-    req.userDeletion = okReponse200;
+  try {
+    if (!req.userById["UserFound"]) {
+      okReponse200["Message"] = "User not found.";
+      okReponse200["Result"] = `The user with id ${req.params.userId} doesn't exist, therefore no deletion can be done.`;
+      okReponse200["UserDeleted"] = false;
+      req.userDeletion = okReponse200;
+    } else if (req.userById["UserFound"]) {
+      const deleteUser = deleteTableRegisterWhereIdIsValue("users", "id_user", req.params.userId);
+      okReponse200["UserDeleted"] = true;
+      req.userDeletion = okReponse200;
+    }
+    next();
+  } catch {
+    internalServerError500["Message"] = "An error has occurred while deleting the user by id.";
+    res.send(internalServerError500);
   }
-  next();
 }
 
 // -createNewOrder
