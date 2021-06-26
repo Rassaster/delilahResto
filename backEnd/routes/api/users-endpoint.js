@@ -4,7 +4,7 @@ const { validateJSONSchema } = require("../../middlewares/JSONvalidation");
 const { checkEmailRegistration, usernameAvailability, hashPassword, createNewUser } = require("../../middlewares/users-midwares");
 const { userExistanceCheckByEmailLogin, verifyPassword } = require("../../middlewares/users-midwares");
 const { jwtokenGenerator, jwtokenExtraction, jwtokenVerification } = require("../../middlewares/jwtoken");
-const { checkAdminCredentials, justAdminGate, getUserById, getAllUsers, getUserByUsername, getUserByEmail, updateUserById } = require("../../middlewares/users-midwares");
+const { checkAdminCredentials, justAdminGate, getUserById, getAllUsers, getUserByUsername, getUserByEmail, updateUserById, deleteUserById } = require("../../middlewares/users-midwares");
 // Requiring JSON schemas:
 const {registerSchema, loginSchema} = require("../../schema/schemas");
 // ******************** ENDPOINTS ******************** //
@@ -56,7 +56,7 @@ router.get("/byEmail", jwtokenExtraction, jwtokenVerification, checkAdminCredent
     res.status(200).json(req.getUserByEmail);
   }
 });
-// -> /delilahResto/users/byId:userid -> Just Admin: Delete user by id:
+// -> /delilahResto/users/byId:userid -> Just Admin: Update user by id:
 router.put("/update:userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getUserById, validateJSONSchema(registerSchema), checkEmailRegistration, usernameAvailability, updateUserById, (req, res) => {
   if (req.updateUserById["Status"] === 403) {
     res.status(403).json(req.updateUserById);
@@ -68,6 +68,14 @@ router.put("/update:userId", jwtokenExtraction, jwtokenVerification, checkAdminC
   delete req.userById["UserFound"];
   delete req.updateUserById["UserUpdated"];
 });
+// -> /delilahResto/users/deleteUser:userid -> Just Admin: Delete user by id:
+router.delete("/deleteUser:userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getUserById, deleteUserById, (req, res,) => {
+  if (!req.userDeletion["UserDeleted"]) {
+    res.status(200).json(req.userDeletion);
+  } else {
+    res.status(204).send("");
+  }
+})
 // Exports:
 module.exports = router;
 

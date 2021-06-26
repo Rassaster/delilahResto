@@ -330,10 +330,18 @@ const updateUserById = async (req, res, next) => {
 }
 // Just Admin: Delete any user by Id.
 const deleteUserById = (req, res, next) => {
-  const deleteUser = deleteTableRegisterWhereIdIsValue("users", "id_user", req.params.userId);
+  if (!req.userById["UserFound"]) {
+    okReponse200["Message"] = "User not found.";
+    okReponse200["Result"] = `The user with id ${req.params.userId} doesn't exist, therefore no deletion can be done.`;
+    okReponse200["UserDeleted"] = false;
+    req.userDeletion = okReponse200;
+  } else if (req.userById["UserFound"]) {
+    const deleteUser = deleteTableRegisterWhereIdIsValue("users", "id_user", req.params.userId);
+    okReponse200["UserDeleted"] = true;
+    req.userDeletion = okReponse200;
+  }
   next();
 }
-// -deleteUserById
 
 // -createNewProduct
 // -getProductByName
