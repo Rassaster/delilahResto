@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require('uuid');
 // Import pbkdf2Sync from crypto to create Derived Key:
 const { pbkdf2Sync } = require('crypto');
 const { newUser, selectFromTableWhereFieldIsValue, selectAllFromTable, updateTableRegisterWhereIdIsValue, deleteTableRegisterWhereIdIsValue } = require("../sql/queries"); 
-const {  okReponse200, createdResponse201, forbiddenResponse401, notAuthorizedResponse403, conflictResponse409 } = require("../serverResponses")
+const {  okReponse200, createdResponse201, forbiddenResponse401, notAuthorizedResponse403, conflictResponse409, internalServerError500 } = require("../serverResponses")
 // ***************************************** MIDDLEWARES *********************************************
 // Check if the email is already register:
 const checkEmailRegistration =  async (req, res, next) => {
@@ -18,11 +18,8 @@ const checkEmailRegistration =  async (req, res, next) => {
       res.status(409).json(conflictResponse409);
     }
   } catch {
-    const error = new Error();
-    error.name = "Checking email existance error."
-    error.message = "An error has occurred while checking if the email is already registered.";
-    error.status = 500;
-    ress.send(error);
+    internalServerError500["Message"] = "An error has occurred while checking if the email is already registered."
+    res.send(internalServerError500);
   }
 }
 // Check if the username is available:
