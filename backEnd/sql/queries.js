@@ -8,6 +8,13 @@ const newUser =  (username, fullname, email, cellphone_number, delivery_address,
     type: sequelize.QueryTypes.INSERT
   });
 };
+// INSERT create new product in Products:
+const newProduct =  (product_name, id_product_category, product_price) => {
+  return sequelize.query("INSERT INTO products(product_name, id_product_category, product_price) VALUES(?, ?, ?)", {
+    replacements: [product_name, id_product_category, product_price],
+    type: sequelize.QueryTypes.INSERT
+  });
+};
 // ***** SQL SELECT QUERIES *****
 // SELECT * FROM ("table");
 const selectAllFromTable = (table) => {
@@ -45,6 +52,7 @@ const deleteTableRegisterWhereIdIsValue = (table, field, value) => {
 // Exports:
 module.exports = {
   newUser,
+  newProduct,
   selectFromTableWhereFieldIsValue,
   selectAllFromTable,
   updateTableRegisterWhereIdIsValue,
