@@ -3,7 +3,29 @@ const {  okReponse200, createdResponse201, forbiddenResponse401, notAuthorizedRe
 // Import MYSQL Queries functions:
 const { newProduct, selectFromTableWhereFieldIsValue, selectAllFromTable, updateTableRegisterWhereIdIsValue, deleteTableRegisterWhereIdIsValue } = require("../sql/queries"); 
 // -createNewProduct
-const createNewProduct = (req, res, next) => {}
+const createNewProduct = async (req, res, next) => {
+  try {
+    const { product_name, id_product_category, product_price } = req.body;
+    const createdProduct = await newProduct(product_name, id_product_category, product_price); 
+    createdResponse201["Message"] = "Product created successfully.";
+    const newCreatedProduct = {
+      id_product: createdProduct[0],
+      product_name: req.body.product_name,
+      id_product_category: req.body.id_product_category,
+      product_price: req.body.product_price
+    }
+    createdResponse201["Result"] = newCreatedProduct;
+    req.productCreation = createdResponse201;
+    next()
+  } catch {
+    internalServerError500["Message"] = error.parent.sqlMessage;
+    internalServerError500["Description"] = "Please review the API Documentation in relation to the JSON format expected.";
+    internalServerError500["ReceivedQueryJSON"] = req.body;
+    res.send(internalServerError500);
+    delete internalServerError500["Description"];
+    delete internalServerError500["ReceivedQueryJSON"];
+  }
+}
 // -getProductByName
 const getProductByName = (req, res, next) => {}
 // -getProductById
