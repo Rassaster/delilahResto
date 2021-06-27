@@ -19,8 +19,18 @@ const loginSchema = {
     user_password: { type: "string", pattern: "^[A-Za-z0-9.!#$%&‘*+=?^_`{|}~-]{4,}$"}
   }
 }
+const productSchema = {
+  type: "object",
+  required: ["product_name", "id_product_category", "product_price"],
+  properties: {
+    product_name: {type: "string"},
+    id_product_category: {type: "number"},
+    product_price: {type: "number"}
+  }
+}
 // Exports:
 module.exports = {
   registerSchema,
-  loginSchema
+  loginSchema,
+  productSchema
 }
