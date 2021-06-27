@@ -17,12 +17,12 @@ const badRequesResponse400 = {
 const forbiddenResponse401 = {
   Status: 401,
   Message: "",
-  Result: "Forbidden access"
+  Result: "Forbidden access."
 }
 const notAuthorizedResponse403 = {
   Status: 403,
   Message: "The user's cretendials doesn't allow them to complete this request. Only an Administrator has the authorization.",
-  Result: "Unaouthorized"
+  Result: "Unauthorized."
 };
 const conflictResponse409 = {
   Status: 409,
