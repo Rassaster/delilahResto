@@ -27,9 +27,29 @@ const createNewProduct = async (req, res, next) => {
   }
 }
 // -getProductByName
-const getProductByName = (req, res, next) => {}
+const getProductByName = async (req, res, next) => {}
 // -getProductById
-const getProductById = (req, res, next) => {}
+const getProductById = async (req, res, next) => {
+  try {
+    const product = await selectFromTableWhereFieldIsValue("products", "id_product", req.params.productId)
+    if (product.length === 0) {
+      okReponse200["Message"] = "Product not found.";
+      okReponse200["Result"] = `The product with id ${req.params.productId} doesn't exist.`;
+      okReponse200["ProductFound"] = false;
+      req.productById = okReponse200;
+    } else {
+      req.productFound = product;
+      okReponse200["Message"] = "Product found.";
+      okReponse200["Result"] = req.productFound;
+      okReponse200["ProductFound"] = true;
+      req.productById = okReponse200;
+    };
+    next();
+  } catch {
+    internalServerError500["Message"] = "An error has occurred while searching for the product by ID.";
+    res.send(internalServerError500)
+  }
+}
 // -getAllProducts
 const getAllProducts = (req, res, next) => {}
 // -updateProductById
