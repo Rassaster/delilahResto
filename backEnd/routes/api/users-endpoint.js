@@ -5,7 +5,7 @@ const {registerSchema, loginSchema} = require("../../schema/schemas");
 // Schema middlewares:
 const { validateJSONSchema } = require("../../middlewares/JSONvalidation");
 // Security/Credentials middlewares:
-const { checkEmailRegistration, hashPassword, verifyPassword, checkAdminCredentials, justAdminGate, } = require("../../middlewares/users-midwares");
+const { hashPassword, verifyPassword, checkAdminCredentials, justAdminGate, } = require("../../middlewares/users-midwares");
 // Users validation middlewares:
 const { checkEmailRegistration, usernameAvailability, userExistanceCheckByEmailLogin } = require("../../middlewares/users-midwares");
 // JWT middlewares:
