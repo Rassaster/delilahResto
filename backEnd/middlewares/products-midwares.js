@@ -26,8 +26,6 @@ const createNewProduct = async (req, res, next) => {
     delete internalServerError500["ReceivedQueryJSON"];
   }
 }
-// -getProductByName
-const getProductByName = async (req, res, next) => {}
 // -getProductById
 const getProductById = async (req, res, next) => {
   try {
@@ -47,6 +45,28 @@ const getProductById = async (req, res, next) => {
     next();
   } catch {
     internalServerError500["Message"] = "An error has occurred while searching for the product by ID.";
+    res.send(internalServerError500)
+  }
+}
+// -getProductByName
+const getProductByName = async (req, res, next) => {
+  try {
+    const product = await selectFromTableWhereFieldIsValue("products", "product_name", req.params.productName);
+    if (product.length === 0) {
+      okReponse200["Message"] = "Product not found.";
+      okReponse200["Result"] = `The product '${req.params.productName}' doesn't exist.`;
+      okReponse200["ProductFound"] = false;
+      req.productByName = okReponse200;
+    } else {
+      req.productFound = product;
+      okReponse200["Message"] = "Product found.";
+      okReponse200["Result"] = req.productFound;
+      okReponse200["ProductFound"] = true;
+      req.productByName = okReponse200;
+    }
+    next();
+  } catch {
+    internalServerError500["Message"] = "An error has occurred while searching for the product by it's name.";
     res.send(internalServerError500)
   }
 }
