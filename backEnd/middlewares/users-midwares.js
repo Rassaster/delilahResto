@@ -2,8 +2,10 @@
 const { v4: uuidv4 } = require('uuid');
 // Import pbkdf2Sync from crypto to create Derived Key:
 const { pbkdf2Sync } = require('crypto');
-const { newUser, selectFromTableWhereFieldIsValue, selectAllFromTable, updateTableRegisterWhereIdIsValue, deleteTableRegisterWhereIdIsValue } = require("../sql/queries"); 
+// Import Server Responses:
 const {  okReponse200, createdResponse201, forbiddenResponse401, notAuthorizedResponse403, conflictResponse409, internalServerError500 } = require("../serverResponses")
+// Import MYSQL Queries functions:
+const { newUser, selectFromTableWhereFieldIsValue, selectAllFromTable, updateTableRegisterWhereIdIsValue, deleteTableRegisterWhereIdIsValue } = require("../sql/queries"); 
 // ***************************************** MIDDLEWARES *********************************************
 // Check if the email is already register:
 const checkEmailRegistration =  async (req, res, next) => {
