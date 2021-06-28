@@ -5,11 +5,11 @@ const { productSchema } = require("../../schema/schemas");
 // Schema middlewares:
 const { validateJSONSchema } = require("../../middlewares/JSONvalidation");
 // JWT middlewares:
-const {jwtokenExtraction, jwtokenVerification } = require("../../middlewares/jwtoken");
+const { jwtokenExtraction, jwtokenVerification } = require("../../middlewares/jwtoken");
 // Security/Credentials middlewares:
 const { checkAdminCredentials, justAdminGate } = require("../../middlewares/users-midwares");
 // CRUD middlewares:
-const { createNewProduct, getProductById, getProductByName } = require("../../middlewares/products-midwares");
+const { createNewProduct, getProductById, getProductByName, getAllProducts } = require("../../middlewares/products-midwares");
 // ******************** ENDPOINTS ******************** //
 // -> /delilahResto/products/create Create new product. Just admin:
 router.post("/create", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, validateJSONSchema(productSchema), createNewProduct, (req, res) => {
@@ -26,9 +26,12 @@ router.get("/productId::productId", jwtokenExtraction, jwtokenVerification, chec
 router.get("/productName::productName", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getProductByName, (req, res) => {
   res.status(200).json(req.productByName);
 });
+// -> /delilahResto/products/allProducts. For both Admins and Users.
+router.get("/allProducts", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getAllProducts, (req, res) => {
+  res.status(200).json(req.getAllProducts);
+});
 // Update product by Id:
 // Delete product by Id:
-// Get list of all products:
 
 // Exports:
 module.exports = router;
