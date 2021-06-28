@@ -29,7 +29,7 @@ const selectFromTableWhereFieldIsValue = (table, field, value) => {
     type: sequelize.QueryTypes.SELECT
   });
 };
-// SELECT p.id_product, p.product_name, pc.category_name, p.product_price FROM Products AS p JOIN Products_Categories as pc ON p.id_product_category=pc.id_product_category;
+// SELECT p.id_product, p.product_name, pc.category_name, p.product_price FROM Products AS p JOIN Products_Categories as pc ON p.id_product_category=pc.id_product_categoryORDER BY p.id_product;
 const selectProductsJoinCategories = () => {
   return sequelize.query("SELECT p.id_product, p.product_name, pc.category_name, p.product_price FROM Products AS p JOIN Products_Categories as pc ON p.id_product_category=pc.id_product_category ORDER BY p.id_product", {
     type: sequelize.QueryTypes.SELECT
