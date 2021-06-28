@@ -35,8 +35,7 @@ router.get("/byId:userId", jwtokenExtraction, jwtokenVerification, checkAdminCre
     res.status(200).json(req.userById);
   }
   delete req.userById["UserFound"];
-
-})
+});
 // -> /delilahResto/users/allRegistered -> Just Admin: Get the list of all of the registered users:
 router.get("/allRegistered", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getAllUsers, (req, res) => {
   if (req.getAllUsers["Status"] === 403) {
@@ -80,7 +79,9 @@ router.delete("/deleteUser:userId", jwtokenExtraction, jwtokenVerification, chec
   } else {
     res.status(204).send("");
   }
-})
+  delete req.userDeletion["UserDeleted"];
+  delete req.userById["UserFound"];
+});
 // Exports:
 module.exports = router;
 
