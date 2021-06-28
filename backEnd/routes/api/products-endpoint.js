@@ -18,7 +18,7 @@ router.post("/create", jwtokenExtraction, jwtokenVerification, checkAdminCredent
   };
 });
 // -> /delilahResto/products/productId:productId. Just Admin:
-router.get("/productId:productId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getProductById, (req, res) =>{
+router.get("/productId::productId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getProductById, (req, res) =>{
   res.status(200).json(req.productById);
   delete req.productById["ProductFound"];
 });
