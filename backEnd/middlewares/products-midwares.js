@@ -2,7 +2,8 @@
 const {  okReponse200, createdResponse201, forbiddenResponse401, notAuthorizedResponse403, conflictResponse409, internalServerError500 } = require("../serverResponses")
 // Import MYSQL Queries functions:
 const { newProduct, selectFromTableWhereFieldIsValue, selectAllFromTable, selectProductsJoinCategories, updateTableRegisterWhereIdIsValue, deleteTableRegisterWhereIdIsValue } = require("../sql/queries"); 
-// -createNewProduct
+// ***************************************** MIDDLEWARES *********************************************
+// -createNewProduct:
 const createNewProduct = async (req, res, next) => {
   try {
     const { product_name, id_product_category, product_price } = req.body;
@@ -26,7 +27,7 @@ const createNewProduct = async (req, res, next) => {
     delete internalServerError500["ReceivedQueryJSON"];
   }
 }
-// -getProductById
+// -getProductById:
 const getProductById = async (req, res, next) => {
   try {
     const product = await selectFromTableWhereFieldIsValue("products", "id_product", req.params.productId)
@@ -48,7 +49,7 @@ const getProductById = async (req, res, next) => {
     res.send(internalServerError500)
   }
 }
-// -getProductByName
+// -getProductByName:
 const getProductByName = async (req, res, next) => {
   try {
     const product = await selectFromTableWhereFieldIsValue("products", "product_name", req.params.productName);
@@ -70,7 +71,7 @@ const getProductByName = async (req, res, next) => {
     res.send(internalServerError500)
   }
 }
-// -getAllProducts
+// -getAllProducts (JOIN with Products_Categories):
 const getAllProducts = async (req, res, next) => {
   try {
     const productsList = await selectProductsJoinCategories();
