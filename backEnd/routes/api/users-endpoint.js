@@ -1,12 +1,17 @@
 const router = require("express").Router();
-// Requiring middlewares:
-const { validateJSONSchema } = require("../../middlewares/JSONvalidation");
-const { checkEmailRegistration, usernameAvailability, hashPassword, createNewUser } = require("../../middlewares/users-midwares");
-const { userExistanceCheckByEmailLogin, verifyPassword } = require("../../middlewares/users-midwares");
-const { jwtokenGenerator, jwtokenExtraction, jwtokenVerification } = require("../../middlewares/jwtoken");
-const { checkAdminCredentials, justAdminGate, getUserById, getAllUsers, getUserByUsername, getUserByEmail, updateUserById, deleteUserById } = require("../../middlewares/users-midwares");
 // Requiring JSON schemas:
 const {registerSchema, loginSchema} = require("../../schema/schemas");
+// ******************** MIDDLEWARES ******************** //
+// Schema middlewares:
+const { validateJSONSchema } = require("../../middlewares/JSONvalidation");
+// Security/Credentials middlewares:
+const { checkEmailRegistration, hashPassword, verifyPassword, checkAdminCredentials, justAdminGate, } = require("../../middlewares/users-midwares");
+// Users validation middlewares:
+const { checkEmailRegistration, usernameAvailability, userExistanceCheckByEmailLogin } = require("../../middlewares/users-midwares");
+// JWT middlewares:
+const { jwtokenGenerator, jwtokenExtraction, jwtokenVerification } = require("../../middlewares/jwtoken");
+// CRUD middlewares:
+const { createNewUser, getUserById, getAllUsers, getUserByUsername, getUserByEmail, updateUserById, deleteUserById } = require("../../middlewares/users-midwares");
 // ******************** ENDPOINTS ******************** //
 // -> /delilahResto/users/register (either as User or Admin):
 router.post("/register", validateJSONSchema(registerSchema), checkEmailRegistration, usernameAvailability, hashPassword, createNewUser, (req, res) => {
