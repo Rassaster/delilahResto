@@ -9,7 +9,7 @@ const { jwtokenExtraction, jwtokenVerification } = require("../../middlewares/jw
 // Security/Credentials middlewares:
 const { checkAdminCredentials, justAdminGate } = require("../../middlewares/users-midwares");
 // CRUD middlewares:
-const { createNewProduct, getProductById, getProductByName, getAllProducts, deleteProductById } = require("../../middlewares/products-midwares");
+const { createNewProduct, getProductById, getProductByName, getAllProducts, updateProductById, deleteProductById } = require("../../middlewares/products-midwares");
 // ******************** ENDPOINTS ******************** //
 // -> /delilahResto/products/create Create new product. Just admin:
 router.post("/create", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, validateJSONSchema(productSchema), createNewProduct, (req, res) => {
@@ -31,6 +31,16 @@ router.get("/allProducts", jwtokenExtraction, jwtokenVerification, checkAdminCre
   res.status(200).json(req.getAllProducts);
 });
 // Update product by Id:
+// -> /delilahResto/products/updateProductId::productId. Just Admin:
+router.put("/updateProductId::productId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getProductById, validateJSONSchema(productSchema), updateProductById, (req, res) => {
+  if (!req.updateProductByID["UserUpdated"]) {
+    res.status(409).json(req.updateProductByID);
+  } else if (req.updateProductByID["UserUpdated"]) {
+    res.status(204).json(req.updateProductByID);
+  };
+  delete req.productById["ProductFound"];
+  delete req.updateProductByID["ProductUpdated"];
+});
 // -> /delilahResto/products/deleteProductId::productId. Just Admin:
 router.delete("/deleteProductId::productId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getProductById, deleteProductById, (req, res) => {
   if (!req.productDeletion["ProductDeleted"]) {
