@@ -1,7 +1,7 @@
 // Import Server Responses:
 const {  okReponse200, createdResponse201, forbiddenResponse401, notAuthorizedResponse403, conflictResponse409, internalServerError500 } = require("../serverResponses")
 // Import MYSQL Queries functions:
-const { newProduct, selectFromTableWhereFieldIsValue, selectAllFromTable, updateTableRegisterWhereIdIsValue, deleteTableRegisterWhereIdIsValue } = require("../sql/queries"); 
+const { newProduct, selectFromTableWhereFieldIsValue, selectAllFromTable, selectProductsJoinCategories, updateTableRegisterWhereIdIsValue, deleteTableRegisterWhereIdIsValue } = require("../sql/queries"); 
 // -createNewProduct
 const createNewProduct = async (req, res, next) => {
   try {
@@ -71,7 +71,18 @@ const getProductByName = async (req, res, next) => {
   }
 }
 // -getAllProducts
-const getAllProducts = (req, res, next) => {}
+const getAllProducts = async (req, res, next) => {
+  try {
+    const productsList = await selectProductsJoinCategories();
+    okReponse200["Message"] = "List of all registered users obtained.";
+    okReponse200["Result"] = productsList;
+    req.getAllProducts = okReponse200
+    next();
+  } catch {
+    internalServerError500["Message"] = "An error has occurred while obtaining all the registered products.";
+    res.send(internalServerError500);
+  }
+}
 // -updateProductById
 const updateProductById = (req, res, next) => {}
 // -deleteProductById
@@ -79,8 +90,8 @@ const deleteProductById = (req, res, next) => {}
 // Exports:
 module.exports = {
   createNewProduct,
-  getProductByName,
   getProductById,
+  getProductByName,
   getAllProducts,
   updateProductById,
   deleteProductById
