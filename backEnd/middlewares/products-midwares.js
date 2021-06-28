@@ -85,9 +85,28 @@ const getAllProducts = async (req, res, next) => {
   }
 }
 // -updateProductById
-const updateProductById = (req, res, next) => {}
+const updateProductById = (req, res, next) => {
+
+};
 // -deleteProductById
-const deleteProductById = (req, res, next) => {}
+const deleteProductById = (req, res, next) => {
+  try {
+    if (!req.productById["ProductFound"]) {
+      okReponse200["Message"] = "Product not found.";
+      okReponse200["Result"] = `The product with id ${req.params.productId} doesn't exist, therefore no deletion can be done.`;
+      okReponse200["ProductDeleted"] = false;
+      req.productDeletion = okReponse200;
+    } else if (req.productById["ProductFound"]) {
+      const deleteProduct = deleteTableRegisterWhereIdIsValue("products", "id_product", req.params.productId);
+      okReponse200["ProductDeleted"] = true;
+      req.productDeletion = okReponse200;
+    }
+    next();
+  } catch {
+    internalServerError500["Message"] = "An error has occurred while deleting the product by id.";
+    res.send(internalServerError500);
+  };
+};
 // Exports:
 module.exports = {
   createNewProduct,
