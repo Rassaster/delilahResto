@@ -15,6 +15,13 @@ const newProduct =  (product_name, id_product_category, product_price) => {
     type: sequelize.QueryTypes.INSERT
   });
 };
+// INSERT create new order in Orders:
+const newOrder =  (id_user, products, totalOrderCost, id_paying_method) => {
+  return sequelize.query("INSERT INTO orders(id_user, products, total_cost, id_paying_method) VALUES(?, ?, ?, ?)", {
+    replacements: [id_user, products, totalOrderCost, id_paying_method],
+    type: sequelize.QueryTypes.INSERT
+  });
+};
 // ***** SQL SELECT QUERIES *****
 // SELECT * FROM ("table");
 const selectAllFromTable = (table) => {
@@ -59,6 +66,7 @@ const deleteTableRegisterWhereIdIsValue = (table, field, value) => {
 module.exports = {
   newUser,
   newProduct,
+  newOrder,
   selectFromTableWhereFieldIsValue,
   selectAllFromTable,
   selectProductsJoinCategories,
