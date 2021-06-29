@@ -12,8 +12,10 @@ const { checkAdminCredentials, justAdminGate } = require("../../middlewares/user
 const { createNewOrder } = require("../../middlewares/orders-midwares");
 // ******************** ENDPOINTS ******************** //
 // -> /delilahResto/orders/new. For either Admins or Users:
-router.post("/new", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, validateJSONSchema(orderSchema), (req, res) => {
-  res.status(200).json(req.body)
+router.post("/new", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, validateJSONSchema(orderSchema), createNewOrder, (req, res) => {
+  if (req.createdOrder.Status === 201) {
+    res.status(201).json(req.createdOrder)
+  }
 });
 // Exports:
 module.exports = router;
