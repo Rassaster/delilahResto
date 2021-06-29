@@ -2,7 +2,7 @@
 const router = require("express").Router();
 const apiUsers = require("./api/users-endpoint");
 const apiProducts = require("./api/products-endpoint");
-const apiOrders = require("./api/products-endpoint");
+const apiOrders = require("./api/orders-endpoint");
 
 router.use("/users", apiUsers);
 router.use("/products", apiProducts);
