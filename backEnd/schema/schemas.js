@@ -28,9 +28,19 @@ const productSchema = {
     product_price: {type: "number"}
   }
 }
+const orderSchema = {
+  type: "object",
+  required: ["id_user", "id_order_status", "products"],
+  properties: {
+    id_user: {type: "number"},
+    id_product_status: {type: "number"},
+    products: {type: "array"}
+  }
+}
 // Exports:
 module.exports = {
   registerSchema,
   loginSchema,
-  productSchema
+  productSchema,
+  orderSchema
 }
