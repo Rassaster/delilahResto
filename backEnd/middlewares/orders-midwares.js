@@ -5,7 +5,11 @@ const { newProduct, selectFromTableWhereFieldIsValue, selectAllFromTable, select
 // ***************************************** MIDDLEWARES *********************************************
 // -createNewOrder:
 const createNewOrder = (req, res, next) => {
-
+try {
+  res.status(200).send("YOU ARE IN")
+} catch {
+  
+}
 }
 // Exports:
 module.exports = {
