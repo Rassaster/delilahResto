@@ -30,10 +30,10 @@ const productSchema = {
 }
 const orderSchema = {
   type: "object",
-  required: ["id_user", "id_order_status", "products"],
+  required: ["id_user", "id_paying_method","products"],
   properties: {
     id_user: {type: "number"},
-    id_product_status: {type: "number"},
+    id_paying_method: {type: "number"},
     products: {type: "array"}
   }
 }
