@@ -4,8 +4,8 @@ CREATE DATABASE DelilahResto;
 USE DelilahResto;
 -- Creating tables:
 -- *********************************************************
--- Order Status (child of Orders)
-CREATE TABLE Order_Status (
+-- Orders Status (child of Orders)
+CREATE TABLE Orders_Status (
   id_order_status integer  
     NOT NULL
     AUTO_INCREMENT,
@@ -15,16 +15,16 @@ CREATE TABLE Order_Status (
 );
 -- Paying Methods (child of Orders)
 CREATE TABLE Paying_Methods (
-  id_paying_methods integer
+  id_paying_method integer
     NOT NULL
     AUTO_INCREMENT,
   descripcion varchar(20)
     NOT NULL,
-  PRIMARY KEY (id_paying_methods)
+  PRIMARY KEY (id_paying_method)
 );
 -- *********************************************************
 -- USERS RELATIONS
--- UserS
+-- Users
 CREATE TABLE Users (
   id_user integer
     NOT NULL
@@ -83,21 +83,22 @@ CREATE TABLE Orders (
     NOT NULL,
   date_of_order timestamp default current_timestamp
     NOT NULL,
-  id_order_status integer
+  id_order_status integer default 1
     NOT NULL,
-  id_paying_methods integer
+  id_paying_method integer
     NOT NULL,
+  products varchar(350),
   PRIMARY KEY (id_order),
   FOREIGN KEY (id_user) 
     REFERENCES Users (id_user),
   FOREIGN KEY (id_order_status) 
-    REFERENCES Order_Status (id_order_status),
-  FOREIGN key (id_paying_methods) 
-    REFERENCES Paying_Methods (id_paying_methods)
+    REFERENCES Orders_Status (id_order_status),
+  FOREIGN key (id_paying_method) 
+    REFERENCES Paying_Methods (id_paying_method)
 );
 -- *********************************************************
--- Desired Products (child of Orders and Products)
-CREATE TABLE Desired_Products (
+-- Required Products (child of Orders and Products)
+CREATE TABLE Required_Products (
   id_order integer
     NOT NULL,
   id_product integer
@@ -106,17 +107,5 @@ CREATE TABLE Desired_Products (
     NOT NULL,
   FOREIGN KEY (id_order) REFERENCES Orders (id_order),
   FOREIGN KEY (id_product) REFERENCES Products (id_product)
-);
--- *********************************************************
--- Favorite Products(child of Users and Products)
-CREATE TABLE Favorite_Products (
-  id_user integer
-    NOT NULL,
-  id_product integer
-    NOT NULL,
-  FOREIGN KEY (id_user)
-    REFERENCES Users (id_user),
-  FOREIGN KEY (id_product)
-    REFERENCES Products (id_product)
 );
 -- *********************************************************

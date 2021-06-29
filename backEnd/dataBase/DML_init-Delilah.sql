@@ -1,12 +1,12 @@
 /* Data Manipulation Language */
 USE DelilahResto;
 -- Initial data in table: Order_Status
-INSERT INTO Order_Status (descripcion) VALUES ("New");
-INSERT INTO Order_Status (descripcion) VALUES ("Confirmed");
-INSERT INTO Order_Status (descripcion) VALUES ("Preparing");
-INSERT INTO Order_Status (descripcion) VALUES ("On the way");
-INSERT INTO Order_Status (descripcion) VALUES ("Cancelled");
-INSERT INTO Order_Status (descripcion) VALUES ("Delivered");
+INSERT INTO Orders_Status (descripcion) VALUES ("New");
+INSERT INTO Orders_Status (descripcion) VALUES ("Confirmed");
+INSERT INTO Orders_Status (descripcion) VALUES ("Preparing");
+INSERT INTO Orders_Status (descripcion) VALUES ("On the way");
+INSERT INTO Orders_Status (descripcion) VALUES ("Cancelled");
+INSERT INTO Orders_Status (descripcion) VALUES ("Delivered");
 -- Initial data in table: Paying_Methods
 INSERT INTO Paying_Methods (descripcion) VALUES ("Cash");
 INSERT INTO Paying_Methods (descripcion) VALUES ("PayPal");
@@ -80,60 +80,39 @@ INSERT INTO Users (username, fullname, email, cellphone_number, delivery_address
 INSERT INTO Users (username, fullname, email, cellphone_number, delivery_address, user_password, salt, is_admin)
   VALUES ("mariDuch", "Mariana Vargas", "duch@gmail.com", "3224995644", "Carrera 102 # 20 - 12", "321", "salt1234", "F");
 -- Initial data in table: Orders
-INSERT INTO Orders (id_user, id_Order_Status, id_Paying_Methods) VALUES (2, 3, 1);
-INSERT INTO Orders (id_user, id_Order_Status, id_Paying_Methods) VALUES (3, 1, 1);
-INSERT INTO Orders (id_user, id_Order_Status, id_Paying_Methods) VALUES (4, 2, 4);
-INSERT INTO Orders (id_user, id_Order_Status, id_Paying_Methods) VALUES (1, 4, 4);
+INSERT INTO Orders (id_user, id_Paying_Method) VALUES (2, 1);
+INSERT INTO Orders (id_user, id_Paying_Method) VALUES (3, 1);
+INSERT INTO Orders (id_user, id_Paying_Method) VALUES (4, 4);
+INSERT INTO Orders (id_user, id_Paying_Method) VALUES (1, 4);
 -- Initial data in table: Desired Products
-INSERT INTO Desired_Products (id_order, id_product, product_quantity)
+INSERT INTO Required_Products (id_order, id_product, product_quantity)
   VALUES (1, 2, 1);
-INSERT INTO Desired_Products (id_order, id_product, product_quantity)
+INSERT INTO Required_Products (id_order, id_product, product_quantity)
   VALUES (1, 10, 2);
-INSERT INTO Desired_Products (id_order, id_product, product_quantity)
+INSERT INTO Required_Products (id_order, id_product, product_quantity)
   VALUES (1, 20, 2);
 
-INSERT INTO Desired_Products (id_order, id_product, product_quantity)
+INSERT INTO Required_Products (id_order, id_product, product_quantity)
   VALUES (2, 4, 2);
-INSERT INTO Desired_Products (id_order, id_product, product_quantity)
+INSERT INTO Required_Products (id_order, id_product, product_quantity)
   VALUES (2, 8, 3);
-INSERT INTO Desired_Products (id_order, id_product, product_quantity)
+INSERT INTO Required_Products (id_order, id_product, product_quantity)
   VALUES (2, 16, 3);
-INSERT INTO Desired_Products (id_order, id_product, product_quantity)
+INSERT INTO Required_Products (id_order, id_product, product_quantity)
   VALUES (2, 21, 3);
 
-INSERT INTO Desired_Products (id_order, id_product, product_quantity)
+INSERT INTO Required_Products (id_order, id_product, product_quantity)
   VALUES (3, 3, 2);
-INSERT INTO Desired_Products (id_order, id_product, product_quantity)
+INSERT INTO Required_Products (id_order, id_product, product_quantity)
   VALUES (3, 11, 2);
-INSERT INTO Desired_Products (id_order, id_product, product_quantity)
+INSERT INTO Required_Products (id_order, id_product, product_quantity)
   VALUES (3, 14, 2);
-INSERT INTO Desired_Products (id_order, id_product, product_quantity)
+INSERT INTO Required_Products (id_order, id_product, product_quantity)
   VALUES (3, 17, 2);
 
-  INSERT INTO Desired_Products (id_order, id_product, product_quantity)
+  INSERT INTO Required_Products (id_order, id_product, product_quantity)
   VALUES (4, 8, 3);
-INSERT INTO Desired_Products (id_order, id_product, product_quantity)
+INSERT INTO Required_Products (id_order, id_product, product_quantity)
   VALUES (4, 13, 3);
-INSERT INTO Desired_Products (id_order, id_product, product_quantity)
+INSERT INTO Required_Products (id_order, id_product, product_quantity)
   VALUES (4, 18, 3);
--- Initial data in table:  Favorite Products
-INSERT INTO Favorite_Products (id_user, id_product)
-  VALUES (1, 11);
-INSERT INTO Favorite_Products (id_user, id_product)
-  VALUES (1, 8);
-
-INSERT INTO Favorite_Products (id_user, id_product)
-  VALUES (2, 12);
-INSERT INTO Favorite_Products (id_user, id_product)
-  VALUES (2, 4);
-INSERT INTO Favorite_Products (id_user, id_product)
-  VALUES (2, 20);
-
-INSERT INTO Favorite_Products (id_user, id_product)
-  VALUES (4, 1);
-INSERT INTO Favorite_Products (id_user, id_product)
-  VALUES (4, 10);
-INSERT INTO Favorite_Products (id_user, id_product)
-  VALUES (4, 14);
-INSERT INTO Favorite_Products (id_user, id_product)
-  VALUES (4, 22);
