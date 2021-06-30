@@ -13,7 +13,9 @@ const { createNewOrder } = require("../../middlewares/orders-midwares");
 // ******************** ENDPOINTS ******************** //
 // -> /delilahResto/orders/new. For either Admins or Users:
 router.post("/new", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, validateJSONSchema(orderSchema), createNewOrder, (req, res) => {
-  if (req.createdOrder.Status === 201) {
+  if (req.createdOrder.Status === 200) {
+    res.status(200).json(req.createdOrder)
+  } else if (req.createdOrder.Status === 201) {
     res.status(201).json(req.createdOrder)
   }
 });
