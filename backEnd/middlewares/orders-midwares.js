@@ -12,13 +12,15 @@ const createNewOrder = (req, res, next) => {
   const productsIds = req.body["products"];
   const checkExistanceOfProductsById = async () => {
     let tempProductsArr = [];
+    let notFoundFlag = false;
     for (i = 0; i < productsIds.length; i++) {
       let product = await selectFromTableWhereFieldIsValue("products", "id_product", productsIds[i]);
       if (product.length === 0) {
+        notFoundFlag = true;
         okReponse200["Message"] = "Product not found.";
-        okReponse200["Result"] = `The product with id ${req.params.productId} doesn't exist.`;
+        okReponse200["Result"] = `The product with id ${productsIds[i]} doesn't exist.`;
         okReponse200["ProductFound"] = false;
-        req.productById = okReponse200;
+        req.createdOrder = okReponse200;
         next();
         break;
       } else {
@@ -39,13 +41,17 @@ const createNewOrder = (req, res, next) => {
         };
       };
     };
-    return orderProductsInfo;
+    return result = {"orderProductsInfo" : orderProductsInfo, "notFoundFlag": notFoundFlag};
   };
   checkExistanceOfProductsById()
     .then(async orderProductsInfo => {
-      for (product in orderProductsInfo) {
-        totalOrderCost += orderProductsInfo[product]["product_price"] * orderProductsInfo[product]["amount"];
-        producsQuantityStr += `${orderProductsInfo[product]["amount"]} x ${product}, `
+      if (orderProductsInfo.notFoundFlag) {
+        console.log(orderProductsInfo.notFoundFlag)
+        next();
+      } else {
+      for (product in orderProductsInfo.orderProductsInfo) {
+        totalOrderCost += orderProductsInfo.orderProductsInfo[product]["product_price"] * orderProductsInfo.orderProductsInfo[product]["amount"];
+        producsQuantityStr += `${orderProductsInfo.orderProductsInfo[product]["amount"]} x ${product}, `
       }
       producsQuantityStr = producsQuantityStr.slice(0, -2);
       let createdOrder = await newOrder(req.jwtokenDecoded.id_user, producsQuantityStr, totalOrderCost, req.body.id_paying_method);
@@ -58,9 +64,10 @@ const createNewOrder = (req, res, next) => {
       createdResponse201["Message"] = "Order created successfully.";
       createdResponse201["Result"] = order;
       req.createdOrder = createdResponse201;
-      for (product in orderProductsInfo) {
-        newRequiredProduct(createdOrder[0], orderProductsInfo[product].id_product, orderProductsInfo[product].amount)
+      for (product in orderProductsInfo.orderProductsInfo) {
+        newRequiredProduct(createdOrder[0], orderProductsInfo.orderProductsInfo[product].id_product, orderProductsInfo.orderProductsInfo[product].amount)
       }
+    }
       next();
     });
   } catch (error) {
@@ -68,6 +75,10 @@ const createNewOrder = (req, res, next) => {
     res.send(internalServerError500);
   }
 }
+// -getOrderById
+// -getAllOrders
+// -updateOrderById
+// -deleteOrderById
 // Exports:
 module.exports = {
   createNewOrder
