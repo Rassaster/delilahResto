@@ -1,7 +1,7 @@
 // Import Server Responses:
 const {  okReponse200, createdResponse201, forbiddenResponse401, notAuthorizedResponse403, conflictResponse409, internalServerError500 } = require("../serverResponses");
 // Import MYSQL Queries functions:
-const { newOrder, selectFromTableWhereFieldIsValue, selectAllFromTable, selectProductsJoinCategories, updateTableRegisterWhereIdIsValue, deleteTableRegisterWhereIdIsValue } = require("../sql/queries");
+const { newOrder, newRequiredProduct, selectFromTableWhereFieldIsValue, selectAllFromTable, selectProductsJoinCategories, updateTableRegisterWhereIdIsValue, deleteTableRegisterWhereIdIsValue } = require("../sql/queries");
 // ***************************************** MIDDLEWARES *********************************************
 // -createNewOrder:
 const createNewOrder = (req, res, next) => {
@@ -23,7 +23,8 @@ const createNewOrder = (req, res, next) => {
         break;
       } else {
         tempProductsArr.push(product[0]["product_name"]);
-        orderProductsInfo[product[0]["product_name"]] = {"product_price" : product[0]["product_price"]}
+        orderProductsInfo[product[0]["product_name"]] = {"id_product" : product[0]["id_product"]};
+        orderProductsInfo[product[0]["product_name"]].product_price = product[0].product_price;
       }
     }
     while (tempProductsArr.length > 0) {
@@ -35,11 +36,11 @@ const createNewOrder = (req, res, next) => {
           if ((tempProductsArr.splice(j, 1)).length !== 0) {
             j--;
           };
-        }
-      }
-    }
+        };
+      };
+    };
     return orderProductsInfo;
-  }
+  };
   checkExistanceOfProductsById()
     .then(async orderProductsInfo => {
       for (product in orderProductsInfo) {
@@ -57,11 +58,14 @@ const createNewOrder = (req, res, next) => {
       createdResponse201["Message"] = "Order created successfully.";
       createdResponse201["Result"] = order;
       req.createdOrder = createdResponse201;
+      for (product in orderProductsInfo) {
+        newRequiredProduct(createdOrder[0], orderProductsInfo[product].id_product, orderProductsInfo[product].amount)
+      }
       next();
-    })
-    .catch(err => console.log(err));
+    });
   } catch (error) {
-    console.log(error)
+    internalServerError500["Message"] = "An error has occurred while creating the order.";
+    res.send(internalServerError500);
   }
 }
 // Exports:
