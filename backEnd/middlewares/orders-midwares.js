@@ -39,8 +39,8 @@ const createNewOrder = (req, res, next) => {
         ////++2.2.Product's price  required quantity are stored in an object that stores all the products.++
         orderProductsInfo[product[0]["product_name"]] = {"id_product" : product[0]["id_product"]};
         orderProductsInfo[product[0]["product_name"]].product_price = product[0].product_price;
-      }
-    }
+      };
+    };
     // **3. While loop that counts the quantity required of each product:**
     ////++When the array is empty, it means that all of the order's products have been counted:++
     while (tempProductsArr.length > 0) {
@@ -88,8 +88,8 @@ const createNewOrder = (req, res, next) => {
       // **2-3. Iteration process over orderProductsInfo{}: calculate total cost and products string:**
       for (product in orderProductsInfo.orderProductsInfo) {
         totalOrderCost += orderProductsInfo.orderProductsInfo[product]["product_price"] * orderProductsInfo.orderProductsInfo[product]["quantity"];
-        producsQuantityStr += `${orderProductsInfo.orderProductsInfo[product]["quantity"]} x ${product}, `
-      }
+        producsQuantityStr += `${orderProductsInfo.orderProductsInfo[product]["quantity"]} x ${product}, `;
+      };
       producsQuantityStr = producsQuantityStr.slice(0, -2);
       // **4. INSERT order into Order table:**
       let createdOrder = await newOrder(req.jwtokenDecoded.id_user, producsQuantityStr, totalOrderCost, req.body.id_paying_method);
@@ -99,22 +99,22 @@ const createNewOrder = (req, res, next) => {
         username: req.jwtokenDecoded.username,
         products: producsQuantityStr,
         total_cost: totalOrderCost
-      }
+      };
       createdResponse201["Message"] = "Order created successfully.";
       createdResponse201["Result"] = order;
       req.createdOrder = createdResponse201;
       // **5 INSERT required products into Required_Products table:**
       for (product in orderProductsInfo.orderProductsInfo) {
-        newRequiredProduct(createdOrder[0], orderProductsInfo.orderProductsInfo[product].id_product, orderProductsInfo.orderProductsInfo[product].quantity)
-      }
-    }
-      return next();
+        newRequiredProduct(createdOrder[0], orderProductsInfo.orderProductsInfo[product].id_product, orderProductsInfo.orderProductsInfo[product].quantity);
+      };
+    };
+    return next();
     });
   } catch (error) {
     internalServerError500["Message"] = "An error has occurred while creating the order.";
     res.send(internalServerError500);
-  }
-}
+  };
+};
 // -getOrderById
 const getOrderById = async (req, res, next) => {
   try {
@@ -125,7 +125,6 @@ const getOrderById = async (req, res, next) => {
       okReponse200["OrderFound"] = false;
       req.orderById = okReponse200;
     } else {
-      console.log(order)
       req.orderById = order;
       okReponse200["Message"] = "Order found.";
       okReponse200["Result"] = req.orderById;
@@ -135,11 +134,31 @@ const getOrderById = async (req, res, next) => {
     return next();
   } catch {
     internalServerError500["Message"] = "An error has occurred while searching for the order by ID.";
-    res.status(500).send(internalServerError500)
-  }
-}
+    res.status(500).send(internalServerError500);
+  };
+};
 // -getAllOrders
-const getAllOrders = (req, res, next) => {}
+const getAllOrders = async (req, res, next) => {
+  try {
+    let orders;
+    if (req.adminCredentials) {
+      orders = await selectAllFromTable("orders");
+      okReponse200["Message"] = "List of all the orders obtained.";
+      okReponse200["Result"] = orders;
+      req.getAllOrders = okReponse200;
+    } else if (!req.adminCredentials) {
+      orders = await selectFromTableWhereFieldIsValue("orders", "id_user", req.jwtokenDecoded.id_user);
+      okReponse200["Message"] = `List of the orders from the user ${req.jwtokenDecoded.username} obtained.`;
+      okReponse200["Result"] = orders;
+      req.getAllOrders = okReponse200;
+    };
+    return next();
+  } catch (err) {
+    console.log(err)
+    internalServerError500["Message"] = "An error has occurred while obtaining all the registered users.";
+    res.status(500).send(internalServerError500);
+  };
+};
 // -updateOrderStatusById
 const updateOrderStatusById = (req, res, next) => {}
 // -deleteOrderById
