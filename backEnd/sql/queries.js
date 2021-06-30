@@ -22,6 +22,13 @@ const newOrder =  (id_user, products, totalOrderCost, id_paying_method) => {
     type: sequelize.QueryTypes.INSERT
   });
 };
+// INSERT create register in required_products:
+const newRequiredProduct =  (id_order, id_product, product_quantity) => {
+  return sequelize.query("INSERT INTO required_products(id_order, id_product, product_quantity) VALUES(?, ?, ?)", {
+    replacements: [id_order, id_product, product_quantity],
+    type: sequelize.QueryTypes.INSERT
+  });
+};
 // ***** SQL SELECT QUERIES *****
 // SELECT * FROM ("table");
 const selectAllFromTable = (table) => {
@@ -67,6 +74,7 @@ module.exports = {
   newUser,
   newProduct,
   newOrder,
+  newRequiredProduct,
   selectFromTableWhereFieldIsValue,
   selectAllFromTable,
   selectProductsJoinCategories,
