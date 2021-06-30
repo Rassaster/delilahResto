@@ -30,7 +30,7 @@ const createNewOrder = (req, res, next) => {
         notFoundFlag = true;
         okReponse200["Message"] = "Product not found.";
         okReponse200["Result"] = `The product with id ${productsIds[i]} doesn't exist. Therefore, the Order was not created.`;
-        okReponse200["ProductFound"] = false;
+        okReponse200["orderFound"] = false;
         req.createdOrder = okReponse200;
       } else {
         // **2. If found:**
@@ -116,10 +116,39 @@ const createNewOrder = (req, res, next) => {
   }
 }
 // -getOrderById
+const getOrderById = async (req, res, next) => {
+  try {
+    const order = await selectFromTableWhereFieldIsValue("orders", "id_order", req.params.orderId);
+    if (order.length === 0) {
+      okReponse200["Message"] = "Order not found.";
+      okReponse200["Result"] = `The order with id ${req.params.orderId} doesn't exist.`;
+      okReponse200["OrderFound"] = false;
+      req.orderById = okReponse200;
+    } else {
+      console.log(order)
+      req.orderById = order;
+      okReponse200["Message"] = "Order found.";
+      okReponse200["Result"] = req.orderById;
+      okReponse200["OrderFound"] = true;
+      req.orderById = okReponse200;
+    };
+    return next();
+  } catch {
+    internalServerError500["Message"] = "An error has occurred while searching for the order by ID.";
+    res.status(500).send(internalServerError500)
+  }
+}
 // -getAllOrders
+const getAllOrders = (req, res, next) => {}
 // -updateOrderStatusById
+const updateOrderStatusById = (req, res, next) => {}
 // -deleteOrderById
+const deleteOrderById = (req, res, next) => {}
 // Exports:
 module.exports = {
-  createNewOrder
+  createNewOrder,
+  getOrderById,
+  getAllOrders,
+  updateOrderStatusById,
+  deleteOrderById
 }
