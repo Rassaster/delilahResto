@@ -24,7 +24,7 @@ const productSchema = {
   required: ["product_name", "id_product_category", "product_price"],
   properties: {
     product_name: {type: "string"},
-    id_product_category: {type: "number"},
+    id_product_category: {type: "number", minimum: 0},
     product_price: {type: "number"}
   }
 }
@@ -32,7 +32,7 @@ const orderSchema = {
   type: "object",
   required: ["id_paying_method","products"],
   properties: {
-    id_paying_method: {type: "number"},
+    id_paying_method: {type: "number", minimum: 1, maximum: 4},
     products: {type: "array"}
   }
 }
