@@ -133,11 +133,13 @@ const checkAdminCredentials = (req, res, next) => {
     if (req.jwtokenDecoded["is_admin"] === "T") {
       req.adminCredentials = true;
       next();
-    };
-    if (req.jwtokenDecoded["is_admin"] !== "T") {
+    } else if (req.jwtokenDecoded["is_admin"] === "F") {
       req.adminCredentials = false;
       next();
-    };
+    } else {
+      notAuthorizedResponse403["Message"] = "The user's cretendials doesn't allow them to complete this request.";
+      res.status(403).json(notAuthorizedResponse403);
+    }
   } catch {
     internalServerError500["Message"] = "An error has occurred while verifying the user's credentials.";
     res.send(internalServerError500);
@@ -312,12 +314,6 @@ const deleteUserById = (req, res, next) => {
     res.send(internalServerError500);
   };
 };
-
-// -createNewOrder
-// -getOrderById
-// -getAllOrders
-// -updateOrderById
-// -deleteOrderById
 // Exports:
 module.exports = {
   checkEmailRegistration,
