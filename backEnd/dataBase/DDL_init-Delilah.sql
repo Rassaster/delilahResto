@@ -106,7 +106,7 @@ CREATE TABLE Required_Products (
     NOT NULL,
   product_quantity integer
     NOT NULL,
-  FOREIGN KEY (id_order) REFERENCES Orders (id_order),
+  FOREIGN KEY (id_order) REFERENCES Orders (id_order) ON DELETE CASCADE,
   FOREIGN KEY (id_product) REFERENCES Products (id_product)
 );
 -- *********************************************************
