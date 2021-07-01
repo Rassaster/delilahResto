@@ -160,7 +160,39 @@ const getAllOrders = async (req, res, next) => {
   };
 };
 // -updateOrderStatusById
-const updateOrderStatusById = (req, res, next) => {};
+const updateOrderStatusById = async (req, res, next) => {
+  try {
+        // If order is NOT found, doesn't exist, the operation is stoped:
+    if (!req.orderById["OrderFound"]) {
+      okReponse200["Message"] = "Order not found.";
+      okReponse200["Result"] = `The order with id ${req.params.orderId} doesn't exist, therefore there is no information to be updated.`;
+      okReponse200["OrderFound"] = false;
+      req.updateOrderStatusById = okReponse200;
+    };
+    // If the order IS found, the UPDATE query is executed:
+    if (req.orderById["OrderFound"]) {
+      // The UPDATE query returns an array. 
+      const order = await updateTableRegisterWhereIdIsValue("orders", req.body, "id_order", req.params.orderId);
+      // // If array[1] === 0 -> No information was updated.
+      if (order[1] === 0) {
+        conflictResponse409["Message"] = "No information was updated.";
+        conflictResponse409["Result"] = `The information of the order with id ${req.params.orderId} did not suffer any changes. The data that was sent matches exactly with the one already registered.`;
+        conflictResponse409["OrderUpdated"] = false;
+        req.updateOrderStatusById = conflictResponse409;
+        // // If array[1] === 1 -> Changes have been received and updated.
+      } else if (order[1] === 1) {
+        okReponse200["Message"] = "Order's status updated with success.";
+        okReponse200["Result"] = req.body;
+        okReponse200["OrderUpdated"] = true;
+        req.updateOrderStatusById = okReponse200;
+      };
+    };
+    return next();
+  } catch {
+    internalServerError500["Message"] = "An error has occurred while updating the order's status by id.";
+    res.send(internalServerError500);
+  };
+};
 // -deleteOrderById
 const deleteOrderById = (req, res, next) => {
   try {
