@@ -10,7 +10,7 @@ const registerSchema = {
     user_password: { type: "string", pattern: "^[A-Za-z0-9.!#$%&‘*+=?^_`{|}~-]{6,}$"},
     is_admin: { type: "string"},
   }
-}
+};
 const loginSchema = {
   type: "object",
   required: ["email", "user_password"],
@@ -18,7 +18,7 @@ const loginSchema = {
     email: { type: "string", pattern: "^[A-Za-z0-9._-]*@[a-z]*[.]com$"},
     user_password: { type: "string", pattern: "^[A-Za-z0-9.!#$%&‘*+=?^_`{|}~-]{4,}$"}
   }
-}
+};
 const productSchema = {
   type: "object",
   required: ["product_name", "id_product_category", "product_price"],
@@ -27,7 +27,7 @@ const productSchema = {
     id_product_category: {type: "number", minimum: 0},
     product_price: {type: "number"}
   }
-}
+};
 const orderSchema = {
   type: "object",
   required: ["id_paying_method","products"],
@@ -35,11 +35,19 @@ const orderSchema = {
     id_paying_method: {type: "number", minimum: 1, maximum: 4},
     products: {type: "array"}
   }
-}
+};
+const updateOrderStatusSchema = {
+  type: "object",
+  required: ["id_order_status"],
+  properties: {
+    id_order_status: { type: "number", minimum: 1, maximum: 6}
+  }
+};
 // Exports:
 module.exports = {
   registerSchema,
   loginSchema,
   productSchema,
-  orderSchema
-}
+  orderSchema,
+  updateOrderStatusSchema
+};
