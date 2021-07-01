@@ -160,9 +160,27 @@ const getAllOrders = async (req, res, next) => {
   };
 };
 // -updateOrderStatusById
-const updateOrderStatusById = (req, res, next) => {}
+const updateOrderStatusById = (req, res, next) => {};
 // -deleteOrderById
-const deleteOrderById = (req, res, next) => {}
+const deleteOrderById = (req, res, next) => {
+  try {
+    if (!req.orderById["OrderFound"]) {
+      okReponse200["Message"] = "Order not found.";
+      okReponse200["Result"] = `The order with id ${req.params.orderId} doesn't exist, therefore no deletion can be done.`;
+      okReponse200["OrderDeleted"] = false;
+      req.orderDeletion = okReponse200;
+    } else if (req.orderById["OrderFound"]) {
+      const deleteOrder = deleteTableRegisterWhereIdIsValue("orders", "id_order", req.params.orderId);
+      okReponse200["OrderDeleted"] = true;
+      req.orderDeletion = okReponse200;
+    };
+    return next();
+  } catch (err) {
+    console.log(err);
+    internalServerError500["Message"] = "An error has occurred while deleting the user by id.";
+    res.status(500).send(internalServerError500);
+  }
+};
 // Exports:
 module.exports = {
   createNewOrder,
