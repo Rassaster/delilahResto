@@ -87,8 +87,10 @@ CREATE TABLE Orders (
     NOT NULL,
   id_paying_method integer
     NOT NULL,
-  products varchar(350),
-  total_cost integer,
+  products varchar(500)
+    NOT NULL,
+  total_cost integer
+    NOT NULL,
   PRIMARY KEY (id_order),
   FOREIGN KEY (id_user) 
     REFERENCES Users (id_user),
