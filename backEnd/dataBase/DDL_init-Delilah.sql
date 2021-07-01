@@ -9,7 +9,7 @@ CREATE TABLE Orders_Status (
   id_order_status integer  
     NOT NULL
     AUTO_INCREMENT,
-  descripcion varchar(20)
+  status_description varchar(20)
     NOT NULL,
   PRIMARY KEY (id_order_status)
 );
@@ -18,7 +18,7 @@ CREATE TABLE Paying_Methods (
   id_paying_method integer
     NOT NULL
     AUTO_INCREMENT,
-  descripcion varchar(20)
+  method_description varchar(20)
     NOT NULL,
   PRIMARY KEY (id_paying_method)
 );
