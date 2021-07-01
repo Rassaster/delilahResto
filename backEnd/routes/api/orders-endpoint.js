@@ -36,6 +36,7 @@ router.delete("/deleteOrderById::orderId",jwtokenExtraction, jwtokenVerification
   } else {
     res.status(204).json("");
   };
+  delete req.orderById["OrderFound"]
   delete req.orderDeletion["OrderDeleted"];
 });
 
