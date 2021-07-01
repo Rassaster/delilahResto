@@ -1,6 +1,6 @@
 const router = require("express").Router();
 // Requiring JSON schemas:
-const { orderSchema } = require("../../schema/schemas");
+const { orderSchema, updateOrderStatusSchema } = require("../../schema/schemas");
 // ******************** MIDDLEWARES ******************** //
 // Schema middlewares:
 const { validateJSONSchema } = require("../../middlewares/JSONvalidation");
@@ -9,7 +9,7 @@ const { jwtokenExtraction, jwtokenVerification } = require("../../middlewares/jw
 // Security/Credentials middlewares:
 const { checkAdminCredentials, justAdminGate } = require("../../middlewares/users-midwares");
 // CRUD middlewares:
-const { createNewOrder, getOrderById, getAllOrders, deleteOrderById } = require("../../middlewares/orders-midwares");
+const { createNewOrder, getOrderById, getAllOrders, updateOrderStatusById, deleteOrderById } = require("../../middlewares/orders-midwares");
 // ******************** ENDPOINTS ******************** //
 // -> /delilahResto/orders/new. For either Admins or Users:
 router.post("/new", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, validateJSONSchema(orderSchema), createNewOrder, (req, res) => {
@@ -29,6 +29,19 @@ router.get("/orderId::orderId", jwtokenExtraction, jwtokenVerification, checkAdm
 router.get("/allOrders", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getAllOrders, (req, res) => {
   res.status(200).json(req.getAllOrders);
 });
+// -> /delilahResto/orders/updateOrderStatusById::orderId. Just Admin.
+router.put("/updateOrderStatusById::orderId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getOrderById, validateJSONSchema(updateOrderStatusSchema),updateOrderStatusById, (req, res) => {
+  console.log(req.updateOrderStatusById);
+  if (!req.updateOrderStatusById["OrderFound"]) {
+    res.status(200).json(req.updateOrderStatusById);
+  } else if (!req.updateOrderStatusById["OrderUpdated"]) {
+    res.status(409).json(req.updateOrderStatusById);
+  } else if (req.updateOrderStatusById["OrderUpdated"]) {
+    res.status(204).json(req.updateOrderStatusById);
+  };
+  delete req.orderById["OrderFound"];
+  delete req.updateOrderStatusById["OrderUpdated"];
+});
 // -> /delilahResto/orders/deleteOrderById::orderId. Just Admin.
 router.delete("/deleteOrderById::orderId",jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getOrderById, deleteOrderById, (req, res) => {
   if (!req.orderDeletion["OrderDeleted"]) {
@@ -39,6 +52,5 @@ router.delete("/deleteOrderById::orderId",jwtokenExtraction, jwtokenVerification
   delete req.orderById["OrderFound"]
   delete req.orderDeletion["OrderDeleted"];
 });
-
 // Exports:
 module.exports = router;
