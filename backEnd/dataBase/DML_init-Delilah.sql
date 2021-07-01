@@ -1,17 +1,17 @@
 /* Data Manipulation Language */
 USE DelilahResto;
 -- Initial data in table: Order_Status
-INSERT INTO Orders_Status (descripcion) VALUES ("New");
-INSERT INTO Orders_Status (descripcion) VALUES ("Confirmed");
-INSERT INTO Orders_Status (descripcion) VALUES ("Preparing");
-INSERT INTO Orders_Status (descripcion) VALUES ("On the way");
-INSERT INTO Orders_Status (descripcion) VALUES ("Cancelled");
-INSERT INTO Orders_Status (descripcion) VALUES ("Delivered");
+INSERT INTO Orders_Status (status_description) VALUES ("New");
+INSERT INTO Orders_Status (status_description) VALUES ("Confirmed");
+INSERT INTO Orders_Status (status_description) VALUES ("Preparing");
+INSERT INTO Orders_Status (status_description) VALUES ("On the way");
+INSERT INTO Orders_Status (status_description) VALUES ("Cancelled");
+INSERT INTO Orders_Status (status_description) VALUES ("Delivered");
 -- Initial data in table: Paying_Methods
-INSERT INTO Paying_Methods (descripcion) VALUES ("Cash");
-INSERT INTO Paying_Methods (descripcion) VALUES ("PayPal");
-INSERT INTO Paying_Methods (descripcion) VALUES ("Debit/Credit");
-INSERT INTO Paying_Methods (descripcion) VALUES ("Dataphone");
+INSERT INTO Paying_Methods (method_description) VALUES ("Cash");
+INSERT INTO Paying_Methods (method_description) VALUES ("PayPal");
+INSERT INTO Paying_Methods (method_description) VALUES ("Debit/Credit");
+INSERT INTO Paying_Methods (method_description) VALUES ("Dataphone");
 -- Initial data in table: Products_Categories
 INSERT INTO Products_Categories (category_name) VALUES ("Entry");
 INSERT INTO Products_Categories (category_name) VALUES ("Main");
