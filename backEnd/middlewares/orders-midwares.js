@@ -1,5 +1,5 @@
 // Import Server Responses:
-const {  okReponse200, createdResponse201, forbiddenResponse401, notAuthorizedResponse403, conflictResponse409, internalServerError500 } = require("../serverResponses");
+const {  okReponse200, createdResponse201, conflictResponse409, internalServerError500 } = require("../serverResponses");
 // Import MYSQL Queries functions:
 const { newOrder, newRequiredProduct, selectFromTableWhereFieldIsValue, selectAllFromTable, selectProductsJoinCategories, updateTableRegisterWhereIdIsValue, deleteTableRegisterWhereIdIsValue } = require("../sql/queries");
 // ***************************************** MIDDLEWARES *********************************************
@@ -112,7 +112,7 @@ const createNewOrder = (req, res, next) => {
     });
   } catch (error) {
     internalServerError500["Message"] = "An error has occurred while creating the order.";
-    res.send(internalServerError500);
+    res.status(500).send(internalServerError500);
   };
 };
 // -getOrderById
@@ -190,7 +190,7 @@ const updateOrderStatusById = async (req, res, next) => {
     return next();
   } catch {
     internalServerError500["Message"] = "An error has occurred while updating the order's status by id.";
-    res.send(internalServerError500);
+    res.status(500).send(internalServerError500);
   };
 };
 // -deleteOrderById
@@ -220,4 +220,4 @@ module.exports = {
   getAllOrders,
   updateOrderStatusById,
   deleteOrderById
-}
+};
