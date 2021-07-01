@@ -33,9 +33,11 @@ router.get("/allProducts", jwtokenExtraction, jwtokenVerification, checkAdminCre
 // Update product by Id:
 // -> /delilahResto/products/updateProductId::productId. Just Admin:
 router.put("/updateProductId::productId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getProductById, validateJSONSchema(productSchema), updateProductById, (req, res) => {
-  if (!req.updateProductByID["UserUpdated"]) {
+  if (!req.updateProductByID["ProductFound"]) {
+    res.status(200).json(req.updateProductByID);
+  } else if (!req.updateProductByID["ProductUpdated"]) {
     res.status(409).json(req.updateProductByID);
-  } else if (req.updateProductByID["UserUpdated"]) {
+  } else if (req.updateProductByID["ProductUpdated"]) {
     res.status(204).json(req.updateProductByID);
   };
   delete req.productById["ProductFound"];
@@ -48,8 +50,8 @@ router.delete("/deleteProductId::productId", jwtokenExtraction, jwtokenVerificat
   } else {
     res.status(204).send("");
   };
-  delete req.productDeletion["ProductDeleted"];
   delete req.productById["ProductFound"];
+  delete req.productDeletion["ProductDeleted"];
 });
 
 // Exports:
