@@ -79,9 +79,9 @@ CREATE TABLE Orders (
   id_order integer
     NOT NULL 
     AUTO_INCREMENT,
-  id_user integer
-    NOT NULL,
   date_of_order timestamp default current_timestamp
+    NOT NULL,
+  id_user integer
     NOT NULL,
   id_order_status integer default 1
     NOT NULL,
