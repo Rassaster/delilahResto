@@ -69,13 +69,6 @@ INSERT INTO Products (product_name, id_product_category, product_price)
   VALUES ("Malteada de fresa", 4, 14000);
 
 -- Initial data in table: Users
-INSERT INTO Users (username, fullname, email, cellphone_number, delivery_address, user_password, salt, is_admin)
-  VALUES ("juan93", "Juan Rassa", "jr93@gmail.com", "3112889834", "Calle 122 # 23 - 32", "321", "salt1234", "T");
-INSERT INTO Users (username, fullname, email, cellphone_number, delivery_address, user_password, salt, is_admin)
-  VALUES ("andreaLo", "Andrea Lorta", "andreaL@gmail.com", "3142345565", "Carrera 10 # 2 - 4", "321", "salt1234", "F");
-INSERT INTO Users (username, fullname, email, cellphone_number, delivery_address, user_password, salt, is_admin)
-  VALUES ("sof88", "Sofia Ricaurte", "sofiaR@gmail.com", "3117667877", "Calle 45 # 11 -23", "321", "salt1234", "T");
-INSERT INTO Users (username, fullname, email, cellphone_number, delivery_address, user_password, salt, is_admin)
-  VALUES ("jjSala", "Jaime Salazar", "jjs@gmailcom", "3208665456", "Calle 88 # 55 - 29", "321", "salt1234", "F");
-INSERT INTO Users (username, fullname, email, cellphone_number, delivery_address, user_password, salt, is_admin)
-  VALUES ("mariDuch", "Mariana Vargas", "duch@gmail.com", "3224995644", "Carrera 102 # 20 - 12", "321", "salt1234", "F");
+-- INSERT INTO Users (username, fullname, email, cellphone_number, delivery_address, user_password, salt, is_admin)
+--   VALUES ("", "", "@gmail.com", "3112889834", "Calle 122 # 23 - 32", "", "", "");
+
