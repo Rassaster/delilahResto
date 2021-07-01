@@ -179,7 +179,7 @@ const deleteOrderById = (req, res, next) => {
     console.log(err);
     internalServerError500["Message"] = "An error has occurred while deleting the user by id.";
     res.status(500).send(internalServerError500);
-  }
+  };
 };
 // Exports:
 module.exports = {
