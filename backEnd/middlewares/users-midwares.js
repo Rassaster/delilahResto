@@ -13,10 +13,9 @@ const checkEmailRegistration =  async (req, res, next) => {
   try {
     const { email } = req.body;
     const user = await selectFromTableWhereFieldIsValue("users", "email", email);
-    if ((user.length === 0) || (user[0]["email"] === email)) {
+    if (user.length === 0) {
       next();
     } else {
-      console.log(user[0]["email"]);
       conflictResponse409["Message"] = `The email '${email}' is already registered. Please enter a new email.`;
       res.status(409).json(conflictResponse409);
     };
@@ -30,9 +29,7 @@ const usernameAvailability = async (req, res, next) => {
   try {
     const { username } = req.body;
     const user = await selectFromTableWhereFieldIsValue("users", "username", username);
-    if ((user.length === 0) || user[0]["username"] === username) {
-      next();
-    } else if (user[0]["username"] === username) {
+    if ((user.length === 0)) {
       next();
     } else {
       conflictResponse409["Message"] = `The desired username (${username}) is not available. Please choose another one.`;
@@ -93,9 +90,7 @@ const userExistanceCheckByEmailLogin =  async (req, res, next) => {
     if (user.length === 0) {
       okReponse200["Message"] = "No registered user.";
       okReponse200["Result"] = `The email '${email}' has not been registered yet. Please proceed to register in our system as a new user.`;
-      res.status(200).json(okReponse200);
-      console.log(user);
-      return;
+      return res.status(200).json(okReponse200);
     } else {
       req.userInfo = user;
       next();
@@ -172,8 +167,7 @@ const getUserById = async (req, res, next) => {
       user = await selectFromTableWhereFieldIsValue("users", "id_user", req.params.userId);
     } else {
       req.userById = notAuthorizedResponse403;
-      next();
-      return;
+      return res.status(403).json(req.userById);
     };
     // Validate if the user exists and prepare the appropiate response:
     if (user.length === 0) {
@@ -275,12 +269,20 @@ const updateUserById = async (req, res, next) => {
     };
     // If the user IS found, the UPDATE query is executed:
     if (req.userById["UserFound"]) {
+      // If the user wants to updated their own information, "i" must be entered as userId.
+      // If not, only Admin can access other users's ids.
+      let userId;
+      if ((!req.adminCredentials || req.adminCredentials) && (req.params.userId === "i")) {
+        userId = req.jwtokenDecoded["id_user"];
+      } else if (req.adminCredentials) {
+        userId = req.params.userId;
+      };
       // The UPDATE query returns an array. 
-      const user = await updateTableRegisterWhereIdIsValue("users", req.body, "id_user", req.params.userId);
+      const user = await updateTableRegisterWhereIdIsValue("users", req.body, "id_user", userId);
       // // If array[1] === 0 -> No information was updated.
       if (user[1] === 0) {
         conflictResponse409["Message"] = "No information was updated.";
-        conflictResponse409["Result"] = `The information of the user with id ${req.params.userId} did not suffer any changes. The data that was sent matches exactly with the one already registered.`;
+        conflictResponse409["Result"] = `The information of the user with id ${userId} did not suffer any changes. The data that was sent matches exactly with the one already registered.`;
         conflictResponse409["UserUpdated"] = false;
         req.updateUserById = conflictResponse409;
         // // If array[1] === 1 -> Changes have been received and updated.
