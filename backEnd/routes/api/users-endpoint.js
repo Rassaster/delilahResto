@@ -27,8 +27,8 @@ router.post("/login", validateJSONSchema(loginSchema), userExistanceCheckByEmail
     delete req.userAuthentication["Token"];
   };
 });
-// -> /delilahResto/users/byID:userId -> Admin: Get user by id | Client: Get self user by "i":
-router.get("/byId:userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserById, (req, res) => {
+// -> /delilahResto/users/byID::userId -> Admin: Get user by id | Client: Get self user by "i":
+router.get("/byId::userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserById, (req, res) => {
   if (req.userById["Status"] === 403) {
     res.status(403).json(req.userById);
   } else if (req.userById["Status"] === 200) {
@@ -60,8 +60,8 @@ router.get("/byEmail", jwtokenExtraction, jwtokenVerification, checkAdminCredent
     res.status(200).json(req.getUserByEmail);
   };
 });
-// -> /delilahResto/users/byId:userid -> Just Admin: Update user by id:
-router.put("/update:userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getUserById, validateJSONSchema(registerSchema), checkEmailRegistration, usernameAvailability, updateUserById, (req, res) => {
+// -> /delilahResto/users/byId::userid -> Just Admin: Update user by id:
+router.put("/update::userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getUserById, validateJSONSchema(registerSchema), checkEmailRegistration, usernameAvailability, updateUserById, (req, res) => {
   if (!req.updateUserById["UserUpdated"]) {
     res.status(409).json(req.updateUserById);
   } else if (req.updateUserById["UserUpdated"]) {
@@ -70,8 +70,8 @@ router.put("/update:userId", jwtokenExtraction, jwtokenVerification, checkAdminC
   delete req.userById["UserFound"];
   delete req.updateUserById["UserUpdated"];
 });
-// -> /delilahResto/users/deleteUser:userid -> Just Admin: Delete user by id:
-router.delete("/deleteUser:userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getUserById, deleteUserById, (req, res,) => {
+// -> /delilahResto/users/deleteUser::userid -> Just Admin: Delete user by id:
+router.delete("/deleteUser::userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getUserById, deleteUserById, (req, res,) => {
   if (!req.userDeletion["UserDeleted"]) {
     res.status(200).json(req.userDeletion);
   } else {
