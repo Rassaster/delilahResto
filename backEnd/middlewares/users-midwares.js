@@ -43,11 +43,13 @@ const usernameAvailability = async (req, res, next) => {
 // Generate Hashed Password:
 const hashPassword = (req, res, next) => {
   try {
-    const { user_password } = req.body;
-    let uuidSalt = uuidv4();
-    let hashedPasswordBuffer = pbkdf2Sync(user_password, uuidSalt, 100000, 32, 'sha512');
-    let hashedPasswordHex = hashedPasswordBuffer.toString('hex');
-    req.derivedKey = {hashedPasswordHex, uuidSalt};
+    if (req.body.user_password) {
+      const { user_password } = req.body;
+      let uuidSalt = uuidv4();
+      let hashedPasswordBuffer = pbkdf2Sync(user_password, uuidSalt, 100000, 32, 'sha512');
+      let hashedPasswordHex = hashedPasswordBuffer.toString('hex');
+      req.derivedKey = {hashedPasswordHex, uuidSalt};
+    }
     return next();
   } catch {
     internalServerError500["Message"] = "An error has occurred while hashing the user's password.";
@@ -274,8 +276,17 @@ const updateUserById = async (req, res, next) => {
       let userId;
       if ((!req.adminCredentials || req.adminCredentials) && (req.params.userId === "i")) {
         userId = req.jwtokenDecoded["id_user"];
+        if (!req.adminCredentials) {
+          delete req.body["is_admin"];
+        };
       } else if (req.adminCredentials) {
         userId = req.params.userId;
+        delete req.body["user_password"];
+      };
+      // If password is changed:
+      if (req.derivedKey) {
+        req.body.user_password = req.derivedKey.hashedPasswordHex,
+        req.body.salt = req.derivedKey.uuidSalt
       };
       // The UPDATE query returns an array. 
       const user = await updateTableRegisterWhereIdIsValue("users", req.body, "id_user", userId);
