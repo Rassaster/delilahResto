@@ -16,9 +16,9 @@ const newProduct =  (product_name, id_product_category, product_price) => {
   });
 };
 // INSERT create new order in Orders:
-const newOrder =  (id_user, products, totalOrderCost, id_paying_method) => {
-  return sequelize.query("INSERT INTO orders(id_user, products, total_cost, id_paying_method) VALUES(?, ?, ?, ?)", {
-    replacements: [id_user, products, totalOrderCost, id_paying_method],
+const newOrder =  (last_update_date, id_user, products, totalOrderCost, id_paying_method) => {
+  return sequelize.query("INSERT INTO orders(last_update_date, id_user, products, total_cost, id_paying_method) VALUES(?, ?, ?, ?, ?)", {
+    replacements: [last_update_date, id_user, products, totalOrderCost, id_paying_method],
     type: sequelize.QueryTypes.INSERT
   });
 };
