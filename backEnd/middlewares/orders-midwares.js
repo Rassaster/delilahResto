@@ -1,3 +1,4 @@
+const moment = require("moment");
 // Import Server Responses:
 const {  okReponse200, createdResponse201, conflictResponse409, internalServerError500 } = require("../serverResponses");
 // Import MYSQL Queries functions:
@@ -92,7 +93,8 @@ const createNewOrder = (req, res, next) => {
       };
       producsQuantityStr = producsQuantityStr.slice(0, -2);
       // **4. INSERT order into Order table:**
-      let createdOrder = await newOrder(req.jwtokenDecoded.id_user, producsQuantityStr, totalOrderCost, req.body.id_paying_method);
+      let date = moment.utc().format('YYYY-MM-DD HH:mm:ss');
+      let createdOrder = await newOrder(date, req.jwtokenDecoded.id_user, producsQuantityStr, totalOrderCost, req.body.id_paying_method);
       // **4.5 Configuration of status 201 response:**
       let order = {
         id_order: createdOrder[0],
@@ -153,8 +155,7 @@ const getAllOrders = async (req, res, next) => {
       req.getAllOrders = okReponse200;
     };
     return next();
-  } catch (err) {
-    console.log(err)
+  } catch {
     internalServerError500["Message"] = "An error has occurred while obtaining all the registered users.";
     res.status(500).send(internalServerError500);
   };
@@ -172,6 +173,8 @@ const updateOrderStatusById = async (req, res, next) => {
     // If the order IS found, the UPDATE query is executed:
     if (req.orderById["OrderFound"]) {
       // The UPDATE query returns an array. 
+      let date = moment.utc().format('YYYY-MM-DD HH:mm:ss');
+      req.body["last_update_date"] = date;
       const order = await updateTableRegisterWhereIdIsValue("orders", req.body, "id_order", req.params.orderId);
       // // If array[1] === 0 -> No information was updated.
       if (order[1] === 0) {
@@ -207,8 +210,7 @@ const deleteOrderById = (req, res, next) => {
       req.orderDeletion = okReponse200;
     };
     return next();
-  } catch (err) {
-    console.log(err);
+  } catch {
     internalServerError500["Message"] = "An error has occurred while deleting the user by id.";
     res.status(500).send(internalServerError500);
   };
