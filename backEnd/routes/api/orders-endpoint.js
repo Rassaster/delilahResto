@@ -31,7 +31,6 @@ router.get("/allOrders", jwtokenExtraction, jwtokenVerification, checkAdminCrede
 });
 // -> /delilahResto/orders/updateOrderStatusById::orderId. Just Admin.
 router.put("/updateOrderStatusById::orderId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getOrderById, validateJSONSchema(updateOrderStatusSchema),updateOrderStatusById, (req, res) => {
-  console.log(req.updateOrderStatusById);
   if (!req.updateOrderStatusById["OrderFound"]) {
     res.status(200).json(req.updateOrderStatusById);
   } else if (!req.updateOrderStatusById["OrderUpdated"]) {
