@@ -27,7 +27,8 @@ router.post("/login", validateJSONSchema(loginSchema), userExistanceCheckByEmail
     delete req.userAuthentication["Token"];
   };
 });
-// -> /delilahResto/users/byID::userId -> Admin: Get user by id | Client: Get self user by "i":
+// -> /delilahResto/users/byID::userId 
+// Admin: Get user by id | Client or Admin: Get self user by "i":
 router.get("/byId::userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserById, (req, res) => {
   if (req.userById["Status"] === 403) {
     res.status(403).json(req.userById);
@@ -60,8 +61,9 @@ router.get("/byEmail", jwtokenExtraction, jwtokenVerification, checkAdminCredent
     res.status(200).json(req.getUserByEmail);
   };
 });
-// -> /delilahResto/users/byId::userid -> Just Admin: Update user by id:
-router.put("/update::userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getUserById, validateJSONSchema(registerSchema), checkEmailRegistration, usernameAvailability, updateUserById, (req, res) => {
+// -> /delilahResto/users/byId::userid.
+// Just Admin: Update user by id | Client or Admin: Update self user by "i":
+router.put("/update::userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserById, validateJSONSchema(registerSchema), checkEmailRegistration, usernameAvailability, updateUserById, (req, res) => {
   if (!req.updateUserById["UserUpdated"]) {
     res.status(409).json(req.updateUserById);
   } else if (req.updateUserById["UserUpdated"]) {
