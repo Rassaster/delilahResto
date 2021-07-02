@@ -24,7 +24,7 @@ const productSchema = {
   required: ["product_name", "id_product_category", "product_price"],
   properties: {
     product_name: {type: "string"},
-    id_product_category: {type: "number", minimum: 0},
+    id_product_category: {type: "number", minimum: 1, maximum: 4},
     product_price: {type: "number"}
   }
 };
