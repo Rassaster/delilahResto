@@ -1,6 +1,6 @@
 const router = require("express").Router();
 // Requiring JSON schemas:
-const {registerSchema, loginSchema} = require("../../schema/schemas");
+const {registerSchema, loginSchema, updateUserSchema} = require("../../schema/schemas");
 // ******************** MIDDLEWARES ******************** //
 // Schema middlewares:
 const { validateJSONSchema } = require("../../middlewares/JSONvalidation");
@@ -63,7 +63,7 @@ router.get("/byEmail", jwtokenExtraction, jwtokenVerification, checkAdminCredent
 });
 // -> /delilahResto/users/byId::userid.
 // Just Admin: Update user by id | Client or Admin: Update self user by "i":
-router.put("/update::userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserById, validateJSONSchema(registerSchema), checkEmailRegistration, usernameAvailability, updateUserById, (req, res) => {
+router.put("/update::userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserById, validateJSONSchema(updateUserSchema), checkEmailRegistration, usernameAvailability, hashPassword, updateUserById, (req, res) => {
   if (!req.updateUserById["UserUpdated"]) {
     res.status(409).json(req.updateUserById);
   } else if (req.updateUserById["UserUpdated"]) {
