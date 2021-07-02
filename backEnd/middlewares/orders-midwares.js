@@ -93,7 +93,7 @@ const createNewOrder = (req, res, next) => {
       };
       producsQuantityStr = producsQuantityStr.slice(0, -2);
       // **4. INSERT order into Order table:**
-      let date = moment.utc().format('YYYY-MM-DD HH:mm:ss');
+      let date = moment().format('YYYY-MM-DD HH:mm:ss');
       let createdOrder = await newOrder(date, req.jwtokenDecoded.id_user, producsQuantityStr, totalOrderCost, req.body.id_paying_method);
       // **4.5 Configuration of status 201 response:**
       let order = {
@@ -173,7 +173,7 @@ const updateOrderStatusById = async (req, res, next) => {
     // If the order IS found, the UPDATE query is executed:
     if (req.orderById["OrderFound"]) {
       // The UPDATE query returns an array. 
-      let date = moment.utc().format('YYYY-MM-DD HH:mm:ss');
+      let date = moment().format('YYYY-MM-DD HH:mm:ss');
       req.body["last_update_date"] = date;
       const order = await updateTableRegisterWhereIdIsValue("orders", req.body, "id_order", req.params.orderId);
       // // If array[1] === 0 -> No information was updated.
