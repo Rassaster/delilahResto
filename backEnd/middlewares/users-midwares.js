@@ -32,7 +32,7 @@ const usernameAvailability = async (req, res, next) => {
     if ((user.length === 0)) {
       next();
     } else {
-      conflictResponse409["Message"] = `The desired username (${username}) is not available. Please choose another one.`;
+      conflictResponse409["Message"] = `The desired username '${username}' is not available. Please choose another one.`;
       res.status(409).json(conflictResponse409);
     };
   } catch {
