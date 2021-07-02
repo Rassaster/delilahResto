@@ -2,9 +2,9 @@
 const sequelize = require("../dataBase/dbConnect");
 // ***** SQL INSERT QUERIES *****
 // INSERT create new user in Users:
-const newUser =  (username, fullname, email, cellphone_number, delivery_address, user_password, salt, is_admin) => {
-  return sequelize.query("INSERT INTO users(username, fullname, email, cellphone_number, delivery_address, user_password, salt, is_admin) VALUES(?, ?, ?, ?, ?, ?, ?, ?)", {
-    replacements: [username, fullname, email, cellphone_number, delivery_address, user_password, salt, is_admin],
+const newUser =  (register_date, username, fullname, email, cellphone_number, delivery_address, user_password, salt, is_admin) => {
+  return sequelize.query("INSERT INTO users(register_date, username, fullname, email, cellphone_number, delivery_address, user_password, salt, is_admin) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", {
+    replacements: [register_date ,username, fullname, email, cellphone_number, delivery_address, user_password, salt, is_admin],
     type: sequelize.QueryTypes.INSERT
   });
 };
