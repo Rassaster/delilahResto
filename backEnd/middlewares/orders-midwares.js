@@ -95,12 +95,14 @@ const createNewOrder = (req, res, next) => {
       // **4. INSERT order into Order table:**
       let date = moment().format('YYYY-MM-DD HH:mm:ss');
       let createdOrder = await newOrder(date, req.jwtokenDecoded.id_user, producsQuantityStr, totalOrderCost, req.body.id_paying_method);
+      let paying_method_desc = await selectFromTableWhereFieldIsValue("paying_methods", "id_paying_method", req.body.id_paying_method)
       // **4.5 Configuration of status 201 response:**
       let order = {
         id_order: createdOrder[0],
         username: req.jwtokenDecoded.username,
         products: producsQuantityStr,
-        total_cost: totalOrderCost
+        total_cost: totalOrderCost,
+        paying_method: paying_method_desc[0]["method_description"]
       };
       createdResponse201["Message"] = "Order created successfully.";
       createdResponse201["Result"] = order;
