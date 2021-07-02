@@ -1,3 +1,4 @@
+const moment = require("moment");
 // Import uuid.v4() from uuid package to create a random UUUI(Universally Unique ID):
 const { v4: uuidv4 } = require('uuid');
 // Import pbkdf2Sync from crypto to create Derived Key:
@@ -59,9 +60,10 @@ const hashPassword = (req, res, next) => {
 // Register a new user:
 const createNewUser = async (req,res, next) => {
   try {
+    let date = moment().format('YYYY-MM-DD HH:mm:ss');
     const {hashedPasswordHex, uuidSalt} = req.derivedKey;
     const {username, fullname, email, cellphone_number, delivery_address, is_admin} = req.body;
-    const newRegister = await newUser(username, fullname, email, cellphone_number, delivery_address, hashedPasswordHex, uuidSalt, is_admin);
+    const newRegister = await newUser(date, username, fullname, email, cellphone_number, delivery_address, hashedPasswordHex, uuidSalt, is_admin);
     const createdUser = {
       username: req.body.username,
       email: req.body.email,
