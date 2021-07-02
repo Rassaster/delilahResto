@@ -14,14 +14,14 @@ const checkEmailRegistration =  async (req, res, next) => {
     const { email } = req.body;
     const user = await selectFromTableWhereFieldIsValue("users", "email", email);
     if (user.length === 0) {
-      next();
+      return next();
     } else {
       conflictResponse409["Message"] = `The email '${email}' is already registered. Please enter a new email.`;
-      res.status(409).json(conflictResponse409);
+      return res.status(409).json(conflictResponse409);
     };
   } catch {
     internalServerError500["Message"] = "An error has occurred while checking if the email is already registered.";
-    res.send(internalServerError500);
+    return res.stauts(500).send(internalServerError500);
   };
 };
 // Check if the username is available:
@@ -30,14 +30,14 @@ const usernameAvailability = async (req, res, next) => {
     const { username } = req.body;
     const user = await selectFromTableWhereFieldIsValue("users", "username", username);
     if ((user.length === 0)) {
-      next();
+      return next();
     } else {
       conflictResponse409["Message"] = `The desired username '${username}' is not available. Please choose another one.`;
-      res.status(409).json(conflictResponse409);
+      return res.status(409).json(conflictResponse409);
     };
   } catch {
     internalServerError500["Message"] = "An error has occurred while checking the availability of the desired username.";
-    res.send(internalServerError500);
+    return res.status(500).send(internalServerError500);
   };
 };
 // Generate Hashed Password:
@@ -48,10 +48,10 @@ const hashPassword = (req, res, next) => {
     let hashedPasswordBuffer = pbkdf2Sync(user_password, uuidSalt, 100000, 32, 'sha512');
     let hashedPasswordHex = hashedPasswordBuffer.toString('hex');
     req.derivedKey = {hashedPasswordHex, uuidSalt};
-    next();
+    return next();
   } catch {
     internalServerError500["Message"] = "An error has occurred while hashing the user's password.";
-    res.send(internalServerError500);
+    return res.status(500).send(internalServerError500);
   };
 };
 // Register a new user:
@@ -71,14 +71,15 @@ const createNewUser = async (req,res, next) => {
     createdResponse201["Message"] = "User created successfully.";
     createdResponse201["Result"] = createdUser;
     req.userCreation = createdResponse201;
-    next();
+    return next();
   } catch (error) {
     internalServerError500["Message"] = error.parent.sqlMessage;
     internalServerError500["Description"] = "Please review the API Documentation in relation to the JSON format expected.";
     internalServerError500["ReceivedQueryJSON"] = req.body;
-    res.send(internalServerError500);
+    res.status(500).send(internalServerError500);
     delete internalServerError500["Description"];
     delete internalServerError500["ReceivedQueryJSON"];
+    return;
   };
 };
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -93,11 +94,11 @@ const userExistanceCheckByEmailLogin =  async (req, res, next) => {
       return res.status(200).json(okReponse200);
     } else {
       req.userInfo = user;
-      next();
+      return next();
     };
   } catch {
     internalServerError500["Message"] = "An error has occurred while checking the existance of the user.";
-    res.send(internalServerError500);
+    return res.status(500).send(internalServerError500);
   };
 };
 // Verify Password
@@ -110,17 +111,16 @@ const verifyPassword = (req, res, next) => {
     const storedHashedPassword = req.userInfo[0].user_password;
     if (hashedSubmittedPasswordHex !== storedHashedPassword) {
       forbiddenResponse401["Message"] = "Incorrect password or email.";
-      res.status(401).send(forbiddenResponse401);
-      return;
+      return res.status(401).send(forbiddenResponse401);
     } else {
       okReponse200["Message"] = "User successfully authenticated.";
       delete okReponse200["Result"];
       req.userAuthentication = okReponse200;
-      next();
-    }
+      return next();
+    };
   } catch {
     internalServerError500["Message"] = "An error has occurred in the authentication process while verifying the password.";
-    res.send(internalServerError500);
+    return res.status(500).send(internalServerError500);
   };
 };
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -132,27 +132,27 @@ const checkAdminCredentials = (req, res, next) => {
       next();
     } else if (req.jwtokenDecoded["is_admin"] === "F") {
       req.adminCredentials = false;
-      next();
+      return next();
     } else {
       notAuthorizedResponse403["Message"] = "The user's cretendials doesn't allow them to complete this request.";
-      res.status(403).json(notAuthorizedResponse403);
-    }
+      return res.status(403).json(notAuthorizedResponse403);
+    };
   } catch {
     internalServerError500["Message"] = "An error has occurred while verifying the user's credentials.";
-    res.send(internalServerError500);
+    return res.status(500).send(internalServerError500);
   };
 };
 // Just Admin Gate:
 const justAdminGate = (req, res, next) => {
   try {
     if (req.adminCredentials === true) {
-      next();
+      return next();
     } else {
-      res.status(403).json(notAuthorizedResponse403);
+      return res.status(403).json(notAuthorizedResponse403);
     };
   } catch {
     internalServerError500["Message"] = "An error has occurred while verifying if the user has Admin credentials.";
-    res.send(internalServerError500);
+    return res.status(500).send(internalServerError500);
   };
 };
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -185,10 +185,10 @@ const getUserById = async (req, res, next) => {
       okReponse200["UserFound"] = true;
       req.userById = okReponse200;
     };
-    next();
+    return next();
   } catch {
     internalServerError500["Message"] = "An error has occurred while searching for the user by ID.";
-    res.send(internalServerError500);
+    return res.status(500).send(internalServerError500);
   };
 };
 // Just Admin: Get the list of all of the registered users:
@@ -203,10 +203,10 @@ const getAllUsers = async (req, res, next) => {
     } else if (!req.adminCredentials) {
       req.getAllUsers = notAuthorizedResponse403;
     };
-    next();
+    return next();
   } catch {
     internalServerError500["Message"] = "An error has occurred while obtaining all the registered users.";
-    res.send(internalServerError500);
+    return res.status(500).send(internalServerError500);
   };
 };
 // Just Admin: Get user by username:
@@ -223,14 +223,14 @@ const getUserByUsername = async (req, res, next) => {
         okReponse200["Message"] = "User found.";
         okReponse200["Result"] = user;
         req.getUserByUsername = okReponse200;
-      }
+      };
     } else if (!req.adminCredentials) {
       req.getUserByUsername = notAuthorizedResponse403;
     };
-    next();
+    return next();
   } catch {
     internalServerError500["Message"] = "An error has occurred while searching the user by username.";
-    res.send(internalServerError500);
+    return res.status(500).send(internalServerError500);
   };
 };
 // Just Admin: Get user by email:
@@ -251,10 +251,10 @@ const getUserByEmail = async (req, res, next) => {
     } else if (!req.adminCredentials) {
       req.getUserByEmail = notAuthorizedResponse403;
     };
-    next();
+    return next();
   } catch {
     internalServerError500["Message"] = "An error has occurred while searching the user by email.";
-    res.send(internalServerError500);
+    return res.status(500).send(internalServerError500);
   };
 };
 // Just Admin: Update any user by Id.
@@ -293,10 +293,10 @@ const updateUserById = async (req, res, next) => {
         req.updateUserById = okReponse200;
       };
     };
-    next();
+    return next();
   } catch {
     internalServerError500["Message"] = "An error has occurred while updating the user's information by id.";
-    res.send(internalServerError500);
+    return res.status(500).send(internalServerError500);
   };
 };
 // Just Admin: Delete any user by Id.
@@ -312,10 +312,10 @@ const deleteUserById = (req, res, next) => {
       okReponse200["UserDeleted"] = true;
       req.userDeletion = okReponse200;
     }
-    next();
+    return next();
   } catch {
     internalServerError500["Message"] = "An error has occurred while deleting the user by id.";
-    res.send(internalServerError500);
+    return res.status(500).send(internalServerError500);
   };
 };
 // Exports:
