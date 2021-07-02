@@ -79,7 +79,7 @@ CREATE TABLE Orders (
   id_order integer
     NOT NULL 
     AUTO_INCREMENT,
-  date_of_order timestamp default current_timestamp
+  last_update_date timestamp
     NOT NULL,
   id_user integer
     NOT NULL,
