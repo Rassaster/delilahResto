@@ -30,8 +30,8 @@ router.post("/login", validateJSONSchema(loginSchema), userExistanceCheckByEmail
 // -> /delilahResto/users/byID::userId 
 // Admin: Get user by id | Client or Admin: Get self user by "i":
 router.get("/byId::userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserById, (req, res) => {
-  if (req.userById["Status"] === 403) {
-    res.status(403).json(req.userById);
+  if (req.userById["Status"] === 401) {
+    res.status(401).json(req.userById);
   } else if (req.userById["Status"] === 200) {
     res.status(200).json(req.userById);
   };
@@ -39,24 +39,24 @@ router.get("/byId::userId", jwtokenExtraction, jwtokenVerification, checkAdminCr
 });
 // -> /delilahResto/users/allRegistered -> Just Admin: Get the list of all of the registered users:
 router.get("/allRegistered", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getAllUsers, (req, res) => {
-  if (req.getAllUsers["Status"] === 403) {
-    res.status(403).json(req.getAllUsers);
+  if (req.getAllUsers["Status"] === 401) {
+    res.status(401).json(req.getAllUsers);
   } else if (req.getAllUsers["Status"] === 200) {
     res.status(200).json(req.getAllUsers);
   };
 });
 // -> /delilahResto/users/byUsername -> Just Admin: Get user by username:
 router.get("/byUsername", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserByUsername, (req, res) => {
-  if (req.getUserByUsername["Status"] === 403) {
-    res.status(403).json(req.getUserByUsername);
+  if (req.getUserByUsername["Status"] === 401) {
+    res.status(401).json(req.getUserByUsername);
   } else if (req.getUserByUsername["Status"] === 200) {
     res.status(200).json(req.getUserByUsername);
   };
 });
 // -> /delilahResto/users/byEmail -> Just Admin: Get user by email:
 router.get("/byEmail", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserByEmail, (req, res) => {
-  if (req.getUserByEmail["Status"] === 403) {
-    res.status(403).json(req.getUserByEmail);
+  if (req.getUserByEmail["Status"] === 401) {
+    res.status(401).json(req.getUserByEmail);
   } else if (req.getUserByEmail["Status"] === 200) {
     res.status(200).json(req.getUserByEmail);
   };
