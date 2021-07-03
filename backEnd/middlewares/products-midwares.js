@@ -38,13 +38,19 @@ const getProductById = async (req, res, next) => {
       req.productById = okReponse200;
     } else {
       req.productFound = product;
+      // Search of the product's category name by ID in products_categories table. This, for delivering the category name in the server response.
+      let product_category = await selectFromTableWhereFieldIsValue("products_categories", "id_product_category", product[0].id_product_category);
+      console.log(product_category[0]["category_name"])
+      req.productFound[0].product_category_desc = product_category[0]["category_name"];
+      delete req.productFound[0].id_product_category 
       okReponse200["Message"] = "Product found.";
       okReponse200["Result"] = req.productFound;
       okReponse200["ProductFound"] = true;
       req.productById = okReponse200;
     };
     next();
-  } catch {
+  } catch (e) {
+    console.log(e)
     internalServerError500["Message"] = "An error has occurred while searching for the product by ID.";
     res.send(internalServerError500)
   }
@@ -60,6 +66,11 @@ const getProductByName = async (req, res, next) => {
       req.productByName = okReponse200;
     } else {
       req.productFound = product;
+      // Search of the product's category name by ID in products_categories table. This, for delivering the category name in the server response.
+      let product_category = await selectFromTableWhereFieldIsValue("products_categories", "id_product_category", product[0].id_product_category);
+      console.log(product_category[0]["category_name"])
+      req.productFound[0].product_category_desc = product_category[0]["category_name"];
+      delete req.productFound[0].id_product_category 
       okReponse200["Message"] = "Product found.";
       okReponse200["Result"] = req.productFound;
       okReponse200["ProductFound"] = true;
