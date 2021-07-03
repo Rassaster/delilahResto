@@ -11,17 +11,40 @@ const { newUser, selectFromTableWhereFieldIsValue, selectAllFromTable, updateTab
 // Check if the email is already register:
 const checkEmailRegistration =  async (req, res, next) => {
   try {
-    const { email } = req.body;
-    const user = await selectFromTableWhereFieldIsValue("users", "email", email);
-    if (user.length === 0) {
-      return next();
-    } else {
-      conflictResponse409["Message"] = `The email '${email}' is already registered. Please enter a new email.`;
-      return res.status(409).json(conflictResponse409);
+    const { email, upd_email } = req.body;
+    // Check if an update or a new register is being received.
+    // If an update is received:
+    if (upd_email) {
+      // Search if the upd_email aready exists:
+      const user = await selectFromTableWhereFieldIsValue("users", "email", upd_email);
+      // If nothing is found or if the user is entering the same email, the program advance:
+      if ((user.length === 0) || (req.jwtokenDecoded.email === upd_email)) {
+        req.body.email = upd_email;
+        delete req.body.upd_email;
+        return next();
+        // If some register is found, the program stops and send a 409 status response:
+      } else if (user.length !== 0 ) {
+        conflictResponse409["Message"] = `The email '${upd_email}' is already registered. Please enter a new email.`;
+        res.status(409).json(conflictResponse409);
+        delete req.userById["UserFound"];
+        return;
+      }
+    // If a new register is received: 
+    } else if (!upd_email) {
+      const user = await selectFromTableWhereFieldIsValue("users", "email", email);
+      if (user.length === 0) {
+        return next();
+      } else if (user.length !== 0 ) {
+        conflictResponse409["Message"] = `The email '${email}' is already registered. Please enter a new email.`;
+        res.status(409).json(conflictResponse409);
+        delete req.userById["UserFound"];
+        return;
+      }; 
     };
-  } catch {
+  } catch (e) {
+    console.log(e)
     internalServerError500["Message"] = "An error has occurred while checking if the email is already registered.";
-    return res.stauts(500).send(internalServerError500);
+    return res.status(500).send(internalServerError500);
   };
 };
 // Check if the username is available:
@@ -305,7 +328,9 @@ const updateUserById = async (req, res, next) => {
       };
     };
     return next();
-  } catch {
+  } catch (e) {
+    console.log(req.body)
+    console.log(e)
     internalServerError500["Message"] = "An error has occurred while updating the user's information by id.";
     return res.status(500).send(internalServerError500);
   };
