@@ -18,12 +18,12 @@ router.post("/create", jwtokenExtraction, jwtokenVerification, checkAdminCredent
   };
 });
 // -> /delilahResto/products/productId:productId. Just Admin:
-router.get("/productId::productId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getProductById, (req, res) =>{
+router.get("/productId::productId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getProductById, (req, res) =>{
   res.status(200).json(req.productById);
   delete req.productById["ProductFound"];
 });
 // -> /delilahResto/products/productName:productName. Just Admin:
-router.get("/productName::productName", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getProductByName, (req, res) => {
+router.get("/productName::productName", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getProductByName, (req, res) => {
   res.status(200).json(req.productByName);
 });
 // -> /delilahResto/products/allProducts. For both Admins and Users.
