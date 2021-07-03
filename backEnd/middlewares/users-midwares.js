@@ -50,13 +50,35 @@ const checkEmailRegistration =  async (req, res, next) => {
 // Check if the username is available:
 const usernameAvailability = async (req, res, next) => {
   try {
-    const { username } = req.body;
-    const user = await selectFromTableWhereFieldIsValue("users", "username", username);
-    if ((user.length === 0)) {
-      return next();
-    } else {
-      conflictResponse409["Message"] = `The desired username '${username}' is not available. Please choose another one.`;
-      return res.status(409).json(conflictResponse409);
+    const { username, upd_username} = req.body;
+    // Check if an update or a new register is being received.
+    // If an update is received:
+    if (upd_username) {
+      // Search if the upd_username aready exists:
+      const user = await selectFromTableWhereFieldIsValue("users", "username", upd_username);
+      // If nothing is found or if the user is entering the same email, the program advance:
+      if ((user.length === 0) || (req.jwtokenDecoded.username === upd_username)) {
+        req.body.username = upd_username;
+        delete req.body.upd_username;
+        return next();
+        // If some register is found, the program stops and send a 409 status response:
+      } else if (user.length !== 0 ) {
+        conflictResponse409["Message"] = `The username '${upd_username}' is already registered. Please try a new one.`;
+        res.status(409).json(conflictResponse409);
+        delete req.userById["UserFound"];
+        return;
+      }
+    // If a new register is received: 
+    } else if (!upd_username) {
+      const user = await selectFromTableWhereFieldIsValue("users", "username", username);
+      if (user.length === 0) {
+        return next();
+      } else if (user.length !== 0 ) {
+        conflictResponse409["Message"] = `The username '${username}' is already registered. Please try a new one.`;
+        res.status(409).json(conflictResponse409);
+        delete req.userById["UserFound"];
+        return;
+      }; 
     };
   } catch {
     internalServerError500["Message"] = "An error has occurred while checking the availability of the desired username.";
