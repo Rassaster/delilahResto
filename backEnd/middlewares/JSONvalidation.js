@@ -8,7 +8,7 @@ const validateJSONSchema = schema => {
     const incomingData = req.body;
     const valid = validate(incomingData);
     if (valid){
-      next();
+      return next();
     };
     if (!valid) {
       // Temporal storage variables:
@@ -49,6 +49,7 @@ const validateJSONSchema = schema => {
       // The "MissingProperties" and "UnmatchedPatterns" properties are deleted from the badRequesResponse400{} before ending this command.
       delete badRequesResponse400["MissingProperties"];
       delete badRequesResponse400["UnmatchedPatterns"];
+      return;
     };
   };
 };
