@@ -350,9 +350,7 @@ const updateUserById = async (req, res, next) => {
       };
     };
     return next();
-  } catch (e) {
-    console.log(req.body)
-    console.log(e)
+  } catch {
     internalServerError500["Message"] = "An error has occurred while updating the user's information by id.";
     return res.status(500).send(internalServerError500);
   };
