@@ -21,10 +21,11 @@ const loginSchema = {
 };
 const updateUserSchema = {
   type: "object",
+  required: ["upd_username", "fullname", "upd_email", "cellphone_number", "delivery_address", "user_password", "is_admin"],
   properties: {
-    username: { type: "string"},
+    upd_username: { type: "string"},
     fullname: { type: "string"},
-    email: { type: "string", pattern: "^[A-Za-z0-9._-]*@[a-z]*[.]com$"},
+    upd_email: { type: "string", pattern: "^[A-Za-z0-9._-]*@[a-z]*[.]com$"},
     cellphone_number: { type: "string"},
     delivery_address: { type: "string"},
     user_password: { type: "string", pattern: "^[A-Za-z0-9.!#$%&‘*+=?^_`{|}~-]{6,}$"},
