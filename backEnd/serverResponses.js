@@ -19,21 +19,11 @@ const unauthorizedResponse401 = {
   Message: "The user's cretendials doesn't allow them to complete this request. Only an Administrator has the authorization.",
   Result: "Unauthorized."
 };
-// const forbiddenResponse401 = {
-//   Status: 401,
-//   Message: "",
-//   Result: "Forbidden access."
-// }
 const forbiddenResponse403 = {
   Status: 403,
   Message: "",
   Result: "Forbidden access."
 };
-// const notAuthorizedResponse403 = {
-//   Status: 403,
-//   Message: "The user's cretendials doesn't allow them to complete this request. Only an Administrator has the authorization.",
-//   Result: "Unauthorized."
-// };
 const conflictResponse409 = {
   Status: 409,
   Message: " ",
@@ -49,10 +39,8 @@ module.exports = {
   okReponse200,
   createdResponse201,
   unauthorizedResponse401,
-  // forbiddenResponse401,
   badRequesResponse400,
   forbiddenResponse403,
-  // notAuthorizedResponse403,
   conflictResponse409,
   internalServerError500
 };
