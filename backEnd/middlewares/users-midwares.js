@@ -18,7 +18,7 @@ const checkEmailRegistration =  async (req, res, next) => {
       // Search if the upd_email aready exists:
       const user = await selectFromTableWhereFieldIsValue("users", "email", upd_email);
       // If nothing is found or if the user is entering the same email, the program advance:
-      if ((user.length === 0) || (req.jwtokenDecoded.email === upd_email)) {
+      if ((user.length === 0) || (req.jwtokenDecoded.email === upd_email) || (user[0].email === upd_email)) {
         req.body.email = upd_email;
         delete req.body.upd_email;
         return next();
@@ -34,7 +34,7 @@ const checkEmailRegistration =  async (req, res, next) => {
       const user = await selectFromTableWhereFieldIsValue("users", "email", email);
       if (user.length === 0) {
         return next();
-      } else if (user.length !== 0 ) {
+      } else if (user.length !== 0) {
         conflictResponse409["Message"] = `The email '${email}' is already registered. Please enter a new email.`;
         res.status(409).json(conflictResponse409);
         delete req.userById["UserFound"];
@@ -57,7 +57,7 @@ const usernameAvailability = async (req, res, next) => {
       // Search if the upd_username aready exists:
       const user = await selectFromTableWhereFieldIsValue("users", "username", upd_username);
       // If nothing is found or if the user is entering the same email, the program advance:
-      if ((user.length === 0) || (req.jwtokenDecoded.username === upd_username)) {
+      if ((user.length === 0) || (req.jwtokenDecoded.username === upd_username) || (user[0].username === upd_username)) {
         req.body.username = upd_username;
         delete req.body.upd_username;
         return next();
