@@ -56,7 +56,7 @@ router.get("/byUsername", jwtokenExtraction, jwtokenVerification, checkAdminCred
 // -> /delilahResto/users/byEmail -> Just Admin: Get user by email:
 router.get("/byEmail", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserByEmail, (req, res) => {
   if (req.getUserByEmail["Status"] === 401) {
-    res.status(401).json(req.getUserByEmail);
+    res.status(403).json(req.getUserByEmail);
   } else if (req.getUserByEmail["Status"] === 200) {
     res.status(200).json(req.getUserByEmail);
   };
@@ -64,7 +64,9 @@ router.get("/byEmail", jwtokenExtraction, jwtokenVerification, checkAdminCredent
 // -> /delilahResto/users/byId::userid.
 // Just Admin: Update user by id | Client or Admin: Update self user by "i":
 router.put("/update::userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserById, validateJSONSchema(updateUserSchema), checkEmailRegistration, usernameAvailability, hashPassword, updateUserById, (req, res) => {
-  if (!req.updateUserById["UserUpdated"]) {
+  if (!req.updateUserById["UserFound"]){
+    res.status(200).json(req.updateUserById);
+  } else if (!req.updateUserById["UserUpdated"]) {
     res.status(409).json(req.updateUserById);
   } else if (req.updateUserById["UserUpdated"]) {
     res.status(204).json(req.updateUserById);
