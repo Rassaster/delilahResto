@@ -1,6 +1,6 @@
 const Ajv = require("ajv");
 const ajv = new Ajv({allErrors: true});
-const { badRequesResponse400 } = require("../serverResponses")
+const { badRequesResponse400 } = require("../serverResponses");
 // Check and validate the incoming JSON format:
 const validateJSONSchema = schema => {
   return function (req, res, next) {
