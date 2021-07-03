@@ -35,7 +35,7 @@ const jwtokenVerification = (req, res, next) => {
   jwt.verify(jwTokenAccess, JWT_SECRET, (err, decoded) => {
     if (err) {
       forbiddenResponse403["Message"] = err.message;
-      res.status(403).json(forbiddenResponse403);
+      return res.status(403).json(forbiddenResponse403);
     };  
     if (decoded) {
       delete decoded.user_password;
