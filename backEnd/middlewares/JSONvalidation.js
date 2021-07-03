@@ -9,7 +9,7 @@ const validateJSONSchema = schema => {
     const valid = validate(incomingData);
     if (valid){
       next();
-    }
+    };
     if (!valid) {
       // Temporal storage variables:
       let missingPropertiesArr = [];
@@ -29,30 +29,30 @@ const validateJSONSchema = schema => {
       for (i = 0; i < (validate.errors).length; i++) {
         if (validate.errors[i]["params"]["missingProperty"]) {
           missingPropertiesArr.push(`'${validate.errors[i]["params"]["missingProperty"]}'`);
-        }
+        };
         if (validate.errors[i]["instancePath"] !== "") {
           unmatchedPatternArr.push(`${validate.errors[i]["instancePath"]} ${validate.errors[i]["message"]}`);
-        }
-      }
+        };
+      };
       // If the array "missingPropertiesArr" is not empty, it will be converted to a string, and a new propertie ("MissingProperties") will be created in the badRequesResponse400{} with a formated string.
       if (missingPropertiesArr.length !== 0) {
         requiredPropertiesStr = missingPropertiesArr.toString(" ");
         badRequesResponse400["MissingProperties"] = "The following properties are missing and are required: " + requiredPropertiesStr.slice(0, -1);
-      }
+      };
       // If the array "unmatchedPatternArr" is not empty, it will be converted to a string, and a new propertie ("MissingProperties") will be created in the badRequesResponse400{} with a formated string.
       if (unmatchedPatternArr.length != 0) {
         unmatchedPatternArrForm = unmatchedPatternArr.map(i => i.concat("  &&  "));
         unmatchedPatternStr = unmatchedPatternArrForm.toString("");
         badRequesResponse400["UnmatchedPatterns"] = "The following properties must match the pattern of characters as shown: " + unmatchedPatternStr.slice(0, -6);
-      }
+      };
       res.status(400).send(badRequesResponse400);
       // The "MissingProperties" and "UnmatchedPatterns" properties are deleted from the badRequesResponse400{} before ending this command.
       delete badRequesResponse400["MissingProperties"];
       delete badRequesResponse400["UnmatchedPatterns"];
-    }
-  }
-}
+    };
+  };
+};
 // Module Exports:
 module.exports = {
   validateJSONSchema
-}
+};
