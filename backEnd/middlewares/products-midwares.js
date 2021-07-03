@@ -14,19 +14,20 @@ const createNewProduct = async (req, res, next) => {
       product_name: req.body.product_name,
       id_product_category: req.body.id_product_category,
       product_price: req.body.product_price
-    }
+    };
     createdResponse201["Result"] = newCreatedProduct;
     req.productCreation = createdResponse201;
-    next()
+    return next();
   } catch {
     internalServerError500["Message"] = error.parent.sqlMessage;
     internalServerError500["Description"] = "Please review the API Documentation in relation to the JSON format expected.";
     internalServerError500["ReceivedQueryJSON"] = req.body;
-    res.send(internalServerError500);
+    res.status(500).send(internalServerError500);
     delete internalServerError500["Description"];
     delete internalServerError500["ReceivedQueryJSON"];
-  }
-}
+    return;
+  };
+};
 // -getProductById:
 const getProductById = async (req, res, next) => {
   try {
@@ -40,7 +41,6 @@ const getProductById = async (req, res, next) => {
       req.productFound = product;
       // Search of the product's category name by ID in products_categories table. This, for delivering the category name in the server response.
       let product_category = await selectFromTableWhereFieldIsValue("products_categories", "id_product_category", product[0].id_product_category);
-      console.log(product_category[0]["category_name"])
       req.productFound[0].product_category_desc = product_category[0]["category_name"];
       delete req.productFound[0].id_product_category 
       okReponse200["Message"] = "Product found.";
@@ -48,13 +48,12 @@ const getProductById = async (req, res, next) => {
       okReponse200["ProductFound"] = true;
       req.productById = okReponse200;
     };
-    next();
-  } catch (e) {
-    console.log(e)
+    return next();
+  } catch {
     internalServerError500["Message"] = "An error has occurred while searching for the product by ID.";
-    res.send(internalServerError500)
-  }
-}
+    res.status(500).send(internalServerError500)
+  };
+};
 // -getProductByName:
 const getProductByName = async (req, res, next) => {
   try {
@@ -68,20 +67,19 @@ const getProductByName = async (req, res, next) => {
       req.productFound = product;
       // Search of the product's category name by ID in products_categories table. This, for delivering the category name in the server response.
       let product_category = await selectFromTableWhereFieldIsValue("products_categories", "id_product_category", product[0].id_product_category);
-      console.log(product_category[0]["category_name"])
       req.productFound[0].product_category_desc = product_category[0]["category_name"];
       delete req.productFound[0].id_product_category 
       okReponse200["Message"] = "Product found.";
       okReponse200["Result"] = req.productFound;
       okReponse200["ProductFound"] = true;
       req.productByName = okReponse200;
-    }
-    next();
+    };
+    return next();
   } catch {
     internalServerError500["Message"] = "An error has occurred while searching for the product by it's name.";
-    res.send(internalServerError500)
-  }
-}
+    res.status(500).send(internalServerError500)
+  };
+};
 // -getAllProducts (JOIN with Products_Categories):
 const getAllProducts = async (req, res, next) => {
   try {
@@ -92,9 +90,9 @@ const getAllProducts = async (req, res, next) => {
     next();
   } catch {
     internalServerError500["Message"] = "An error has occurred while obtaining all the registered products.";
-    res.send(internalServerError500);
-  }
-}
+    res.status(500).send(internalServerError500);
+  };
+};
 // -updateProductById
 const updateProductById = async (req, res, next) => {
   try {
@@ -104,7 +102,7 @@ const updateProductById = async (req, res, next) => {
       okReponse200["Result"] = `The product with id ${req.params.productId} doesn't exist, therefore,there is no information to be updated. Please proceed to the product creation endopoint.`;
       okReponse200["ProductFound"] = false;
       req.updateProductByID = okReponse200;
-    }
+    };
     // If the product IS found, the UPDATE query is executed:
     if (req.productById["ProductFound"]) {
       // The UPDATE query returns an array. 
@@ -121,12 +119,12 @@ const updateProductById = async (req, res, next) => {
         okReponse200["Result"] = req.body;
         okReponse200["ProductUpdated"] = true;
         req.updateProductByID = okReponse200;
-      }
-    }
-    next();
+      };
+    };
+    return next();
   } catch {
     internalServerError500["Message"] = "An error has occurred while updating the product's information by id.";
-    res.send(internalServerError500);
+    res.status(500).send(internalServerError500);
   }
 };
 // -deleteProductById
@@ -141,11 +139,11 @@ const deleteProductById = (req, res, next) => {
       const deleteProduct = deleteTableRegisterWhereIdIsValue("products", "id_product", req.params.productId);
       okReponse200["ProductDeleted"] = true;
       req.productDeletion = okReponse200;
-    }
-    next();
+    };
+    return next();
   } catch {
     internalServerError500["Message"] = "An error has occurred while deleting the product by id.";
-    res.send(internalServerError500);
+    res.status(500).send(internalServerError500);
   };
 };
 // Exports:
@@ -156,4 +154,4 @@ module.exports = {
   getAllProducts,
   updateProductById,
   deleteProductById
-}
+};
