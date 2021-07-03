@@ -4,7 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 // Import pbkdf2Sync from crypto to create Derived Key:
 const { pbkdf2Sync } = require('crypto');
 // Import Server Responses:
-const {  okReponse200, createdResponse201, forbiddenResponse401, notAuthorizedResponse403, conflictResponse409, internalServerError500 } = require("../serverResponses")
+const {  okReponse200, createdResponse201, unauthorizedResponse401, forbiddenResponse403, conflictResponse409, internalServerError500 } = require("../serverResponses")
 // Import MYSQL Queries functions:
 const { newUser, selectFromTableWhereFieldIsValue, selectAllFromTable, updateTableRegisterWhereIdIsValue, deleteTableRegisterWhereIdIsValue } = require("../sql/queries"); 
 // ***************************************** MIDDLEWARES *********************************************
@@ -157,8 +157,8 @@ const verifyPassword = (req, res, next) => {
     let hashedSubmittedPasswordHex = hashedSubmittedPasswordBuffer.toString('hex'); 
     const storedHashedPassword = req.userInfo[0].user_password;
     if (hashedSubmittedPasswordHex !== storedHashedPassword) {
-      forbiddenResponse401["Message"] = "Incorrect password or email.";
-      return res.status(401).send(forbiddenResponse401);
+      forbiddenResponse403["Message"] = "Incorrect password or email.";
+      return res.status(403).send();
     } else {
       okReponse200["Message"] = "User successfully authenticated.";
       delete okReponse200["Result"];
@@ -181,8 +181,8 @@ const checkAdminCredentials = (req, res, next) => {
       req.adminCredentials = false;
       return next();
     } else {
-      notAuthorizedResponse403["Message"] = "The user's cretendials doesn't allow them to complete this request.";
-      return res.status(403).json(notAuthorizedResponse403);
+      unauthorizedResponse401["Message"] = "The user's cretendials doesn't allow them to complete this request.";
+      return res.status(401).json(unauthorizedResponse401);
     };
   } catch {
     internalServerError500["Message"] = "An error has occurred while verifying the user's credentials.";
@@ -195,7 +195,7 @@ const justAdminGate = (req, res, next) => {
     if (req.adminCredentials === true) {
       return next();
     } else {
-      return res.status(403).json(notAuthorizedResponse403);
+      return res.status(401).json(unauthorizedResponse401);
     };
   } catch {
     internalServerError500["Message"] = "An error has occurred while verifying if the user has Admin credentials.";
@@ -213,8 +213,8 @@ const getUserById = async (req, res, next) => {
     } else if (req.adminCredentials) {
       user = await selectFromTableWhereFieldIsValue("users", "id_user", req.params.userId);
     } else {
-      req.userById = notAuthorizedResponse403;
-      return res.status(403).json(req.userById);
+      req.userById = unauthorizedResponse401;
+      return res.status(401).json(req.userById);
     };
     // Validate if the user exists and prepare the appropiate response:
     if (user.length === 0) {
@@ -248,7 +248,7 @@ const getAllUsers = async (req, res, next) => {
       okReponse200["Result"] = users;
       req.getAllUsers = okReponse200;
     } else if (!req.adminCredentials) {
-      req.getAllUsers = notAuthorizedResponse403;
+      req.getAllUsers = unauthorizedResponse401;
     };
     return next();
   } catch {
@@ -272,7 +272,7 @@ const getUserByUsername = async (req, res, next) => {
         req.getUserByUsername = okReponse200;
       };
     } else if (!req.adminCredentials) {
-      req.getUserByUsername = notAuthorizedResponse403;
+      req.getUserByUsername = unauthorizedResponse401;
     };
     return next();
   } catch {
@@ -296,7 +296,7 @@ const getUserByEmail = async (req, res, next) => {
         req.getUserByEmail = okReponse200;
       };
     } else if (!req.adminCredentials) {
-      req.getUserByEmail = notAuthorizedResponse403;
+      req.getUserByEmail = unauthorizedResponse401;
     };
     return next();
   } catch {
@@ -394,4 +394,4 @@ module.exports = {
   getUserByEmail,
   updateUserById,
   deleteUserById
-}
+};
