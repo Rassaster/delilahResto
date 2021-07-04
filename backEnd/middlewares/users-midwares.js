@@ -324,19 +324,19 @@ const updateUserById = async (req, res, next) => {
       let userId;
       if ((!req.adminCredentials || req.adminCredentials) && (req.params.userId === "i")) {
         userId = req.jwtokenDecoded["id_user"];
+        // Just Admin can change the users' credentials.
         if (!req.adminCredentials) {
           delete req.body["is_admin"];
         };
-        // If password is changed:
+        // If password is changed, it is hashed and salted. Salt is also included:
         if (req.derivedKey) {
           req.body.user_password = req.derivedKey.hashedPasswordHex,
           req.body.salt = req.derivedKey.uuidSalt
         };
+      // Admin can't change other users' passwords. 
       } else if (req.adminCredentials) {
         userId = req.params.userId;
         delete req.body["user_password"];
-        console.log(req.body)
-        
       };
       // The UPDATE query returns an array. 
       const user = await updateTableRegisterWhereIdIsValue("users", req.body, "id_user", userId);
