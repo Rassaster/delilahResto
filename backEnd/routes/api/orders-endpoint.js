@@ -32,6 +32,7 @@ router.get("/allOrders", jwtokenExtraction, jwtokenVerification, checkAdminCrede
 // -> /delilahResto/orders/allOrdersByUserId::userId. Just Admin.
 router.get("/allOrdersByUserId::userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getUserById, getAllOrdersByUserId, (req, res) => {
   res.status(200).json(req.getAllOrdersByUserId);
+  delete req.userById["UserFound"];
 });
 // -> /delilahResto/orders/updateOrderStatusById::orderId. Just Admin.
 router.put("/updateOrderStatusById::orderId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getOrderById, validateJSONSchema(updateOrderStatusSchema), updateOrderStatusById, (req, res) => {
