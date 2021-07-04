@@ -210,6 +210,24 @@ const justAdminGate = (req, res, next) => {
   };
 };
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// Just Admin: Get the list of all of the registered users:
+const getAllUsers = async (req, res, next) => {
+  try {
+    let users;
+    if (req.adminCredentials) {
+      users = await selectAllFromTable("users");
+      okReponse200["Message"] = "List of all registered users obtained.";
+      okReponse200["Result"] = users;
+      req.getAllUsers = okReponse200;
+    } else if (!req.adminCredentials) {
+      req.getAllUsers = unauthorizedResponse401;
+    };
+    return next();
+  } catch {
+    internalServerError500["Message"] = "An error has occurred while obtaining all the registered users.";
+    return res.status(500).send(internalServerError500);
+  };
+};
 // Admin: Get user by id | Client: Get self user by "i":
 const getUserById = async (req, res, next) => {
   try {
@@ -245,25 +263,7 @@ const getUserById = async (req, res, next) => {
     return res.status(500).send(internalServerError500);
   };
 };
-// Just Admin: Get the list of all of the registered users:
-const getAllUsers = async (req, res, next) => {
-  try {
-    let users;
-    if (req.adminCredentials) {
-      users = await selectAllFromTable("users");
-      okReponse200["Message"] = "List of all registered users obtained.";
-      okReponse200["Result"] = users;
-      req.getAllUsers = okReponse200;
-    } else if (!req.adminCredentials) {
-      req.getAllUsers = unauthorizedResponse401;
-    };
-    return next();
-  } catch {
-    internalServerError500["Message"] = "An error has occurred while obtaining all the registered users.";
-    return res.status(500).send(internalServerError500);
-  };
-};
-// Just Admin: Get user by username:
+// Just Admin. Get user by username:
 const getUserByUsername = async (req, res, next) => {
   try {
     let user;
@@ -278,8 +278,6 @@ const getUserByUsername = async (req, res, next) => {
         okReponse200["Result"] = user;
         req.getUserByUsername = okReponse200;
       };
-    } else if (!req.adminCredentials) {
-      req.getUserByUsername = unauthorizedResponse401;
     };
     return next();
   } catch {
@@ -287,7 +285,7 @@ const getUserByUsername = async (req, res, next) => {
     return res.status(500).send(internalServerError500);
   };
 };
-// Just Admin: Get user by email:
+// Just Admin. Get user by email:
 const getUserByEmail = async (req, res, next) => {
   try {
     let user;
@@ -302,8 +300,6 @@ const getUserByEmail = async (req, res, next) => {
         okReponse200["Result"] = user;
         req.getUserByEmail = okReponse200;
       };
-    } else if (!req.adminCredentials) {
-      req.getUserByEmail = unauthorizedResponse401;
     };
     return next();
   } catch {
