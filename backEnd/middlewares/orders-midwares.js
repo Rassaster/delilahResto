@@ -158,7 +158,37 @@ const getAllOrders = async (req, res, next) => {
     };
     return next();
   } catch {
-    internalServerError500["Message"] = "An error has occurred while obtaining all the registered users.";
+    internalServerError500["Message"] = "An error has occurred while obtaining all of the orders.";
+    res.status(500).send(internalServerError500);
+  };
+};
+// -getAllOrdersByUserId
+const getAllOrdersByUserId = async (req, res, next) => {
+  try {
+    let orders;
+    if (req.adminCredentials) {
+      if (!req.userById["UserFound"]) {
+        okReponse200["Message"] = "User not found.";
+        okReponse200["Result"] = `The user with id ${req.params.userId} doesn't exist.`;
+        req.getAllOrdersByUserId = okReponse200;
+      };
+      if (req.userById["UserFound"]) {
+        orders = await selectAllOrdersJoinedByUserId(req.params.userId);
+        let username = req.userById["Result"][0]["username"];
+        if (orders.length !== 0) {
+          okReponse200["Message"] = `List of all the orders made by the user ${username}.`;
+          okReponse200["Result"] = orders;
+          req.getAllOrdersByUserId = okReponse200;
+        } else {
+          okReponse200["Message"] = `The user ${username} doesn't have any oreder registered.`;
+          okReponse200["Result"] = "No orders were found";
+          req.getAllOrdersByUserId = okReponse200;
+        };
+      };      
+    };
+    return next();
+  } catch {
+    internalServerError500["Message"] = `An error has occurred while obtaining all the orders of the user ${username}.`;
     res.status(500).send(internalServerError500);
   };
 };
@@ -222,6 +252,7 @@ module.exports = {
   createNewOrder,
   getOrderById,
   getAllOrders,
+  getAllOrdersByUserId,
   updateOrderStatusById,
   deleteOrderById
 };
