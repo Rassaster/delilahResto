@@ -17,5 +17,5 @@ app.use("/delilahResto", apiRouter);
 
 // Lifting up the Server:
 app.listen(PORT_SERVER, () => {
-  console.log("Te encuentras en el servidor que aloja a Delilah Resto. Puerto:", PORT_SERVER);
+  console.log("Your are located in the server that host's Delilah Resto. Port:", PORT_SERVER);
 })
