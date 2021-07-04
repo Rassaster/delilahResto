@@ -25,10 +25,12 @@ router.get("/productId::productId", jwtokenExtraction, jwtokenVerification, chec
 // -> /delilahResto/products/productName:productName. Just Admin:
 router.get("/productName::productName", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getProductByName, (req, res) => {
   res.status(200).json(req.productByName);
+  delete req.productById["ProductFound"];
 });
 // -> /delilahResto/products/allProducts. For both Admins and Users.
 router.get("/allProducts", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getAllProducts, (req, res) => {
   res.status(200).json(req.getAllProducts);
+  delete req.productById["ProductFound"];
 });
 // Update product by Id:
 // -> /delilahResto/products/updateProductId::productId. Just Admin:
