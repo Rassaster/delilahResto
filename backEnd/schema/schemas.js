@@ -19,6 +19,16 @@ const loginSchema = {
     user_password: { type: "string", pattern: "^[A-Za-z0-9.!#$%&‘*+=?^_`{|}~-]{4,}$"}
   }
 };
+const userByUsernameSchema = {
+  type: "object",
+  required: ["username"],
+  properties: { username: { type: "string" } }
+};
+const userByEmailSchema = {
+  type: "object",
+  required: ["email"],
+  properties: { email: { type: "string", pattern: "^[A-Za-z0-9._-]*@[a-z]*[.]com$" } }
+};
 const updateUserSchema = {
   type: "object",
   required: ["upd_username", "fullname", "upd_email", "cellphone_number", "delivery_address", "user_password", "is_admin"],
@@ -60,6 +70,8 @@ const updateOrderStatusSchema = {
 module.exports = {
   registerSchema,
   loginSchema,
+  userByUsernameSchema,
+  userByEmailSchema,
   updateUserSchema,
   productSchema,
   orderSchema,
