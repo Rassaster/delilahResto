@@ -1,6 +1,6 @@
 const router = require("express").Router();
 // Requiring JSON schemas:
-const {registerSchema, loginSchema, updateUserSchema} = require("../../schema/schemas");
+const {registerSchema, loginSchema, updateUserSchema, userByUsernameSchema, userByEmailSchema} = require("../../schema/schemas");
 // ******************** MIDDLEWARES ******************** //
 // Schema middlewares:
 const { validateJSONSchema } = require("../../middlewares/JSONvalidation");
@@ -27,6 +27,14 @@ router.post("/login", validateJSONSchema(loginSchema), userExistanceCheckByEmail
     delete req.userAuthentication["Token"];
   };
 });
+// -> /delilahResto/users/allRegistered -> Just Admin: Get the list of all of the registered users:
+router.get("/allRegistered", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getAllUsers, (req, res) => {
+  if (req.getAllUsers["Status"] === 401) {
+    res.status(401).json(req.getAllUsers);
+  } else if (req.getAllUsers["Status"] === 200) {
+    res.status(200).json(req.getAllUsers);
+  };
+});
 // -> /delilahResto/users/byID::userId 
 // Admin: Get user by id | Client or Admin: Get self user by "i":
 router.get("/byId::userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserById, (req, res) => {
@@ -37,16 +45,8 @@ router.get("/byId::userId", jwtokenExtraction, jwtokenVerification, checkAdminCr
   };
   delete req.userById["UserFound"];
 });
-// -> /delilahResto/users/allRegistered -> Just Admin: Get the list of all of the registered users:
-router.get("/allRegistered", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getAllUsers, (req, res) => {
-  if (req.getAllUsers["Status"] === 401) {
-    res.status(401).json(req.getAllUsers);
-  } else if (req.getAllUsers["Status"] === 200) {
-    res.status(200).json(req.getAllUsers);
-  };
-});
 // -> /delilahResto/users/byUsername -> Just Admin: Get user by username:
-router.get("/byUsername", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getUserByUsername, (req, res) => {
+router.get("/byUsername", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, validateJSONSchema(userByUsernameSchema), getUserByUsername, (req, res) => {
   if (req.getUserByUsername["Status"] === 401) {
     res.status(401).json(req.getUserByUsername);
   } else if (req.getUserByUsername["Status"] === 200) {
@@ -54,7 +54,7 @@ router.get("/byUsername", jwtokenExtraction, jwtokenVerification, checkAdminCred
   };
 });
 // -> /delilahResto/users/byEmail -> Just Admin: Get user by email:
-router.get("/byEmail", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getUserByEmail, (req, res) => {
+router.get("/byEmail", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, validateJSONSchema(userByEmailSchema), getUserByEmail, (req, res) => {
   if (req.getUserByEmail["Status"] === 401) {
     res.status(401).json(req.getUserByEmail);
   } else if (req.getUserByEmail["Status"] === 200) {
@@ -86,4 +86,3 @@ router.delete("/deleteUser::userId", jwtokenExtraction, jwtokenVerification, che
 });
 // Exports:
 module.exports = router;
-
