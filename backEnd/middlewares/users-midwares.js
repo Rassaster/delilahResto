@@ -165,7 +165,7 @@ const verifyPassword = (req, res, next) => {
     const storedHashedPassword = req.userInfo[0].user_password;
     if (hashedSubmittedPasswordHex !== storedHashedPassword) {
       forbiddenResponse403["Message"] = "Incorrect password or email.";
-      return res.status(403).send();
+      return res.status(403).json(forbiddenResponse403);
     } else {
       okReponse200["Message"] = "User successfully authenticated.";
       delete okReponse200["Result"];
