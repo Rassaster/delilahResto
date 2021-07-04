@@ -2,7 +2,7 @@ const moment = require("moment");
 // Import Server Responses:
 const {  okReponse200, createdResponse201, conflictResponse409, internalServerError500 } = require("../serverResponses");
 // Import MYSQL Queries functions:
-const { newOrder, newRequiredProduct, selectFromTableWhereFieldIsValue, selectAllFromTable, selectProductsJoinCategories, updateTableRegisterWhereIdIsValue, deleteTableRegisterWhereIdIsValue } = require("../sql/queries");
+const { newOrder, newRequiredProduct, selectFromTableWhereFieldIsValue, selectAllOrdersJoinedByUserId, selectAllOrdersJoined, updateTableRegisterWhereIdIsValue, deleteTableRegisterWhereIdIsValue } = require("../sql/queries");
 // ***************************************** MIDDLEWARES *********************************************
 // -createNewOrder:
 const createNewOrder = (req, res, next) => {
@@ -146,12 +146,12 @@ const getAllOrders = async (req, res, next) => {
   try {
     let orders;
     if (req.adminCredentials) {
-      orders = await selectAllFromTable("orders");
+      orders = await selectAllOrdersJoined();
       okReponse200["Message"] = "List of all the orders obtained.";
       okReponse200["Result"] = orders;
       req.getAllOrders = okReponse200;
     } else if (!req.adminCredentials) {
-      orders = await selectFromTableWhereFieldIsValue("orders", "id_user", req.jwtokenDecoded.id_user);
+      orders = await selectAllOrdersJoinedByUserId(req.jwtokenDecoded.id_user);
       okReponse200["Message"] = `List of the orders from the user ${req.jwtokenDecoded.username} obtained.`;
       okReponse200["Result"] = orders;
       req.getAllOrders = okReponse200;
