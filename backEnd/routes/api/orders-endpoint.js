@@ -7,9 +7,9 @@ const { validateJSONSchema } = require("../../middlewares/JSONvalidation");
 // JWT middlewares:
 const { jwtokenExtraction, jwtokenVerification } = require("../../middlewares/jwtoken");
 // Security/Credentials middlewares:
-const { checkAdminCredentials, justAdminGate } = require("../../middlewares/users-midwares");
+const { checkAdminCredentials, justAdminGate, getUserById } = require("../../middlewares/users-midwares");
 // CRUD middlewares:
-const { createNewOrder, getOrderById, getAllOrders, updateOrderStatusById, deleteOrderById } = require("../../middlewares/orders-midwares");
+const { createNewOrder, getOrderById, getAllOrders, getAllOrdersByUserId, updateOrderStatusById,  deleteOrderById } = require("../../middlewares/orders-midwares");
 // ******************** ENDPOINTS ******************** //
 // -> /delilahResto/orders/new. For either Admins or Users:
 router.post("/new", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, validateJSONSchema(orderSchema), createNewOrder, (req, res) => {
@@ -29,8 +29,12 @@ router.get("/orderId::orderId", jwtokenExtraction, jwtokenVerification, checkAdm
 router.get("/allOrders", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getAllOrders, (req, res) => {
   res.status(200).json(req.getAllOrders);
 });
+// -> /delilahResto/orders/allOrdersByUserId::userId. Just Admin.
+router.get("/allOrdersByUserId::userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getUserById, getAllOrdersByUserId, (req, res) => {
+  res.status(200).json(req.getAllOrdersByUserId);
+});
 // -> /delilahResto/orders/updateOrderStatusById::orderId. Just Admin.
-router.put("/updateOrderStatusById::orderId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getOrderById, validateJSONSchema(updateOrderStatusSchema),updateOrderStatusById, (req, res) => {
+router.put("/updateOrderStatusById::orderId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getOrderById, validateJSONSchema(updateOrderStatusSchema), updateOrderStatusById, (req, res) => {
   if (!req.updateOrderStatusById["OrderFound"]) {
     res.status(200).json(req.updateOrderStatusById);
   } else if (!req.updateOrderStatusById["OrderUpdated"]) {
