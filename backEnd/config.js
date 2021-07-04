@@ -3,7 +3,6 @@ const dotenv = require("dotenv").config();
 // Assigning the base Environment Variables to JS constants:
 const JWT_SECRET = process.env.JWT_SECRET;
 const PORT_SERVER = process.env.PORT_SERVER;
-const DB_PATH = process.env.DB_PATH;
 const PUERTO_DB = process.env.PUERTO;
 const DIALECT_DB = process.env.DIALECT_DB;
 const USER_DB = process.env.USER_DB;
@@ -15,7 +14,6 @@ const NAME_DB = process.env.NAME_DB;
 module.exports = {
   JWT_SECRET,
   PORT_SERVER,
-  DB_PATH,
   PUERTO_DB,
   DIALECT_DB,
   USER_DB,
