@@ -46,7 +46,7 @@ router.get("/allRegistered", jwtokenExtraction, jwtokenVerification, checkAdminC
   };
 });
 // -> /delilahResto/users/byUsername -> Just Admin: Get user by username:
-router.get("/byUsername", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserByUsername, (req, res) => {
+router.get("/byUsername", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getUserByUsername, (req, res) => {
   if (req.getUserByUsername["Status"] === 401) {
     res.status(401).json(req.getUserByUsername);
   } else if (req.getUserByUsername["Status"] === 200) {
@@ -54,9 +54,9 @@ router.get("/byUsername", jwtokenExtraction, jwtokenVerification, checkAdminCred
   };
 });
 // -> /delilahResto/users/byEmail -> Just Admin: Get user by email:
-router.get("/byEmail", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getUserByEmail, (req, res) => {
+router.get("/byEmail", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getUserByEmail, (req, res) => {
   if (req.getUserByEmail["Status"] === 401) {
-    res.status(403).json(req.getUserByEmail);
+    res.status(401).json(req.getUserByEmail);
   } else if (req.getUserByEmail["Status"] === 200) {
     res.status(200).json(req.getUserByEmail);
   };
