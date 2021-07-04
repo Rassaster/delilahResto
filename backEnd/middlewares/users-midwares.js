@@ -327,14 +327,16 @@ const updateUserById = async (req, res, next) => {
         if (!req.adminCredentials) {
           delete req.body["is_admin"];
         };
+        // If password is changed:
+        if (req.derivedKey) {
+          req.body.user_password = req.derivedKey.hashedPasswordHex,
+          req.body.salt = req.derivedKey.uuidSalt
+        };
       } else if (req.adminCredentials) {
         userId = req.params.userId;
         delete req.body["user_password"];
-      };
-      // If password is changed:
-      if (req.derivedKey) {
-        req.body.user_password = req.derivedKey.hashedPasswordHex,
-        req.body.salt = req.derivedKey.uuidSalt
+        console.log(req.body)
+        
       };
       // The UPDATE query returns an array. 
       const user = await updateTableRegisterWhereIdIsValue("users", req.body, "id_user", userId);
