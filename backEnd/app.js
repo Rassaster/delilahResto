@@ -8,7 +8,7 @@ const rateLimit = require("express-rate-limit");
 require("./dataBase/dbConnect")
 
 // Requiring Environment Variables from config.js: 
-const { PORT_SERVER } = require("./config")
+const { PORT_SERVER } = require("./config");
 // Base Router: Requiring apiRouter from routes.js.
 const apiRouter = require("./routes/apiRoutes");
 
@@ -16,7 +16,7 @@ const apiRouter = require("./routes/apiRoutes");
 const requestLimit = rateLimit({
   windowMs: 20 * 60 * 1000, // 20 mins
   max: 25
-})
+});
 
 // Global Middlewares:
 app.use(helmet());
@@ -30,4 +30,4 @@ app.use("/delilahResto", apiRouter);
 // Lifting up the Server:
 app.listen(PORT_SERVER, () => {
   console.log("Your are located in the server that host's Delilah Resto. Port:", PORT_SERVER);
-})
+});
