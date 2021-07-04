@@ -51,7 +51,7 @@ const getProductById = async (req, res, next) => {
     return next();
   } catch {
     internalServerError500["Message"] = "An error has occurred while searching for the product by ID.";
-    res.status(500).send(internalServerError500)
+    return res.status(500).send(internalServerError500)
   };
 };
 // -getProductByName:
@@ -77,7 +77,7 @@ const getProductByName = async (req, res, next) => {
     return next();
   } catch {
     internalServerError500["Message"] = "An error has occurred while searching for the product by it's name.";
-    res.status(500).send(internalServerError500)
+    return res.status(500).send(internalServerError500)
   };
 };
 // -getAllProducts (JOIN with Products_Categories):
@@ -87,10 +87,10 @@ const getAllProducts = async (req, res, next) => {
     okReponse200["Message"] = "List of all registered users obtained.";
     okReponse200["Result"] = productsList;
     req.getAllProducts = okReponse200
-    next();
+    return next();
   } catch {
     internalServerError500["Message"] = "An error has occurred while obtaining all the registered products.";
-    res.status(500).send(internalServerError500);
+    return res.status(500).send(internalServerError500);
   };
 };
 // -updateProductById
@@ -124,8 +124,8 @@ const updateProductById = async (req, res, next) => {
     return next();
   } catch {
     internalServerError500["Message"] = "An error has occurred while updating the product's information by id.";
-    res.status(500).send(internalServerError500);
-  }
+    return res.status(500).send(internalServerError500);
+  };
 };
 // -deleteProductById
 const deleteProductById = (req, res, next) => {
@@ -143,7 +143,7 @@ const deleteProductById = (req, res, next) => {
     return next();
   } catch {
     internalServerError500["Message"] = "An error has occurred while deleting the product by id.";
-    res.status(500).send(internalServerError500);
+    return res.status(500).send(internalServerError500);
   };
 };
 // Exports:
