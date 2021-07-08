@@ -37,7 +37,7 @@ const validateJSONSchema = schema => {
       // If the array "missingPropertiesArr" is not empty, it will be converted to a string, and a new propertie ("MissingProperties") will be created in the badRequesResponse400{} with a formated string.
       if (missingPropertiesArr.length !== 0) {
         requiredPropertiesStr = missingPropertiesArr.toString(" ");
-        badRequesResponse400["MissingProperties"] = "The following properties are missing and are required: " + requiredPropertiesStr.slice(0, -1);
+        badRequesResponse400["MissingProperties"] = "The following properties are missing and are required: " + requiredPropertiesStr.slice(0);
       };
       // If the array "unmatchedPatternArr" is not empty, it will be converted to a string, and a new propertie ("MissingProperties") will be created in the badRequesResponse400{} with a formated string.
       if (unmatchedPatternArr.length != 0) {
