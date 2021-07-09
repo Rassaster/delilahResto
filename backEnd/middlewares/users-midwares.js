@@ -268,10 +268,10 @@ const getUserByUsername = async (req, res, next) => {
   try {
     let user;
     if (req.adminCredentials) {
-      user = await selectFromTableWhereFieldIsValue("users", "username", req.body["username"]);
+      user = await selectFromTableWhereFieldIsValue("users", "username", req.params.username);
       if (user.length === 0) {
         okReponse200["Message"] = "User not found.";
-        okReponse200["Result"] = `A user with the username '${req.body["username"]}' doesn't exist.`;
+        okReponse200["Result"] = `A user with the username '${req.params.username}' doesn't exist.`;
         req.getUserByUsername = okReponse200;
       } else {
         okReponse200["Message"] = "User found.";
@@ -290,10 +290,10 @@ const getUserByEmail = async (req, res, next) => {
   try {
     let user;
     if (req.adminCredentials) {
-      user = await selectFromTableWhereFieldIsValue("users", "email", req.body["email"]);
+      user = await selectFromTableWhereFieldIsValue("users", "email", req.params.email);
       if (user.length === 0) {
         okReponse200["Message"] = "User not found.";
-        okReponse200["Result"] = `A user with the email '${req.body["email"]}' doesn't exist.`;
+        okReponse200["Result"] = `A user with the email '${req.params.email}' doesn't exist.`;
         req.getUserByEmail = okReponse200;
       } else {
         okReponse200["Message"] = "User found.";
