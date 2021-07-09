@@ -180,7 +180,7 @@ const getAllOrdersByUserId = async (req, res, next) => {
           okReponse200["Result"] = orders;
           req.getAllOrdersByUserId = okReponse200;
         } else {
-          okReponse200["Message"] = `The user ${username} doesn't have any oreder registered.`;
+          okReponse200["Message"] = `The user ${username} doesn't have any order registered.`;
           okReponse200["Result"] = "No orders were found";
           req.getAllOrdersByUserId = okReponse200;
         };
