@@ -1,0 +1,838 @@
+{
+	"info": {
+		"_postman_id": "97123c8a-6021-44da-87ee-a1e75cfe6c9b",
+		"name": "delilahResto",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "register(admin1)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\" : \"admin1_LSteinberg\",\n    \"fullname\" : \"Laura Steinberg\",\n    \"email\" : \"adm.lsteinber@gmail.com\",\n    \"cellphone_number\" : \"3104345665\",\n    \"delivery_address\" : \"Calle 125 # 12 - 23\",\n    \"user_password\" : \"admin1\",\n    \"is_admin\" : \"T\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/delilahResto/users/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"delilahResto",
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register(testUser1)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\" : \"testUser1\",\n    \"fullname\" : \"testUser1\",\n    \"email\" : \"testUser1@gmail.com\",\n    \"cellphone_number\" : \"32080384456\",\n    \"delivery_address\" : \"Carrera 20 # 72 - 14\",\n    \"user_password\" : \"testUser1\",\n    \"is_admin\" : \"F\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/delilahResto/users/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"delilahResto",
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register(testUser2)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\" : \"testUser2\",\n    \"fullname\" : \"testUser2\",\n    \"email\" : \"testUser2@gmail.com\",\n    \"cellphone_number\" : \"3222223344\",\n    \"delivery_address\" : \"3\",\n    \"user_password\" : \"testUser2\",\n    \"is_admin\" : \"F\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/delilahResto/users/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"delilahResto",
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login(admin1)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\" : \"adm.lsteinber@gmail.com\",\n    \"user_password\" : \"admin1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/delilahResto/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"delilahResto",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login(testUser1)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\" : \"testUser1@gmail.com\",\n    \"user_password\" : \"testUser1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/delilahResto/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"delilahResto",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login(testUser2)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\" : \"testUser2@gmail.com\",\n    \"user_password\" : \"testUser2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/delilahResto/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"delilahResto",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "allRegistered",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoxLCJyZWdpc3Rlcl9kYXRlIjoiMjAyMS0wNy0wOFQxNDo0MTo1MC4wMDBaIiwidXNlcm5hbWUiOiJhZG1pbjFfTFN0ZWluYmVyZyIsImZ1bGxuYW1lIjoiTGF1cmEgU3RlaW5iZXJnIiwiZW1haWwiOiJhZG0ubHN0ZWluYmVyQGdtYWlsLmNvbSIsImNlbGxwaG9uZV9udW1iZXIiOiIzMTA0MzQ1NjY1IiwiZGVsaXZlcnlfYWRkcmVzcyI6IkNhbGxlIDEyNSAjIDEyIC0gMjMiLCJ1c2VyX3Bhc3N3b3JkIjoiZTRmZGFkZmZhNmZmZWNkYTRlMWI5NDc5ZjhlMDgxMzhkOWU3YTc4N2ZlZjQxNjRhMzdiMTM3NWU3ZjI0MzgwYyIsInNhbHQiOiJkMmJjNTA4ZS04NzBhLTRkMDEtOTUyOC02YTZkYzIxYzIyNzMiLCJpc19hZG1pbiI6IlQiLCJpYXQiOjE2MjU3OTg3NTYsImV4cCI6MTYyNTc5OTk1Nn0.n8YsD-G9Zr4IFsnrjZqBdHkQYu_cvaCWbrZ5DW3EMok",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/delilahResto/users/allRegistered",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"delilahResto",
+								"users",
+								"allRegistered"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "byID:userId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoxLCJyZWdpc3Rlcl9kYXRlIjoiMjAyMS0wNy0wOFQxNDo0MTo1MC4wMDBaIiwidXNlcm5hbWUiOiJhZG1pbjFfTFN0ZWluYmVyZyIsImZ1bGxuYW1lIjoiTGF1cmEgU3RlaW5iZXJnIiwiZW1haWwiOiJhZG0ubHN0ZWluYmVyQGdtYWlsLmNvbSIsImNlbGxwaG9uZV9udW1iZXIiOiIzMTA0MzQ1NjY1IiwiZGVsaXZlcnlfYWRkcmVzcyI6IkNhbGxlIDEyNSAjIDEyIC0gMjMiLCJ1c2VyX3Bhc3N3b3JkIjoiZTRmZGFkZmZhNmZmZWNkYTRlMWI5NDc5ZjhlMDgxMzhkOWU3YTc4N2ZlZjQxNjRhMzdiMTM3NWU3ZjI0MzgwYyIsInNhbHQiOiJkMmJjNTA4ZS04NzBhLTRkMDEtOTUyOC02YTZkYzIxYzIyNzMiLCJpc19hZG1pbiI6IlQiLCJpYXQiOjE2MjU3ODg5MzUsImV4cCI6MTYyNTc5MDEzNX0.s9oz6l5lSw40iJ-2fRLn24VaSmI04GznNlu-zc9MyjY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/delilahResto/users/byId:i",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"delilahResto",
+								"users",
+								"byId:i"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "byUsername:username",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoxLCJyZWdpc3Rlcl9kYXRlIjoiMjAyMS0wNy0wOFQxNDo0MTo1MC4wMDBaIiwidXNlcm5hbWUiOiJhZG1pbjFfTFN0ZWluYmVyZyIsImZ1bGxuYW1lIjoiTGF1cmEgU3RlaW5iZXJnIiwiZW1haWwiOiJhZG0ubHN0ZWluYmVyQGdtYWlsLmNvbSIsImNlbGxwaG9uZV9udW1iZXIiOiIzMTA0MzQ1NjY1IiwiZGVsaXZlcnlfYWRkcmVzcyI6IkNhbGxlIDEyNSAjIDEyIC0gMjMiLCJ1c2VyX3Bhc3N3b3JkIjoiZTRmZGFkZmZhNmZmZWNkYTRlMWI5NDc5ZjhlMDgxMzhkOWU3YTc4N2ZlZjQxNjRhMzdiMTM3NWU3ZjI0MzgwYyIsInNhbHQiOiJkMmJjNTA4ZS04NzBhLTRkMDEtOTUyOC02YTZkYzIxYzIyNzMiLCJpc19hZG1pbiI6IlQiLCJpYXQiOjE2MjU4MDA1ODAsImV4cCI6MTYyNTgwMTc4MH0.PcMYOFZhkQkqBmm3uX5LrKpZvwJmG5yH1kb7uhv5j74",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/delilahResto/users/byUsername:1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"delilahResto",
+								"users",
+								"byUsername:1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "byEmail:email",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoxLCJyZWdpc3Rlcl9kYXRlIjoiMjAyMS0wNy0wOFQxNDo0MTo1MC4wMDBaIiwidXNlcm5hbWUiOiJhZG1pbjFfTFN0ZWluYmVyZyIsImZ1bGxuYW1lIjoiTGF1cmEgU3RlaW5iZXJnIiwiZW1haWwiOiJhZG0ubHN0ZWluYmVyQGdtYWlsLmNvbSIsImNlbGxwaG9uZV9udW1iZXIiOiIzMTA0MzQ1NjY1IiwiZGVsaXZlcnlfYWRkcmVzcyI6IkNhbGxlIDEyNSAjIDEyIC0gMjMiLCJ1c2VyX3Bhc3N3b3JkIjoiZTRmZGFkZmZhNmZmZWNkYTRlMWI5NDc5ZjhlMDgxMzhkOWU3YTc4N2ZlZjQxNjRhMzdiMTM3NWU3ZjI0MzgwYyIsInNhbHQiOiJkMmJjNTA4ZS04NzBhLTRkMDEtOTUyOC02YTZkYzIxYzIyNzMiLCJpc19hZG1pbiI6IlQiLCJpYXQiOjE2MjU4MDA1ODAsImV4cCI6MTYyNTgwMTc4MH0.PcMYOFZhkQkqBmm3uX5LrKpZvwJmG5yH1kb7uhv5j74",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/delilahResto/users/byEmail:testUser1@gmail.co",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"delilahResto",
+								"users",
+								"byEmail:testUser1@gmail.co"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update::userid",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjozLCJyZWdpc3Rlcl9kYXRlIjoiMjAyMS0wNy0wM1QxNjozODozMC4wMDBaIiwidXNlcm5hbWUiOiJhZG1pbjEiLCJmdWxsbmFtZSI6ImFkbWluMVRIRUJFU1QiLCJlbWFpbCI6ImFkbWluMUBnbWFpbC5jb20iLCJjZWxscGhvbmVfbnVtYmVyIjoiMzIyMjIyMzM0NCIsImRlbGl2ZXJ5X2FkZHJlc3MiOiIzIiwidXNlcl9wYXNzd29yZCI6IjE2NTkwMzA4Y2I4MjkwZjUzZjk4MjJmMDY5MzIzOTk1MmY1ZmYxN2JlNGQzOTI2MWFiYjhiNWZiMTBjZmMxNWIiLCJzYWx0IjoiMjgzMTFkZjYtMzMzYS00N2VhLTk0YTgtOTQ0Mjg1MTU1NTYxIiwiaXNfYWRtaW4iOiJGIiwiaWF0IjoxNjI1MzY2MDI1LCJleHAiOjE2MjUzNjcyMjV9.PqJZqRUAXoCqLhbJhaoMWQJAqKsDSmnEJxrxZ7mld3Y",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"upd_username\" : \"admin1\",\n    \"fullname\" : \"admin1\",\n    \"upd_email\" : \"admin1@gmail.com\",\n    \"cellphone_number\" : \"3222223344\",\n    \"delivery_address\" : \"3\",\n    \"user_password\" : \"adming1\",\n    \"is_admin\" : \"T\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/delilahResto/users/update:i",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"delilahResto",
+								"users",
+								"update:i"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteUser::userid",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoxLCJyZWdpc3Rlcl9kYXRlIjoiMjAyMS0wNy0wOFQxNDo0MTo1MC4wMDBaIiwidXNlcm5hbWUiOiJhZG1pbjFfTFN0ZWluYmVyZyIsImZ1bGxuYW1lIjoiTGF1cmEgU3RlaW5iZXJnIiwiZW1haWwiOiJhZG0ubHN0ZWluYmVyQGdtYWlsLmNvbSIsImNlbGxwaG9uZV9udW1iZXIiOiIzMTA0MzQ1NjY1IiwiZGVsaXZlcnlfYWRkcmVzcyI6IkNhbGxlIDEyNSAjIDEyIC0gMjMiLCJ1c2VyX3Bhc3N3b3JkIjoiZTRmZGFkZmZhNmZmZWNkYTRlMWI5NDc5ZjhlMDgxMzhkOWU3YTc4N2ZlZjQxNjRhMzdiMTM3NWU3ZjI0MzgwYyIsInNhbHQiOiJkMmJjNTA4ZS04NzBhLTRkMDEtOTUyOC02YTZkYzIxYzIyNzMiLCJpc19hZG1pbiI6IlQiLCJpYXQiOjE2MjU3OTg3NTYsImV4cCI6MTYyNTc5OTk1Nn0.n8YsD-G9Zr4IFsnrjZqBdHkQYu_cvaCWbrZ5DW3EMok",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/delilahResto/users/deleteUser:4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"delilahResto",
+								"users",
+								"deleteUser:4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "products",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoxLCJyZWdpc3Rlcl9kYXRlIjoiMjAyMS0wNy0wOFQxNDo0MTo1MC4wMDBaIiwidXNlcm5hbWUiOiJhZG1pbjFfTFN0ZWluYmVyZyIsImZ1bGxuYW1lIjoiTGF1cmEgU3RlaW5iZXJnIiwiZW1haWwiOiJhZG0ubHN0ZWluYmVyQGdtYWlsLmNvbSIsImNlbGxwaG9uZV9udW1iZXIiOiIzMTA0MzQ1NjY1IiwiZGVsaXZlcnlfYWRkcmVzcyI6IkNhbGxlIDEyNSAjIDEyIC0gMjMiLCJ1c2VyX3Bhc3N3b3JkIjoiZTRmZGFkZmZhNmZmZWNkYTRlMWI5NDc5ZjhlMDgxMzhkOWU3YTc4N2ZlZjQxNjRhMzdiMTM3NWU3ZjI0MzgwYyIsInNhbHQiOiJkMmJjNTA4ZS04NzBhLTRkMDEtOTUyOC02YTZkYzIxYzIyNzMiLCJpc19hZG1pbiI6IlQiLCJpYXQiOjE2MjU4NTUyNTAsImV4cCI6MTYyNTg1NjQ1MH0.UETgS6AAiAbM5sK389nJhu3_JTjuopowQZn-7n00U48",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"product_name\": \"Chontaduro al wok\", \n    \"id_product_category\": 2, \n    \"product_price\": 25000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/delilahResto/products/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"delilahResto",
+								"products",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "productId::productId",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoxLCJyZWdpc3Rlcl9kYXRlIjoiMjAyMS0wNy0wOFQxNDo0MTo1MC4wMDBaIiwidXNlcm5hbWUiOiJhZG1pbjFfTFN0ZWluYmVyZyIsImZ1bGxuYW1lIjoiTGF1cmEgU3RlaW5iZXJnIiwiZW1haWwiOiJhZG0ubHN0ZWluYmVyQGdtYWlsLmNvbSIsImNlbGxwaG9uZV9udW1iZXIiOiIzMTA0MzQ1NjY1IiwiZGVsaXZlcnlfYWRkcmVzcyI6IkNhbGxlIDEyNSAjIDEyIC0gMjMiLCJ1c2VyX3Bhc3N3b3JkIjoiZTRmZGFkZmZhNmZmZWNkYTRlMWI5NDc5ZjhlMDgxMzhkOWU3YTc4N2ZlZjQxNjRhMzdiMTM3NWU3ZjI0MzgwYyIsInNhbHQiOiJkMmJjNTA4ZS04NzBhLTRkMDEtOTUyOC02YTZkYzIxYzIyNzMiLCJpc19hZG1pbiI6IlQiLCJpYXQiOjE2MjU4NTA4NzMsImV4cCI6MTYyNTg1MjA3M30.33P4pIqcAoULEons8zd4g4oXexP6u8ztMi0lAmcK7YQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/delilahResto/products/productId:24",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"delilahResto",
+								"products",
+								"productId:24"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "productName::productName",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoxLCJyZWdpc3Rlcl9kYXRlIjoiMjAyMS0wNy0wM1QxNjozODoxNi4wMDBaIiwidXNlcm5hbWUiOiJ0ZXN0VXNlcjEiLCJmdWxsbmFtZSI6IlRlc3RPbmUiLCJlbWFpbCI6InRlc3RVc2VyMUBnbWFpbC5jb20iLCJjZWxscGhvbmVfbnVtYmVyIjoiMDAwMDAwMDAwMDAwIiwiZGVsaXZlcnlfYWRkcmVzcyI6IjExMjNKMU9NTzEyIiwidXNlcl9wYXNzd29yZCI6ImY2NzI0M2FhYjJjMmMyMDQ5MTZiZTI0YjZhZWU4NTE4ZGYxMzJmNDg5NmM5NjcwNzUwNjNmMjkwMDc0Njk1YTYiLCJzYWx0IjoiOTdiMzgyNmYtNGEyZS00YjhiLWJmMzgtOWVjMjE5YjgwYjdkIiwiaXNfYWRtaW4iOiJGIiwiaWF0IjoxNjI1MzUyNTIzLCJleHAiOjE2MjUzNTM3MjN9.urWvhYcHDf_0dCFbEeBKmsKGpcrsYZB0OPtJ6RJwlHE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/delilahResto/products/productName:Deditos de Ques",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"delilahResto",
+								"products",
+								"productName:Deditos de Ques"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "allProducts",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoxLCJyZWdpc3Rlcl9kYXRlIjoiMjAyMS0wNy0wOFQxNDo0MTo1MC4wMDBaIiwidXNlcm5hbWUiOiJhZG1pbjFfTFN0ZWluYmVyZyIsImZ1bGxuYW1lIjoiTGF1cmEgU3RlaW5iZXJnIiwiZW1haWwiOiJhZG0ubHN0ZWluYmVyQGdtYWlsLmNvbSIsImNlbGxwaG9uZV9udW1iZXIiOiIzMTA0MzQ1NjY1IiwiZGVsaXZlcnlfYWRkcmVzcyI6IkNhbGxlIDEyNSAjIDEyIC0gMjMiLCJ1c2VyX3Bhc3N3b3JkIjoiZTRmZGFkZmZhNmZmZWNkYTRlMWI5NDc5ZjhlMDgxMzhkOWU3YTc4N2ZlZjQxNjRhMzdiMTM3NWU3ZjI0MzgwYyIsInNhbHQiOiJkMmJjNTA4ZS04NzBhLTRkMDEtOTUyOC02YTZkYzIxYzIyNzMiLCJpc19hZG1pbiI6IlQiLCJpYXQiOjE2MjU4NDk0NTQsImV4cCI6MTYyNTg1MDY1NH0.0_3zgEw73XYs9VTcUMV3Kp_eIHHlCJnbi9MzNn02LlU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/delilahResto/products/allProducts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"delilahResto",
+								"products",
+								"allProducts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateProductId::productId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoxLCJyZWdpc3Rlcl9kYXRlIjoiMjAyMS0wNy0wOFQxNDo0MTo1MC4wMDBaIiwidXNlcm5hbWUiOiJhZG1pbjFfTFN0ZWluYmVyZyIsImZ1bGxuYW1lIjoiTGF1cmEgU3RlaW5iZXJnIiwiZW1haWwiOiJhZG0ubHN0ZWluYmVyQGdtYWlsLmNvbSIsImNlbGxwaG9uZV9udW1iZXIiOiIzMTA0MzQ1NjY1IiwiZGVsaXZlcnlfYWRkcmVzcyI6IkNhbGxlIDEyNSAjIDEyIC0gMjMiLCJ1c2VyX3Bhc3N3b3JkIjoiZTRmZGFkZmZhNmZmZWNkYTRlMWI5NDc5ZjhlMDgxMzhkOWU3YTc4N2ZlZjQxNjRhMzdiMTM3NWU3ZjI0MzgwYyIsInNhbHQiOiJkMmJjNTA4ZS04NzBhLTRkMDEtOTUyOC02YTZkYzIxYzIyNzMiLCJpc19hZG1pbiI6IlQiLCJpYXQiOjE2MjU4NTA4NzMsImV4cCI6MTYyNTg1MjA3M30.33P4pIqcAoULEons8zd4g4oXexP6u8ztMi0lAmcK7YQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"product_name\": \"PruebaFantastica\", \n    \"id_product_category\": 2, \n    \"product_price\": 989898\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/delilahResto/products/updateProductId:29",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"delilahResto",
+								"products",
+								"updateProductId:29"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteProductId::productId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoxLCJyZWdpc3Rlcl9kYXRlIjoiMjAyMS0wNy0wOFQxNDo0MTo1MC4wMDBaIiwidXNlcm5hbWUiOiJhZG1pbjFfTFN0ZWluYmVyZyIsImZ1bGxuYW1lIjoiTGF1cmEgU3RlaW5iZXJnIiwiZW1haWwiOiJhZG0ubHN0ZWluYmVyQGdtYWlsLmNvbSIsImNlbGxwaG9uZV9udW1iZXIiOiIzMTA0MzQ1NjY1IiwiZGVsaXZlcnlfYWRkcmVzcyI6IkNhbGxlIDEyNSAjIDEyIC0gMjMiLCJ1c2VyX3Bhc3N3b3JkIjoiZTRmZGFkZmZhNmZmZWNkYTRlMWI5NDc5ZjhlMDgxMzhkOWU3YTc4N2ZlZjQxNjRhMzdiMTM3NWU3ZjI0MzgwYyIsInNhbHQiOiJkMmJjNTA4ZS04NzBhLTRkMDEtOTUyOC02YTZkYzIxYzIyNzMiLCJpc19hZG1pbiI6IlQiLCJpYXQiOjE2MjU4NTUyNTAsImV4cCI6MTYyNTg1NjQ1MH0.UETgS6AAiAbM5sK389nJhu3_JTjuopowQZn-7n00U48",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/delilahResto/products/deleteProductId:65",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"delilahResto",
+								"products",
+								"deleteProductId:65"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "orders",
+			"item": [
+				{
+					"name": "new",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoxLCJyZWdpc3Rlcl9kYXRlIjoiMjAyMS0wNy0wOFQxNDo0MTo1MC4wMDBaIiwidXNlcm5hbWUiOiJhZG1pbjFfTFN0ZWluYmVyZyIsImZ1bGxuYW1lIjoiTGF1cmEgU3RlaW5iZXJnIiwiZW1haWwiOiJhZG0ubHN0ZWluYmVyQGdtYWlsLmNvbSIsImNlbGxwaG9uZV9udW1iZXIiOiIzMTA0MzQ1NjY1IiwiZGVsaXZlcnlfYWRkcmVzcyI6IkNhbGxlIDEyNSAjIDEyIC0gMjMiLCJ1c2VyX3Bhc3N3b3JkIjoiZTRmZGFkZmZhNmZmZWNkYTRlMWI5NDc5ZjhlMDgxMzhkOWU3YTc4N2ZlZjQxNjRhMzdiMTM3NWU3ZjI0MzgwYyIsInNhbHQiOiJkMmJjNTA4ZS04NzBhLTRkMDEtOTUyOC02YTZkYzIxYzIyNzMiLCJpc19hZG1pbiI6IlQiLCJpYXQiOjE2MjU4NTU1NDQsImV4cCI6MTYyNTg1Njc0NH0.XD0RXKoQKECzyVXHppwwLR5KXxOGNUVai4LKfKISyxQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id_paying_method\": 1,\n    \"products\": [4, 4, 10, 1, 11, 11]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/delilahResto/orders/new",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"delilahResto",
+								"orders",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "orderId::orderId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoxLCJyZWdpc3Rlcl9kYXRlIjoiMjAyMS0wNy0wM1QyMTozNToyMS4wMDBaIiwidXNlcm5hbWUiOiJhZG1pbjEiLCJmdWxsbmFtZSI6ImFkbWluMSIsImVtYWlsIjoiYWRtaW4xQGdtYWlsLmNvbSIsImNlbGxwaG9uZV9udW1iZXIiOiIzMTIyMjIzMzQ0IiwiZGVsaXZlcnlfYWRkcmVzcyI6IjIiLCJ1c2VyX3Bhc3N3b3JkIjoiNzE2OTE4NjQ2YmVhOTA0NWI4N2U1ZDhjYWM3NjkyMDNmZWY1ZmI2M2Y2ZjEzNTcxNmI1YTcyYTk0OGVmYWViZiIsInNhbHQiOiJlMzhmMGQ5Ni01NTRmLTQxMTgtYjFiZC05NThjODQ1N2Q5ZjciLCJpc19hZG1pbiI6IlQiLCJpYXQiOjE2MjU0Mzc2NjIsImV4cCI6MTYyNTQzODg2Mn0.N7Ma8OBTWg75LKijWg2uf4Nyu9jfytZYmmOEGIEVwv4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/delilahResto/orders/orderId:2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"delilahResto",
+								"orders",
+								"orderId:2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "allOrders",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoxLCJyZWdpc3Rlcl9kYXRlIjoiMjAyMS0wNy0wM1QyMTozNToyMS4wMDBaIiwidXNlcm5hbWUiOiJhZG1pbjEiLCJmdWxsbmFtZSI6ImFkbWluMSIsImVtYWlsIjoiYWRtaW4xQGdtYWlsLmNvbSIsImNlbGxwaG9uZV9udW1iZXIiOiIzMTIyMjIzMzQ0IiwiZGVsaXZlcnlfYWRkcmVzcyI6IjIiLCJ1c2VyX3Bhc3N3b3JkIjoiNzE2OTE4NjQ2YmVhOTA0NWI4N2U1ZDhjYWM3NjkyMDNmZWY1ZmI2M2Y2ZjEzNTcxNmI1YTcyYTk0OGVmYWViZiIsInNhbHQiOiJlMzhmMGQ5Ni01NTRmLTQxMTgtYjFiZC05NThjODQ1N2Q5ZjciLCJpc19hZG1pbiI6IlQiLCJpYXQiOjE2MjU0Mzc2NjIsImV4cCI6MTYyNTQzODg2Mn0.N7Ma8OBTWg75LKijWg2uf4Nyu9jfytZYmmOEGIEVwv4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/delilahResto/orders/allOrdersW",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"delilahResto",
+								"orders",
+								"allOrdersW"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "allOrdersByUserId::userId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoxLCJyZWdpc3Rlcl9kYXRlIjoiMjAyMS0wNy0wM1QyMTozNToyMS4wMDBaIiwidXNlcm5hbWUiOiJhZG1pbjEiLCJmdWxsbmFtZSI6ImFkbWluMSIsImVtYWlsIjoiYWRtaW4xQGdtYWlsLmNvbSIsImNlbGxwaG9uZV9udW1iZXIiOiIzMTIyMjIzMzQ0IiwiZGVsaXZlcnlfYWRkcmVzcyI6IjIiLCJ1c2VyX3Bhc3N3b3JkIjoiNzE2OTE4NjQ2YmVhOTA0NWI4N2U1ZDhjYWM3NjkyMDNmZWY1ZmI2M2Y2ZjEzNTcxNmI1YTcyYTk0OGVmYWViZiIsInNhbHQiOiJlMzhmMGQ5Ni01NTRmLTQxMTgtYjFiZC05NThjODQ1N2Q5ZjciLCJpc19hZG1pbiI6IlQiLCJpYXQiOjE2MjU0Mzc2NjIsImV4cCI6MTYyNTQzODg2Mn0.N7Ma8OBTWg75LKijWg2uf4Nyu9jfytZYmmOEGIEVwv4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/delilahResto/orders/allOrdersByUserId:2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"delilahResto",
+								"orders",
+								"allOrdersByUserId:2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateOrderStatusById::orderId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoxLCJyZWdpc3Rlcl9kYXRlIjoiMjAyMS0wNy0wM1QyMTozNToyMS4wMDBaIiwidXNlcm5hbWUiOiJhZG1pbjEiLCJmdWxsbmFtZSI6ImFkbWluMSIsImVtYWlsIjoiYWRtaW4xQGdtYWlsLmNvbSIsImNlbGxwaG9uZV9udW1iZXIiOiIzMTIyMjIzMzQ0IiwiZGVsaXZlcnlfYWRkcmVzcyI6IjIiLCJ1c2VyX3Bhc3N3b3JkIjoiNzE2OTE4NjQ2YmVhOTA0NWI4N2U1ZDhjYWM3NjkyMDNmZWY1ZmI2M2Y2ZjEzNTcxNmI1YTcyYTk0OGVmYWViZiIsInNhbHQiOiJlMzhmMGQ5Ni01NTRmLTQxMTgtYjFiZC05NThjODQ1N2Q5ZjciLCJpc19hZG1pbiI6IlQiLCJpYXQiOjE2MjU0MTgxNzcsImV4cCI6MTYyNTQxOTM3N30.RLOpItfaRgEZfyIr3oaUVdDs4klHERlca_UZOh5Pc14",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id_order_status\" : 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/delilahResto/orders/updateOrderStatusById:2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"delilahResto",
+								"orders",
+								"updateOrderStatusById:2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteOrderById::orderId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoxLCJyZWdpc3Rlcl9kYXRlIjoiMjAyMS0wNy0wM1QyMTozNToyMS4wMDBaIiwidXNlcm5hbWUiOiJhZG1pbjEiLCJmdWxsbmFtZSI6ImFkbWluMSIsImVtYWlsIjoiYWRtaW4xQGdtYWlsLmNvbSIsImNlbGxwaG9uZV9udW1iZXIiOiIzMTIyMjIzMzQ0IiwiZGVsaXZlcnlfYWRkcmVzcyI6IjIiLCJ1c2VyX3Bhc3N3b3JkIjoiNzE2OTE4NjQ2YmVhOTA0NWI4N2U1ZDhjYWM3NjkyMDNmZWY1ZmI2M2Y2ZjEzNTcxNmI1YTcyYTk0OGVmYWViZiIsInNhbHQiOiJlMzhmMGQ5Ni01NTRmLTQxMTgtYjFiZC05NThjODQ1N2Q5ZjciLCJpc19hZG1pbiI6IlQiLCJpYXQiOjE2MjU0MzY2OTksImV4cCI6MTYyNTQzNzg5OX0.jAJQzdO3XP8yyG4K6b82zsRuWO_4kRgxDM4XZXrI8yE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/delilahResto/orders/deleteOrderById:2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"delilahResto",
+								"orders",
+								"deleteOrderById:2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
