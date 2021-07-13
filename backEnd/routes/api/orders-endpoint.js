@@ -7,12 +7,12 @@ const { validateJSONSchema } = require("../../middlewares/JSONvalidation");
 // JWT middlewares:
 const { jwtokenExtraction, jwtokenVerification } = require("../../middlewares/jwtoken");
 // Security/Credentials middlewares:
-const { checkAdminCredentials, justAdminGate, getUserById } = require("../../middlewares/users-midwares");
+const { checkUserPermissions, justAdminGate, getUserById } = require("../../middlewares/users-midwares");
 // CRUD middlewares:
 const { createNewOrder, getOrderById, getAllOrders, getAllOrdersByUserId, updateOrderStatusById,  deleteOrderById } = require("../../middlewares/orders-midwares");
 // ******************** ENDPOINTS ******************** //
 // -> /delilahResto/orders/new. For either Admins or Users:
-router.post("/new", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, validateJSONSchema(orderSchema), createNewOrder, (req, res) => {
+router.post("/new", jwtokenExtraction, jwtokenVerification, checkUserPermissions, validateJSONSchema(orderSchema), createNewOrder, (req, res) => {
   if (req.createdOrder.Status === 200) {
     res.status(200).json(req.createdOrder);
   } else if (req.createdOrder.Status === 201) {
@@ -20,22 +20,22 @@ router.post("/new", jwtokenExtraction, jwtokenVerification, checkAdminCredential
   };
 });
 // -> /delilahResto/orders/orderId::orderId. Just for Admins:
-router.get("/orderId::orderId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getOrderById, (req, res) => {
+router.get("/orderId::orderId", jwtokenExtraction, jwtokenVerification, checkUserPermissions, justAdminGate, getOrderById, (req, res) => {
   res.status(200).json(req.orderById);
   delete req.orderById["OrderFound"];
 });
 // -> /delilahResto/orders/allOrders:
 //// Admins can access all system's orders, while Users just to their own orders:
-router.get("/allOrders", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, getAllOrders, (req, res) => {
+router.get("/allOrders", jwtokenExtraction, jwtokenVerification, checkUserPermissions, getAllOrders, (req, res) => {
   res.status(200).json(req.getAllOrders);
 });
 // -> /delilahResto/orders/allOrdersByUserId::userId. Just Admin.
-router.get("/allOrdersByUserId::userId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getUserById, getAllOrdersByUserId, (req, res) => {
+router.get("/allOrdersByUserId::userId", jwtokenExtraction, jwtokenVerification, checkUserPermissions, justAdminGate, getUserById, getAllOrdersByUserId, (req, res) => {
   res.status(200).json(req.getAllOrdersByUserId);
   delete req.userById["UserFound"];
 });
 // -> /delilahResto/orders/updateOrderStatusById::orderId. Just Admin.
-router.put("/updateOrderStatusById::orderId", jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getOrderById, validateJSONSchema(updateOrderStatusSchema), updateOrderStatusById, (req, res) => {
+router.put("/updateOrderStatusById::orderId", jwtokenExtraction, jwtokenVerification, checkUserPermissions, justAdminGate, getOrderById, validateJSONSchema(updateOrderStatusSchema), updateOrderStatusById, (req, res) => {
   if (!req.updateOrderStatusById["OrderFound"]) {
     res.status(200).json(req.updateOrderStatusById);
   } else if (!req.updateOrderStatusById["OrderUpdated"]) {
@@ -47,7 +47,7 @@ router.put("/updateOrderStatusById::orderId", jwtokenExtraction, jwtokenVerifica
   delete req.updateOrderStatusById["OrderUpdated"];
 });
 // -> /delilahResto/orders/deleteOrderById::orderId. Just Admin.
-router.delete("/deleteOrderById::orderId",jwtokenExtraction, jwtokenVerification, checkAdminCredentials, justAdminGate, getOrderById, deleteOrderById, (req, res) => {
+router.delete("/deleteOrderById::orderId",jwtokenExtraction, jwtokenVerification, checkUserPermissions, justAdminGate, getOrderById, deleteOrderById, (req, res) => {
   if (!req.orderDeletion["OrderDeleted"]) {
     res.status(200).json(req.orderDeletion);
   } else {

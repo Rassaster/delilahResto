@@ -179,7 +179,7 @@ const verifyPassword = (req, res, next) => {
 };
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Check if the user has Admin credentials:
-const checkAdminCredentials = (req, res, next) => {
+const checkUserPermissions = (req, res, next) => {
   try {
     if (req.jwtokenDecoded["is_admin"] === "T") {
       req.adminCredentials = true;
@@ -389,7 +389,7 @@ module.exports = {
   userExistanceCheckByEmailLogin,
   verifyPassword,
   // 
-  checkAdminCredentials,
+  checkUserPermissions,
   justAdminGate,
   getUserById,
   getAllUsers,
