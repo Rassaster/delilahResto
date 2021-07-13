@@ -84,7 +84,7 @@ const getProductByName = async (req, res, next) => {
 const getAllProducts = async (req, res, next) => {
   try {
     const productsList = await selectProductsJoinCategories();
-    okReponse200["Message"] = "List of all registered users obtained.";
+    okReponse200["Message"] = "List of all registered products obtained.";
     okReponse200["Result"] = productsList;
     req.getAllProducts = okReponse200
     return next();
